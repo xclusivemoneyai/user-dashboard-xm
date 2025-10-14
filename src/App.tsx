@@ -14,6 +14,7 @@ import Call from "./pages/Call";
 import WhatsApp from "./pages/WhatsApp";
 import Tutorials from "./pages/Tutorials";
 import Groups from "./pages/Groups";
+import CopyTrading from "./pages/CopyTrading";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/account-config" element={<AccountConfig />} />
+          <Route path="/copy-trading" element={<CopyTrading />} />
           <Route path="/alert-to-trade" element={<AlertToTrade />} />
           <Route path="/create-alerts" element={<CreateAlerts />} />
           <Route path="/user" element={<User />} />
