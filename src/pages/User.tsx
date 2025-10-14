@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CreditCard, KeyRound } from "lucide-react";
+import { CreditCard, KeyRound, Shield, Lock } from "lucide-react";
 import { useState } from "react";
 
 const User = () => {
@@ -23,8 +23,23 @@ const User = () => {
     gstn: ""
   });
 
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
+
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handlePasswordChange = (field: string, value: string) => {
+    setPasswordData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleUpdatePassword = () => {
+    // Add password update logic here
+    console.log("Updating password...");
   };
 
   return (
@@ -168,8 +183,64 @@ const User = () => {
 
           <TabsContent value="security">
             <Card>
-              <CardContent className="pt-6">
-                <p className="text-muted-foreground">Security settings will be available here.</p>
+              <CardContent className="pt-6 space-y-8">
+                <div className="max-w-md space-y-6">
+                  <div className="space-y-3">
+                    <Label htmlFor="currentPassword" className="flex items-center gap-2 text-base font-semibold">
+                      <Shield className="h-5 w-5 text-primary" />
+                      Current Password
+                    </Label>
+                    <Input
+                      id="currentPassword"
+                      type="password"
+                      value={passwordData.currentPassword}
+                      onChange={(e) => handlePasswordChange("currentPassword", e.target.value)}
+                      className="h-12"
+                    />
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label htmlFor="newPassword" className="flex items-center gap-2 text-base font-semibold">
+                      <Lock className="h-5 w-5 text-primary" />
+                      New Password
+                    </Label>
+                    <Input
+                      id="newPassword"
+                      type="password"
+                      value={passwordData.newPassword}
+                      onChange={(e) => handlePasswordChange("newPassword", e.target.value)}
+                      className="h-12"
+                    />
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label htmlFor="confirmPassword" className="flex items-center gap-2 text-base font-semibold">
+                      <Lock className="h-5 w-5 text-primary" />
+                      Confirm New Password
+                    </Label>
+                    <Input
+                      id="confirmPassword"
+                      type="password"
+                      value={passwordData.confirmPassword}
+                      onChange={(e) => handlePasswordChange("confirmPassword", e.target.value)}
+                      className="h-12"
+                    />
+                  </div>
+
+                  <p className="text-sm text-muted-foreground">
+                    Password must be minimum 6+
+                  </p>
+                </div>
+
+                <div className="flex justify-end">
+                  <Button 
+                    size="lg" 
+                    onClick={handleUpdatePassword}
+                    className="px-8"
+                  >
+                    Update Password
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
