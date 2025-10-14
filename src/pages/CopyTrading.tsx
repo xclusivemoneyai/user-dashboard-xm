@@ -295,32 +295,32 @@ const CopyTrading = () => {
           </Card>
 
           {/* Unassigned Accounts */}
-          <Card className="border-blue-200 bg-blue-50/50">
-            <CardHeader className="bg-blue-100 border-b border-blue-200 pb-3">
+          <Card className="border-primary/20 bg-primary/5 dark:bg-primary/10">
+            <CardHeader className="bg-primary/10 dark:bg-primary/20 border-b border-primary/20 pb-3">
               <CardTitle className="flex items-center gap-2 text-lg">
-                <AlertCircle className="h-5 w-5 text-blue-700" />
+                <AlertCircle className="h-5 w-5 text-primary" />
                 Unassigned Accounts
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-foreground/70">
                 Accounts added but not yet assigned a role (Master or Child). Assign their role below to get started.
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {unassignedAccounts.map((account) => (
-                  <Card key={account.id} className="bg-white">
+                  <Card key={account.id} className="bg-card border-border">
                     <CardContent className="pt-6">
                       <div className="space-y-3">
                         <div className="flex items-start justify-between">
                           <div>
-                            <p className="font-semibold">{account.id}</p>
+                            <p className="font-semibold text-foreground">{account.id}</p>
                             <p className="text-sm text-muted-foreground">Username: {account.username}</p>
                           </div>
                           <Badge variant="secondary" className="text-xs">Not Assigned</Badge>
                         </div>
                         <div className="flex gap-2">
                           <Button size="sm" className="flex-1">Set as Master</Button>
-                          <Button size="sm" variant="outline" className="flex-1 bg-cyan-50 hover:bg-cyan-100 border-cyan-200">
+                          <Button size="sm" variant="outline" className="flex-1">
                             Set as Child
                           </Button>
                         </div>
@@ -333,13 +333,13 @@ const CopyTrading = () => {
           </Card>
 
           {/* Master Accounts */}
-          <Card className="border-green-200 bg-green-50/50">
-            <CardHeader className="bg-green-100 border-b border-green-200 pb-3">
+          <Card className="border-success/20 bg-success/5 dark:bg-success/10">
+            <CardHeader className="bg-success/10 dark:bg-success/20 border-b border-success/20 pb-3">
               <CardTitle className="flex items-center gap-2 text-lg">
-                <Lock className="h-5 w-5 text-green-700" />
+                <Lock className="h-5 w-5 text-success" />
                 Master Accounts
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-foreground/70">
                 Accounts selected to replicate their trades across linked child accounts.
               </CardDescription>
             </CardHeader>
@@ -349,7 +349,7 @@ const CopyTrading = () => {
                   key={master.id} 
                   open={expandedMasterAccounts.includes(master.id)}
                   onOpenChange={() => toggleMasterExpand(master.id)}
-                  className="space-y-4 bg-white rounded-lg p-3 md:p-4"
+                  className="space-y-4 bg-card rounded-lg p-3 md:p-4 border border-border"
                 >
                   {/* Master Info */}
                   <div className="overflow-x-auto">
@@ -389,12 +389,12 @@ const CopyTrading = () => {
                           <TableCell>{master.username}</TableCell>
                           <TableCell className="capitalize">{master.broker}</TableCell>
                           <TableCell className="text-center">
-                            <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
+                            <Badge variant="outline" className="bg-success/20 text-success border-success/30">
                               {master.status}
                             </Badge>
                           </TableCell>
                           <TableCell className="text-center">
-                            <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
+                            <Badge variant="outline" className="bg-success/20 text-success border-success/30">
                               On
                             </Badge>
                           </TableCell>
@@ -408,13 +408,13 @@ const CopyTrading = () => {
 
                   {/* Master Actions */}
                   <div className="flex flex-wrap gap-2">
-                    <Button size="sm" variant="outline" className="border-green-500 text-green-700 hover:bg-green-50">
+                    <Button size="sm" variant="outline" className="border-success text-success hover:bg-success/10">
                       Turn On All Child Copying
                     </Button>
                     <Button size="sm" variant="outline">
                       Turn Off All Child Copying
                     </Button>
-                    <Button size="sm" variant="outline" className="border-cyan-500 text-cyan-700 hover:bg-cyan-50">
+                    <Button size="sm" variant="outline" className="border-accent text-accent hover:bg-accent/10">
                       Exit Master Positions
                     </Button>
                     <Button size="sm" variant="outline">
@@ -482,7 +482,7 @@ const CopyTrading = () => {
                               <span className="font-medium">{child.name} ({child.id})</span>
                             </div>
                             <div className="flex items-center gap-2 flex-wrap">
-                              <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
+                              <Badge variant="outline" className="bg-success/20 text-success border-success/30">
                                 {child.status}
                               </Badge>
                               <Switch checked={child.copyEnabled} />
@@ -575,7 +575,7 @@ const CopyTrading = () => {
                         </div>
 
                         {/* Open Positions Table */}
-                        <div className="overflow-x-auto bg-white rounded-lg">
+                        <div className="overflow-x-auto bg-card rounded-lg border border-border">
                           <Table>
                             <TableHeader>
                               <TableRow>
@@ -677,7 +677,7 @@ const CopyTrading = () => {
                         </div>
 
                         {/* Closed Positions Table */}
-                        <div className="overflow-x-auto bg-white rounded-lg">
+                        <div className="overflow-x-auto bg-card rounded-lg border border-border">
                           <Table>
                             <TableHeader>
                               <TableRow>
@@ -815,7 +815,7 @@ const CopyTrading = () => {
                         </div>
 
                         {/* Open Holdings Table */}
-                        <div className="overflow-x-auto bg-white rounded-lg">
+                        <div className="overflow-x-auto bg-card rounded-lg border border-border">
                           <Table>
                             <TableHeader>
                               <TableRow>
@@ -917,7 +917,7 @@ const CopyTrading = () => {
                         </div>
 
                         {/* Closed Holdings Table */}
-                        <div className="overflow-x-auto bg-white rounded-lg">
+                        <div className="overflow-x-auto bg-card rounded-lg border border-border">
                           <Table>
                             <TableHeader>
                               <TableRow>
@@ -983,7 +983,7 @@ const CopyTrading = () => {
                       {/* Pending Orders */}
                       <div className="bg-muted/30 rounded-lg p-6">
                         <h4 className="text-lg font-bold mb-4">Pending Orders</h4>
-                        <div className="flex items-center gap-3 text-muted-foreground p-8 bg-white rounded-lg border-2 border-dashed">
+                        <div className="flex items-center gap-3 text-muted-foreground p-8 bg-card rounded-lg border-2 border-dashed">
                           <FileText className="h-10 w-10 text-muted-foreground/50" />
                           <p>Orders when placed appear here. None at this moment...</p>
                         </div>
@@ -1015,7 +1015,7 @@ const CopyTrading = () => {
                         </div>
 
                         {/* Executed Orders Table */}
-                        <div className="overflow-x-auto bg-white rounded-lg">
+                        <div className="overflow-x-auto bg-card rounded-lg border border-border">
                           <Table>
                             <TableHeader>
                               <TableRow>
@@ -1089,18 +1089,18 @@ const CopyTrading = () => {
           </Card>
 
           {/* Child Accounts */}
-          <Card className="border-blue-200 bg-blue-50/50">
-            <CardHeader className="bg-blue-100 border-b border-blue-200 pb-3">
+          <Card className="border-accent/20 bg-accent/5 dark:bg-accent/10">
+            <CardHeader className="bg-accent/10 dark:bg-accent/20 border-b border-accent/20 pb-3">
               <CardTitle className="flex items-center gap-2 text-lg">
-                <Users className="h-5 w-5 text-blue-700" />
+                <Users className="h-5 w-5 text-accent" />
                 Child Accounts
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-foreground/70">
                 Accounts where all trades from their assigned Master will be copied.
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-4">
-              <div className="overflow-x-auto bg-white rounded-lg">
+              <div className="overflow-x-auto bg-card rounded-lg border border-border">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -1150,7 +1150,7 @@ const CopyTrading = () => {
                             </TableCell>
                             <TableCell className="capitalize">{child.broker}</TableCell>
                             <TableCell className="text-center">
-                              <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
+                              <Badge variant="outline" className="bg-success/20 text-success border-success/30">
                                 {child.status}
                               </Badge>
                             </TableCell>
@@ -1183,13 +1183,13 @@ const CopyTrading = () => {
                                 <div className="p-4 space-y-4">
                                   {/* Action Buttons */}
                                   <div className="flex flex-wrap gap-2">
-                                    <Button size="sm" variant="outline" className="border-green-500 text-green-700 hover:bg-green-50">
+                                    <Button size="sm" variant="outline" className="border-success text-success hover:bg-success/10">
                                       Start Copying
                                     </Button>
                                     <Button size="sm" variant="outline">
                                       Stop Copying
                                     </Button>
-                                    <Button size="sm" variant="outline" className="border-cyan-500 text-cyan-700 hover:bg-cyan-50">
+                                    <Button size="sm" variant="outline" className="border-accent text-accent hover:bg-accent/10">
                                       Square Off Specific Symbol
                                     </Button>
                                     <Button size="sm" variant="outline">
@@ -1261,13 +1261,13 @@ const CopyTrading = () => {
           </Card>
 
           {/* Master Orders */}
-          <Card className="border-slate-200 bg-slate-50/50">
-            <CardHeader className="bg-slate-100 border-b border-slate-200">
+          <Card className="border-muted bg-muted/30">
+            <CardHeader className="bg-muted/50 border-b border-border">
               <CardTitle className="flex items-center gap-2 text-lg">
-                <AlertCircle className="h-5 w-5 text-slate-700" />
+                <AlertCircle className="h-5 w-5 text-muted-foreground" />
                 Master Orders
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-foreground/70">
                 Manage or cancel trades initiated by Master accounts and copied to children.
               </CardDescription>
             </CardHeader>
@@ -1277,7 +1277,7 @@ const CopyTrading = () => {
                   <Button variant="destructive" size="sm">
                     Cancel Selected
                   </Button>
-                  <Button variant="outline" size="sm" className="bg-yellow-50 border-yellow-300 hover:bg-yellow-100">
+                  <Button variant="outline" size="sm" className="bg-warning/20 border-warning hover:bg-warning/30 text-warning-foreground">
                     Square Off Selected
                   </Button>
                 </div>

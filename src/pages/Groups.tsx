@@ -201,7 +201,7 @@ const Groups = () => {
                   </Select>
                 </div>
 
-                <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-slate-900">
+                <Button className="w-full bg-warning hover:bg-warning/90 text-warning-foreground">
                   <UserMinus className="h-4 w-4 mr-2" />
                   Remove from Group
                 </Button>

@@ -145,8 +145,8 @@ const AccountConfig = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
             <div className="bg-card rounded-lg p-3 border border-border">
               <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                  <Users className="h-5 w-5 text-blue-600" />
+                <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Users className="h-5 w-5 text-primary" />
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Total capacity</p>
@@ -157,8 +157,8 @@ const AccountConfig = () => {
             
             <div className="bg-card rounded-lg p-3 border border-border">
               <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                  <Users className="h-5 w-5 text-green-600" />
+                <div className="h-10 w-10 rounded-full bg-success/20 flex items-center justify-center">
+                  <Users className="h-5 w-5 text-success" />
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Master capacity</p>
@@ -169,8 +169,8 @@ const AccountConfig = () => {
             
             <div className="bg-card rounded-lg p-3 border border-border">
               <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center">
-                  <Users className="h-5 w-5 text-yellow-600" />
+                <div className="h-10 w-10 rounded-full bg-warning/20 flex items-center justify-center">
+                  <Users className="h-5 w-5 text-warning" />
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Children capacity</p>
@@ -181,8 +181,8 @@ const AccountConfig = () => {
             
             <div className="bg-card rounded-lg p-3 border border-border">
               <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
-                  <Flame className="h-5 w-5 text-orange-600" />
+                <div className="h-10 w-10 rounded-full bg-destructive/20 flex items-center justify-center">
+                  <Flame className="h-5 w-5 text-destructive" />
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Plan name</p>
@@ -193,8 +193,8 @@ const AccountConfig = () => {
             
             <div className="bg-card rounded-lg p-3 border border-border">
               <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center">
-                  <Calendar className="h-5 w-5 text-slate-600" />
+                <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+                  <Calendar className="h-5 w-5 text-foreground" />
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Validity</p>
