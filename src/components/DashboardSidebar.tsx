@@ -16,8 +16,8 @@ const SidebarItem = ({ icon, label, active, isHeader, path, subtitle }: SidebarI
 
   if (isHeader) {
     return (
-      <div className="px-3 py-2 mt-6 first:mt-0">
-        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{label}</p>
+      <div className="px-3 py-1.5 mt-3 first:mt-0">
+        <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">{label}</p>
       </div>
     );
   }
@@ -32,16 +32,16 @@ const SidebarItem = ({ icon, label, active, isHeader, path, subtitle }: SidebarI
     <button
       onClick={handleClick}
       className={cn(
-        "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+        "flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
         active
           ? "bg-primary/10 text-primary border-l-4 border-primary -ml-4 pl-[12px]"
           : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
       )}
     >
-      <div className="flex h-5 w-5 items-center justify-center flex-shrink-0">{icon}</div>
+      <div className="flex h-4 w-4 items-center justify-center flex-shrink-0">{icon}</div>
       <div className="flex flex-col items-start flex-1">
-        <span>{label}</span>
-        {subtitle && <span className="text-xs text-muted-foreground font-normal">{subtitle}</span>}
+        <span className="text-sm leading-tight">{label}</span>
+        {subtitle && <span className="text-[10px] text-muted-foreground font-normal leading-tight">{subtitle}</span>}
       </div>
     </button>
   );
@@ -52,27 +52,27 @@ export const DashboardSidebar = () => {
 
   return (
     <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 border-r border-border bg-sidebar shadow-sm overflow-y-auto">
-      <div className="flex flex-col gap-0.5 p-4">
-        <SidebarItem icon={<LayoutDashboard className="h-5 w-5" />} label="Summary" path="/" active={location.pathname === "/"} />
-        <SidebarItem icon={<TrendingUp className="h-5 w-5" />} label="Account Config" path="/account-config" active={location.pathname === "/account-config"} />
-        <SidebarItem icon={<Users className="h-5 w-5" />} label="Copy Trading" />
-        <SidebarItem icon={<Bell className="h-5 w-5" />} label="Alert to Trade" path="/alert-to-trade" active={location.pathname === "/alert-to-trade"} />
-        <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Create Alert" path="/create-alerts" active={location.pathname === "/create-alerts"} />
-        <SidebarItem icon={<Users2 className="h-5 w-5" />} label="Groups" path="/groups" active={location.pathname === "/groups"} />
-        <SidebarItem icon={<Store className="h-5 w-5" />} label="Marketplace - Indicator/ Strategy" />
+      <div className="flex flex-col gap-0.5 p-3 py-2">
+        <SidebarItem icon={<LayoutDashboard className="h-4 w-4" />} label="Summary" path="/" active={location.pathname === "/"} />
+        <SidebarItem icon={<TrendingUp className="h-4 w-4" />} label="Account Config" path="/account-config" active={location.pathname === "/account-config"} />
+        <SidebarItem icon={<Users className="h-4 w-4" />} label="Copy Trading" />
+        <SidebarItem icon={<Bell className="h-4 w-4" />} label="Alert to Trade" path="/alert-to-trade" active={location.pathname === "/alert-to-trade"} />
+        <SidebarItem icon={<BarChart3 className="h-4 w-4" />} label="Create Alert" path="/create-alerts" active={location.pathname === "/create-alerts"} />
+        <SidebarItem icon={<Users2 className="h-4 w-4" />} label="Groups" path="/groups" active={location.pathname === "/groups"} />
+        <SidebarItem icon={<Store className="h-4 w-4" />} label="Marketplace - Indicator/ Strategy" />
 
         <SidebarItem label="Management" isHeader />
-        <SidebarItem icon={<User className="h-5 w-5" />} label="User" path="/user" active={location.pathname === "/user"} />
-        <SidebarItem icon={<FileText className="h-5 w-5" />} label="Invoices" path="/invoices" active={location.pathname === "/invoices"} />
-        <SidebarItem icon={<CreditCard className="h-5 w-5" />} label="Pricing" path="/pricing" active={location.pathname === "/pricing"} />
+        <SidebarItem icon={<User className="h-4 w-4" />} label="User" path="/user" active={location.pathname === "/user"} />
+        <SidebarItem icon={<FileText className="h-4 w-4" />} label="Invoices" path="/invoices" active={location.pathname === "/invoices"} />
+        <SidebarItem icon={<CreditCard className="h-4 w-4" />} label="Pricing" path="/pricing" active={location.pathname === "/pricing"} />
 
         <SidebarItem label="Support" isHeader />
-        <SidebarItem icon={<Phone className="h-5 w-5" />} label="Call" path="/call" active={location.pathname === "/call"} />
-        <SidebarItem icon={<MessageCircle className="h-5 w-5" />} label="WhatsApp" path="/whatsapp" active={location.pathname === "/whatsapp"} />
-        <SidebarItem icon={<Video className="h-5 w-5" />} label="Tutorials" path="/tutorials" active={location.pathname === "/tutorials"} />
+        <SidebarItem icon={<Phone className="h-4 w-4" />} label="Call" path="/call" active={location.pathname === "/call"} />
+        <SidebarItem icon={<MessageCircle className="h-4 w-4" />} label="WhatsApp" path="/whatsapp" active={location.pathname === "/whatsapp"} />
+        <SidebarItem icon={<Video className="h-4 w-4" />} label="Tutorials" path="/tutorials" active={location.pathname === "/tutorials"} />
 
         <SidebarItem label="Partner With Us" isHeader />
-        <SidebarItem icon={<UserPlus className="h-5 w-5" />} label="Personal Referral" />
+        <SidebarItem icon={<UserPlus className="h-4 w-4" />} label="Personal Referral" />
       </div>
     </aside>
   );
