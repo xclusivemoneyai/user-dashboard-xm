@@ -1,6 +1,6 @@
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { DashboardSidebar } from "@/components/DashboardSidebar";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -25,41 +25,43 @@ const Pricing = () => {
 
   const plans = [
     {
-      name: "PROFESSIONAL",
-      basePrice: 1899,
-      originalPrice: 2849,
-      bgColor: "bg-orange-50",
-      textColor: "text-orange-600",
+      name: "Basic",
+      basePrice: 29,
+      description: "Perfect for individuals and small teams",
       features: [
-        "Auto Login",
-        "30Days",
-        "Copy Trading upto 9 Accounts (Excluding Master)",
-        "1 Master Account"
+        "Up to 5 trading accounts",
+        "Basic copy trading",
+        "Email support",
+        "Real-time alerts",
+        "Mobile app access"
       ]
     },
     {
-      name: "ENTERPRISE",
-      basePrice: 3099,
-      originalPrice: 3799,
-      bgColor: "bg-emerald-50",
-      textColor: "text-emerald-600",
+      name: "Pro",
+      basePrice: 79,
+      description: "Ideal for professional traders",
       features: [
-        "Auto Login",
-        "30Days",
-        "Copy Trading upto 24 Accounts (Excluding Master)",
-        "Upto 2 Master Accounts"
-      ]
+        "Up to 20 trading accounts",
+        "Advanced copy trading",
+        "Priority support",
+        "Advanced analytics",
+        "API access",
+        "Custom automation"
+      ],
+      popular: true
     },
     {
-      name: "Custom",
-      basePrice: 845,
-      bgColor: "bg-pink-50",
-      textColor: "text-pink-600",
-      isActive: true,
-      customFields: [
-        { label: "No of Master Accounts", value: "1" },
-        { label: "No of Child Accounts", value: "1" },
-        { label: "Validity (in Days)", value: "30" }
+      name: "Enterprise",
+      basePrice: 199,
+      description: "For large teams and institutions",
+      features: [
+        "Unlimited trading accounts",
+        "White-label solution",
+        "24/7 dedicated support",
+        "Custom integrations",
+        "Advanced security",
+        "Team management",
+        "SLA guarantee"
       ]
     }
   ];
@@ -71,9 +73,33 @@ const Pricing = () => {
       
       <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="max-w-7xl mx-auto space-y-8">
-          <div className="text-center space-y-2">
-            <h1 className="text-3xl font-bold text-foreground">Choose Your Plan</h1>
-            <p className="text-muted-foreground">Select the perfect subscription plan for your trading needs</p>
+          {/* Current Subscription Section */}
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-3xl font-bold">Current Subscription</CardTitle>
+              <CardDescription className="text-base">Manage your active subscription</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Card className="border-border">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                      <p className="text-xl font-semibold">Pro Plan</p>
+                      <p className="text-sm text-muted-foreground">Next billing date: January 15, 2026</p>
+                    </div>
+                    <Button variant="outline" size="lg" className="px-8">
+                      Manage Subscription
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </CardContent>
+          </Card>
+
+          {/* Choose Your Plan Section */}
+          <div className="text-center space-y-3 pt-4">
+            <h1 className="text-4xl font-bold text-foreground">Choose Your Plan</h1>
+            <p className="text-lg text-muted-foreground">Select the perfect subscription plan for your trading needs</p>
           </div>
 
           <div className="flex justify-center">
@@ -92,61 +118,52 @@ const Pricing = () => {
             </Tabs>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
             {plans.map((plan) => (
-              <Card key={plan.name} className={`${plan.bgColor} border-none relative`}>
-                {plan.isActive && (
-                  <Badge className="absolute top-4 right-4 bg-green-500">Active</Badge>
+              <Card 
+                key={plan.name} 
+                className={`relative border-2 hover:shadow-lg transition-shadow ${
+                  plan.popular ? "border-primary shadow-lg" : "border-border"
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-primary text-primary-foreground px-4 py-1 text-sm font-semibold rounded-full">
+                      Most Popular
+                    </Badge>
+                  </div>
                 )}
                 <CardContent className="pt-8 pb-8 px-8">
-                  <h3 className={`text-2xl font-bold mb-6 ${plan.textColor} underline decoration-4 underline-offset-4 w-fit`}>
-                    {plan.name}
-                  </h3>
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                      <p className="text-sm text-muted-foreground">{plan.description}</p>
+                    </div>
 
-                  <div className="mb-8">
-                    <div className="flex items-baseline gap-2 mb-1">
-                      <span className="text-4xl font-bold">{calculatePrice(plan.basePrice)}</span>
-                      {plan.originalPrice && billingCycle === "monthly" && (
-                        <span className="text-xl text-muted-foreground line-through">{plan.originalPrice}</span>
-                      )}
-                      {billingCycle !== "monthly" && (
-                        <span className="text-xl text-muted-foreground line-through">{plan.basePrice}</span>
-                      )}
-                      <span className="text-sm text-muted-foreground">
-                        /{billingCycle === "monthly" ? "mo" : billingCycle === "quarterly" ? "3mo" : "yr"}
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-5xl font-bold">${calculatePrice(plan.basePrice)}</span>
+                      <span className="text-lg text-muted-foreground">
+                        /{billingCycle === "monthly" ? "month" : billingCycle === "quarterly" ? "3 months" : "year"}
                       </span>
                     </div>
-                    <p className="text-sm text-muted-foreground">+18% GST applicable</p>
-                  </div>
 
-                  {plan.features && (
-                    <div className="space-y-4 mb-8 min-h-[200px]">
+                    <ul className="space-y-3 min-h-[280px]">
                       {plan.features.map((feature, index) => (
-                        <div key={index} className="flex items-start gap-2">
-                          <Check className="h-5 w-5 text-foreground flex-shrink-0 mt-0.5" />
-                          <span className="text-sm">{feature}</span>
-                        </div>
+                        <li key={index} className="flex items-start gap-3">
+                          <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                          <span className="text-sm text-muted-foreground">{feature}</span>
+                        </li>
                       ))}
-                    </div>
-                  )}
+                    </ul>
 
-                  {plan.customFields && (
-                    <div className="space-y-4 mb-8">
-                      {plan.customFields.map((field, index) => (
-                        <div key={index} className="space-y-1">
-                          <p className="text-sm text-muted-foreground">{field.label}</p>
-                          <p className="text-lg font-medium">{field.value}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  <Button 
-                    className="w-full bg-slate-800 hover:bg-slate-700 text-white"
-                    size="lg"
-                  >
-                    {plan.isActive ? "Extend" : "Subscribe"}
-                  </Button>
+                    <Button 
+                      className={`w-full ${plan.popular ? "bg-primary hover:bg-primary/90" : ""}`}
+                      variant={plan.popular ? "default" : "outline"}
+                      size="lg"
+                    >
+                      {plan.popular ? "Get Started" : "Choose Plan"}
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
