@@ -84,6 +84,7 @@ export const DashboardSidebar = () => {
         isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="flex flex-col gap-0.5 p-3 py-2">
+        <SidebarItem label="Dashboard" isHeader />
         <SidebarItem icon={<LayoutDashboard className="h-4 w-4" />} label="Summary" path="/" active={location.pathname === "/"} />
         <SidebarItem icon={<Bot className="h-4 w-4" />} label="XM GPT" path="/xm-gpt" active={location.pathname === "/xm-gpt"} />
         <SidebarItem icon={<TrendingUp className="h-4 w-4" />} label="Account Config" path="/account-config" active={location.pathname === "/account-config"} />
