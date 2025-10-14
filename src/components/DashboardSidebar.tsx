@@ -1,14 +1,18 @@
 import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface SidebarItemProps {
   icon?: React.ReactNode;
   label: string;
   active?: boolean;
   isHeader?: boolean;
+  path?: string;
 }
 
-const SidebarItem = ({ icon, label, active, isHeader }: SidebarItemProps) => {
+const SidebarItem = ({ icon, label, active, isHeader, path }: SidebarItemProps) => {
+  const navigate = useNavigate();
+
   if (isHeader) {
     return (
       <div className="px-3 py-2">
@@ -17,8 +21,15 @@ const SidebarItem = ({ icon, label, active, isHeader }: SidebarItemProps) => {
     );
   }
 
+  const handleClick = () => {
+    if (path) {
+      navigate(path);
+    }
+  };
+
   return (
     <button
+      onClick={handleClick}
       className={cn(
         "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
         active
@@ -33,14 +44,16 @@ const SidebarItem = ({ icon, label, active, isHeader }: SidebarItemProps) => {
 };
 
 export const DashboardSidebar = () => {
+  const location = useLocation();
+
   return (
     <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 border-r border-border bg-sidebar shadow-sm">
       <div className="flex flex-col gap-0.5 p-4">
-        <SidebarItem icon={<LayoutDashboard className="h-5 w-5" />} label="Summary" />
-        <SidebarItem icon={<TrendingUp className="h-5 w-5" />} label="Account Config" active />
+        <SidebarItem icon={<LayoutDashboard className="h-5 w-5" />} label="Summary" path="/" active={location.pathname === "/"} />
+        <SidebarItem icon={<TrendingUp className="h-5 w-5" />} label="Account Config" path="/account-config" active={location.pathname === "/account-config"} />
         <SidebarItem icon={<Users className="h-5 w-5" />} label="Copy Trading" />
         <SidebarItem icon={<Bell className="h-5 w-5" />} label="Alert to Trade" />
-        <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Create Alerts" />
+        <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Create Alerts" path="/create-alerts" active={location.pathname === "/create-alerts"} />
         <SidebarItem icon={<Users2 className="h-5 w-5" />} label="Groups" />
         
         <div className="mt-4">
