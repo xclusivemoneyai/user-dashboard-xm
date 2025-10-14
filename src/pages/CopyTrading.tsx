@@ -33,6 +33,7 @@ const CopyTrading = () => {
   const [orderSearchQuery, setOrderSearchQuery] = useState("");
   const [expandedMasterAccounts, setExpandedMasterAccounts] = useState<string[]>([]);
   const [expandedChildAccounts, setExpandedChildAccounts] = useState<string[]>([]);
+  const [childAccountTabs, setChildAccountTabs] = useState<{[key: string]: string}>({});
 
   const toggleMasterExpand = (id: string) => {
     setExpandedMasterAccounts(prev => 
@@ -1157,38 +1158,72 @@ const CopyTrading = () => {
                           <CollapsibleContent asChild>
                             <TableRow>
                               <TableCell colSpan={7} className="bg-muted/30">
-                                <div className="p-4 space-y-3">
-                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                      <p className="text-sm font-medium mb-2">Copy Settings</p>
-                                      <div className="space-y-2">
-                                        <div className="flex items-center justify-between p-2 bg-background rounded">
-                                          <span className="text-sm">Lot Multiplier:</span>
-                                          <Input type="number" value={child.quantity} className="w-20 h-7 text-sm" />
-                                        </div>
-                                        <div className="flex items-center justify-between p-2 bg-background rounded">
-                                          <span className="text-sm">Max Positions:</span>
-                                          <Input type="number" defaultValue="10" className="w-20 h-7 text-sm" />
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div>
-                                      <p className="text-sm font-medium mb-2">Risk Management</p>
-                                      <div className="space-y-2">
-                                        <div className="flex items-center justify-between p-2 bg-background rounded">
-                                          <span className="text-sm">Daily Loss Limit:</span>
-                                          <Input type="number" placeholder="₹5000" className="w-24 h-7 text-sm" />
-                                        </div>
-                                        <div className="flex items-center justify-between p-2 bg-background rounded">
-                                          <span className="text-sm">Daily Profit Target:</span>
-                                          <Input type="number" placeholder="₹10000" className="w-24 h-7 text-sm" />
-                                        </div>
-                                      </div>
+                                <div className="p-4 space-y-4">
+                                  {/* Action Buttons */}
+                                  <div className="flex flex-wrap gap-2">
+                                    <Button size="sm" variant="outline" className="border-green-500 text-green-700 hover:bg-green-50">
+                                      Start Copying
+                                    </Button>
+                                    <Button size="sm" variant="outline">
+                                      Stop Copying
+                                    </Button>
+                                    <Button size="sm" variant="outline" className="border-cyan-500 text-cyan-700 hover:bg-cyan-50">
+                                      Square Off Specific Symbol
+                                    </Button>
+                                    <Button size="sm" variant="outline">
+                                      Exit All Positions
+                                    </Button>
+                                    <Button size="sm" variant="outline" className="border-destructive text-destructive hover:bg-destructive/10">
+                                      Remove Child
+                                    </Button>
+                                    <Button size="sm" variant="outline" className="border-primary text-primary hover:bg-primary/10">
+                                      Change Master
+                                    </Button>
+                                  </div>
+
+                                  {/* Tabs */}
+                                  <div className="border-b border-border">
+                                    <div className="flex gap-6 overflow-x-auto">
+                                      <button 
+                                        onClick={() => setChildAccountTabs({...childAccountTabs, [child.id]: "orderbook"})}
+                                        className={`pb-3 px-1 font-medium whitespace-nowrap ${
+                                          (childAccountTabs[child.id] || "orderbook") === "orderbook"
+                                            ? "text-primary border-b-2 border-primary" 
+                                            : "text-muted-foreground hover:text-foreground"
+                                        }`}
+                                      >
+                                        Order Book
+                                      </button>
+                                      <button 
+                                        onClick={() => setChildAccountTabs({...childAccountTabs, [child.id]: "positions"})}
+                                        className={`pb-3 px-1 font-medium whitespace-nowrap ${
+                                          childAccountTabs[child.id] === "positions"
+                                            ? "text-primary border-b-2 border-primary" 
+                                            : "text-muted-foreground hover:text-foreground"
+                                        }`}
+                                      >
+                                        Positions
+                                      </button>
+                                      <button 
+                                        onClick={() => setChildAccountTabs({...childAccountTabs, [child.id]: "holdings"})}
+                                        className={`pb-3 px-1 font-medium whitespace-nowrap ${
+                                          childAccountTabs[child.id] === "holdings"
+                                            ? "text-primary border-b-2 border-primary" 
+                                            : "text-muted-foreground hover:text-foreground"
+                                        }`}
+                                      >
+                                        Holdings
+                                      </button>
                                     </div>
                                   </div>
-                                  <div className="flex gap-2 pt-2">
-                                    <Button size="sm" variant="outline">Save Settings</Button>
-                                    <Button size="sm" variant="destructive">Remove from Master</Button>
+
+                                  {/* Tab Content */}
+                                  <div className="bg-background rounded-lg p-8 text-center">
+                                    <p className="text-muted-foreground">
+                                      {(childAccountTabs[child.id] || "orderbook") === "orderbook" && "No orders for this child account."}
+                                      {childAccountTabs[child.id] === "positions" && "No positions for this child account."}
+                                      {childAccountTabs[child.id] === "holdings" && "No holdings for this child account."}
+                                    </p>
                                   </div>
                                 </div>
                               </TableCell>
