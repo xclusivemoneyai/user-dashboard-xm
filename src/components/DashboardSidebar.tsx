@@ -52,8 +52,8 @@ export const DashboardSidebar = () => {
         <SidebarItem icon={<LayoutDashboard className="h-5 w-5" />} label="Summary" path="/" active={location.pathname === "/"} />
         <SidebarItem icon={<TrendingUp className="h-5 w-5" />} label="Account Config" path="/account-config" active={location.pathname === "/account-config"} />
         <SidebarItem icon={<Users className="h-5 w-5" />} label="Copy Trading" />
-        <SidebarItem icon={<Bell className="h-5 w-5" />} label="Alert to Trade" />
-        <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Create Alerts" path="/create-alerts" active={location.pathname === "/create-alerts"} />
+        <SidebarItem icon={<Bell className="h-5 w-5" />} label="Alert to Trade" path="/alert-to-trade" active={location.pathname === "/alert-to-trade"} />
+        <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Create Alert" path="/create-alerts" active={location.pathname === "/create-alerts"} />
         <SidebarItem icon={<Users2 className="h-5 w-5" />} label="Groups" />
         
         <div className="mt-4">
