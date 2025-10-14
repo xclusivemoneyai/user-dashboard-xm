@@ -340,16 +340,13 @@ const AccountConfig = () => {
                       <TableCell className="py-2">
                         <Badge 
                           variant={account.autoLoginStatus === "success" ? "outline" : "destructive"}
-                          className={`text-xs ${account.autoLoginStatus === "success" ? "bg-success/10 text-success border-success/20" : ""}`}
+                          className={`text-[11px] leading-tight max-w-[200px] h-auto py-1 px-2 ${account.autoLoginStatus === "success" ? "bg-success/10 text-success border-success/20" : ""}`}
                         >
-                          {account.autoLogin}
+                          <span className="line-clamp-2">{account.autoLogin}</span>
                         </Badge>
                       </TableCell>
                       <TableCell className="py-2 hidden md:table-cell">
-                        <div className="text-xs">
-                          <p className="font-medium">{account.lastLoginTime.split(" ")[0]}</p>
-                          <p className="text-muted-foreground">{account.lastLoginTime.split(" ")[1]}</p>
-                        </div>
+                        <span className="text-xs whitespace-nowrap">{account.lastLoginTime}</span>
                       </TableCell>
                       <TableCell className="py-2 hidden xl:table-cell">
                         <Button 
