@@ -7,7 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Users, Plus, AlertCircle, Lock, Info, Trash2, Eye, Download, X, TrendingUp, Search, FileText } from "lucide-react";
+import { Users, Plus, AlertCircle, Lock, Info, Trash2, Eye, Download, X, TrendingUp, Search, FileText, ChevronDown, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -18,6 +18,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 const CopyTrading = () => {
   const navigate = useNavigate();
@@ -26,6 +31,20 @@ const CopyTrading = () => {
   const [openPosFilter, setOpenPosFilter] = useState("all");
   const [closedPosFilter, setClosedPosFilter] = useState("all");
   const [orderSearchQuery, setOrderSearchQuery] = useState("");
+  const [expandedMasterAccounts, setExpandedMasterAccounts] = useState<string[]>([]);
+  const [expandedChildAccounts, setExpandedChildAccounts] = useState<string[]>([]);
+
+  const toggleMasterExpand = (id: string) => {
+    setExpandedMasterAccounts(prev => 
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
+  const toggleChildExpand = (id: string) => {
+    setExpandedChildAccounts(prev => 
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
 
   // Mock data
   const unassignedAccounts = [
@@ -325,12 +344,18 @@ const CopyTrading = () => {
             </CardHeader>
             <CardContent className="pt-6">
               {masterAccounts.map((master) => (
-                <div key={master.id} className="space-y-4 bg-white rounded-lg p-4 md:p-6">
+                <Collapsible 
+                  key={master.id} 
+                  open={expandedMasterAccounts.includes(master.id)}
+                  onOpenChange={() => toggleMasterExpand(master.id)}
+                  className="space-y-4 bg-white rounded-lg p-4 md:p-6"
+                >
                   {/* Master Info */}
                   <div className="overflow-x-auto">
                     <Table>
                       <TableHeader>
                         <TableRow>
+                          <TableHead className="w-12"></TableHead>
                           <TableHead>Account</TableHead>
                           <TableHead>Username</TableHead>
                           <TableHead>Broker</TableHead>
@@ -341,6 +366,17 @@ const CopyTrading = () => {
                       </TableHeader>
                       <TableBody>
                         <TableRow>
+                          <TableCell>
+                            <CollapsibleTrigger asChild>
+                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                                {expandedMasterAccounts.includes(master.id) ? (
+                                  <ChevronDown className="h-4 w-4" />
+                                ) : (
+                                  <ChevronRight className="h-4 w-4" />
+                                )}
+                              </Button>
+                            </CollapsibleTrigger>
+                          </TableCell>
                           <TableCell className="font-medium">{master.id}</TableCell>
                           <TableCell>{master.username}</TableCell>
                           <TableCell className="capitalize">{master.broker}</TableCell>
@@ -359,6 +395,8 @@ const CopyTrading = () => {
                       </TableBody>
                     </Table>
                   </div>
+
+                  <CollapsibleContent className="space-y-4">
 
                   {/* Master Actions */}
                   <div className="flex flex-wrap gap-2">
@@ -1026,7 +1064,8 @@ const CopyTrading = () => {
                       </div>
                     </div>
                   )}
-                </div>
+                  </CollapsibleContent>
+                </Collapsible>
               ))}
             </CardContent>
           </Card>
@@ -1043,10 +1082,11 @@ const CopyTrading = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto bg-white rounded-lg">
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead className="w-12"></TableHead>
                       <TableHead>Account</TableHead>
                       <TableHead>Master</TableHead>
                       <TableHead>Broker</TableHead>
@@ -1057,45 +1097,105 @@ const CopyTrading = () => {
                   </TableHeader>
                   <TableBody>
                     {childAccounts.map((child) => (
-                      <TableRow key={child.id}>
-                        <TableCell className="font-medium">
-                          {child.name} ({child.id})
-                        </TableCell>
-                        <TableCell>
-                          <div>
-                            <p className="font-medium">{child.master}</p>
-                            <p className="text-xs text-muted-foreground">{child.masterId}</p>
-                          </div>
-                        </TableCell>
-                        <TableCell className="capitalize">{child.broker}</TableCell>
-                        <TableCell className="text-center">
-                          <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
-                            {child.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center justify-center gap-2">
-                            <Switch checked={child.copyEnabled} />
-                            <Badge variant={child.copyEnabled ? "default" : "secondary"}>
-                              {child.copyEnabled ? "On" : "Off"}
-                            </Badge>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center justify-center gap-2">
-                            <Input
-                              type="number"
-                              value={child.quantity}
-                              className="w-16 h-8 text-center"
-                              min="1"
-                            />
-                            <Button size="sm" variant="outline">Save</Button>
-                            <Button size="icon" variant="ghost" className="h-8 w-8">
-                              <Info className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
+                      <Collapsible 
+                        key={child.id}
+                        open={expandedChildAccounts.includes(child.id)}
+                        onOpenChange={() => toggleChildExpand(child.id)}
+                        asChild
+                      >
+                        <>
+                          <TableRow>
+                            <TableCell>
+                              <CollapsibleTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8">
+                                  {expandedChildAccounts.includes(child.id) ? (
+                                    <ChevronDown className="h-4 w-4" />
+                                  ) : (
+                                    <ChevronRight className="h-4 w-4" />
+                                  )}
+                                </Button>
+                              </CollapsibleTrigger>
+                            </TableCell>
+                            <TableCell className="font-medium">
+                              {child.name} ({child.id})
+                            </TableCell>
+                            <TableCell>
+                              <div>
+                                <p className="font-medium">{child.master}</p>
+                                <p className="text-xs text-muted-foreground">{child.masterId}</p>
+                              </div>
+                            </TableCell>
+                            <TableCell className="capitalize">{child.broker}</TableCell>
+                            <TableCell className="text-center">
+                              <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
+                                {child.status}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center justify-center gap-2">
+                                <Switch checked={child.copyEnabled} />
+                                <Badge variant={child.copyEnabled ? "default" : "secondary"}>
+                                  {child.copyEnabled ? "On" : "Off"}
+                                </Badge>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center justify-center gap-2">
+                                <Input
+                                  type="number"
+                                  value={child.quantity}
+                                  className="w-16 h-8 text-center"
+                                  min="1"
+                                />
+                                <Button size="sm" variant="outline">Save</Button>
+                                <Button size="icon" variant="ghost" className="h-8 w-8">
+                                  <Info className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                          <CollapsibleContent asChild>
+                            <TableRow>
+                              <TableCell colSpan={7} className="bg-muted/30">
+                                <div className="p-4 space-y-3">
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                      <p className="text-sm font-medium mb-2">Copy Settings</p>
+                                      <div className="space-y-2">
+                                        <div className="flex items-center justify-between p-2 bg-background rounded">
+                                          <span className="text-sm">Lot Multiplier:</span>
+                                          <Input type="number" value={child.quantity} className="w-20 h-7 text-sm" />
+                                        </div>
+                                        <div className="flex items-center justify-between p-2 bg-background rounded">
+                                          <span className="text-sm">Max Positions:</span>
+                                          <Input type="number" defaultValue="10" className="w-20 h-7 text-sm" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <p className="text-sm font-medium mb-2">Risk Management</p>
+                                      <div className="space-y-2">
+                                        <div className="flex items-center justify-between p-2 bg-background rounded">
+                                          <span className="text-sm">Daily Loss Limit:</span>
+                                          <Input type="number" placeholder="₹5000" className="w-24 h-7 text-sm" />
+                                        </div>
+                                        <div className="flex items-center justify-between p-2 bg-background rounded">
+                                          <span className="text-sm">Daily Profit Target:</span>
+                                          <Input type="number" placeholder="₹10000" className="w-24 h-7 text-sm" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="flex gap-2 pt-2">
+                                    <Button size="sm" variant="outline">Save Settings</Button>
+                                    <Button size="sm" variant="destructive">Remove from Master</Button>
+                                  </div>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          </CollapsibleContent>
+                        </>
+                      </Collapsible>
                     ))}
                   </TableBody>
                 </Table>
