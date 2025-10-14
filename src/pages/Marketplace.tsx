@@ -4,13 +4,67 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Search, ArrowRight, TrendingUp } from "lucide-react";
+import { Search, ArrowRight, TrendingUp, ChevronDown, ChevronUp, Target } from "lucide-react";
 import { useState } from "react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const Marketplace = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("free");
   const [selectedPlatform, setSelectedPlatform] = useState("tradingview");
+  const [isSubscribedOpen, setIsSubscribedOpen] = useState(false);
+
+  // Subscription data
+  const subscriptionStats = {
+    activeAlgos: 3,
+    pausedAlgos: 1,
+    notDeployed: 0,
+    totalSubscriptions: 4
+  };
+
+  const deployedAlgos = [
+    {
+      id: 1,
+      name: "Index Sniper",
+      partner: "Stratzy",
+      planAmount: "₹1,999",
+      amountRequired: "₹80,000",
+      startDate: "27 Aug 25",
+      endDate: "30 Mar 26",
+      status: "Paused"
+    },
+    {
+      id: 2,
+      name: "Expiry Short Strangle",
+      partner: "Stratzy",
+      planAmount: "₹2,499",
+      amountRequired: "₹2,50,000",
+      startDate: "4 Sep 25",
+      endDate: "4 Dec 25",
+      status: "Active"
+    },
+    {
+      id: 3,
+      name: "Zen Credit Spread Overnight",
+      partner: "Stratzy",
+      planAmount: "₹799",
+      amountRequired: "₹1,20,000",
+      startDate: "7 Oct 25",
+      endDate: "6 Nov 25",
+      status: "Active"
+    },
+    {
+      id: 4,
+      name: "V-Score Credit Spread Overnight",
+      partner: "Stratzy",
+      planAmount: "₹799",
+      amountRequired: "₹80,000",
+      startDate: "7 Oct 25",
+      endDate: "6 Nov 25",
+      status: "Active"
+    }
+  ];
 
   const categories = [
     { id: "free", label: "FREE TOOLS" },
@@ -83,6 +137,114 @@ const Marketplace = () => {
       
       <main className="ml-0 md:ml-64 pt-16">
         <div className="p-4 md:p-8">
+          {/* Subscribed Section */}
+          <Collapsible open={isSubscribedOpen} onOpenChange={setIsSubscribedOpen} className="mb-8">
+            <CollapsibleTrigger asChild>
+              <Button 
+                variant="outline" 
+                className="w-full justify-between mb-4 h-12 text-lg font-semibold hover:bg-accent"
+              >
+                <span>Subscribed</span>
+                {isSubscribedOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+              </Button>
+            </CollapsibleTrigger>
+            
+            <CollapsibleContent className="space-y-6">
+              {/* Header */}
+              <div className="flex items-center gap-3 p-6 bg-card border border-border rounded-lg">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent">
+                  <Target className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-2xl font-bold">Track, Manage Your Algo Subscriptions</h2>
+              </div>
+
+              {/* Subscription Snapshot */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Subscription Snapshot</h3>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <Card className="bg-card/50 border-border">
+                    <CardContent className="p-6">
+                      <p className="text-sm text-muted-foreground mb-2">Active Algos</p>
+                      <p className="text-3xl font-bold">{subscriptionStats.activeAlgos}</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-card/50 border-border">
+                    <CardContent className="p-6">
+                      <p className="text-sm text-muted-foreground mb-2">Paused Algos</p>
+                      <p className="text-3xl font-bold">{subscriptionStats.pausedAlgos}</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-card/50 border-border">
+                    <CardContent className="p-6">
+                      <p className="text-sm text-muted-foreground mb-2">Not Deployed</p>
+                      <p className="text-3xl font-bold text-warning">{subscriptionStats.notDeployed}</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-card/50 border-border">
+                    <CardContent className="p-6">
+                      <p className="text-sm text-muted-foreground mb-2">Total Subscriptions</p>
+                      <p className="text-3xl font-bold">{subscriptionStats.totalSubscriptions}</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Deployed Algos Table */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Deployed Algos</h3>
+                <Card className="overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="bg-muted/50">
+                          <TableHead className="font-semibold">Algo Name</TableHead>
+                          <TableHead className="font-semibold">Partner</TableHead>
+                          <TableHead className="font-semibold">Plan Amount</TableHead>
+                          <TableHead className="font-semibold">Amount Required</TableHead>
+                          <TableHead className="font-semibold">Start Date</TableHead>
+                          <TableHead className="font-semibold">End Date</TableHead>
+                          <TableHead className="font-semibold">Mandate</TableHead>
+                          <TableHead className="font-semibold">Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {deployedAlgos.map((algo) => (
+                          <TableRow key={algo.id} className="hover:bg-muted/30">
+                            <TableCell className="font-medium">{algo.name}</TableCell>
+                            <TableCell>{algo.partner}</TableCell>
+                            <TableCell>{algo.planAmount}</TableCell>
+                            <TableCell>{algo.amountRequired}</TableCell>
+                            <TableCell className="text-muted-foreground">{algo.startDate}</TableCell>
+                            <TableCell className="text-muted-foreground">{algo.endDate}</TableCell>
+                            <TableCell>
+                              <Button 
+                                variant="link" 
+                                className="p-0 h-auto text-warning hover:text-warning/80 font-semibold"
+                              >
+                                {algo.status === "Paused" ? "Unset Now >" : "Set Now >"}
+                              </Button>
+                            </TableCell>
+                            <TableCell>
+                              <Badge 
+                                variant={algo.status === "Active" ? "default" : "secondary"}
+                                className={algo.status === "Active" 
+                                  ? "bg-success hover:bg-success text-white" 
+                                  : "bg-muted hover:bg-muted text-muted-foreground"
+                                }
+                              >
+                                {algo.status}
+                              </Badge>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </Card>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-4">
