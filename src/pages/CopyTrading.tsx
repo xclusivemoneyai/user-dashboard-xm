@@ -7,7 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Users, Plus, AlertCircle, Lock, Info, Trash2, Eye, Download, X, TrendingUp } from "lucide-react";
+import { Users, Plus, AlertCircle, Lock, Info, Trash2, Eye, Download, X, TrendingUp, Search, FileText } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -25,6 +25,7 @@ const CopyTrading = () => {
   const [activeTab, setActiveTab] = useState("children");
   const [openPosFilter, setOpenPosFilter] = useState("all");
   const [closedPosFilter, setClosedPosFilter] = useState("all");
+  const [orderSearchQuery, setOrderSearchQuery] = useState("");
 
   // Mock data
   const unassignedAccounts = [
@@ -116,6 +117,114 @@ const CopyTrading = () => {
       sellAvgPrice: 62.15,
       ltp: 0.10,
       pnl: 3375.00
+    }
+  ];
+
+  // Order book mock data
+  const executedOrders = [
+    {
+      id: "1",
+      time: "15:00:48",
+      type: "B",
+      name: "NIFTY 14 OCT 25200 CALL",
+      exchange: "NSE",
+      product: "Normal",
+      qty: "75 / 75",
+      orderType: "Limit",
+      price: 0.80,
+      ltp: 0.05,
+      status: "Success"
+    },
+    {
+      id: "2",
+      time: "10:19:12",
+      type: "S",
+      name: "NIFTY 14 OCT 25200 CALL",
+      exchange: "NSE",
+      product: "Normal",
+      qty: "75 / 75",
+      orderType: "Limit",
+      price: 52.50,
+      ltp: 0.05,
+      status: "Success"
+    },
+    {
+      id: "3",
+      time: "10:19:11",
+      type: "B",
+      name: "NIFTY 14 OCT 25600 CALL",
+      exchange: "NSE",
+      product: "Normal",
+      qty: "75 / 75",
+      orderType: "Limit",
+      price: 2.25,
+      ltp: 0.05,
+      status: "Success"
+    },
+    {
+      id: "4",
+      time: "09:31:06",
+      type: "B",
+      name: "NIFTY 14 OCT 25200 PUT",
+      exchange: "NSE",
+      product: "Normal",
+      qty: "150 / 150",
+      orderType: "Market",
+      price: 16.05,
+      ltp: 54.20,
+      status: "Success"
+    },
+    {
+      id: "5",
+      time: "09:31:06",
+      type: "S",
+      name: "NIFTY 14 OCT 24800 PUT",
+      exchange: "NSE",
+      product: "Normal",
+      qty: "75 / 75",
+      orderType: "Market",
+      price: 1.40,
+      ltp: 0.05,
+      status: "Success"
+    },
+    {
+      id: "6",
+      time: "09:24:39",
+      type: "B",
+      name: "NIFTY 14 OCT 25400 CALL",
+      exchange: "NSE",
+      product: "Normal",
+      qty: "75 / 75",
+      orderType: "Market",
+      price: 17.15,
+      ltp: 0.10,
+      status: "Success"
+    },
+    {
+      id: "7",
+      time: "09:15:16",
+      type: "S",
+      name: "NIFTY 14 OCT 25600 CALL",
+      exchange: "NSE",
+      product: "Normal",
+      qty: "75 / 75",
+      orderType: "Limit",
+      price: 2.25,
+      ltp: 0.05,
+      status: "Success"
+    },
+    {
+      id: "8",
+      time: "09:15:15",
+      type: "B",
+      name: "NIFTY 14 OCT 25200 CALL",
+      exchange: "NSE",
+      product: "Normal",
+      qty: "75 / 75",
+      orderType: "Limit",
+      price: 111.35,
+      ltp: 0.05,
+      status: "Success"
     }
   ];
 
@@ -574,14 +683,347 @@ const CopyTrading = () => {
                   )}
 
                   {activeTab === "holdings" && (
-                    <div className="text-center py-8 text-muted-foreground">
-                      Holdings view coming soon
+                    <div className="space-y-6">
+                      {/* Summary Stats */}
+                      <div className="bg-muted/50 rounded-lg p-4 md:p-6">
+                        <h3 className="text-xl font-bold mb-4">Today's Holdings</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Live P&L:</p>
+                            <p className="text-xl font-bold text-success">₹ 8,838.75</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Open Positions:</p>
+                            <p className="text-xl font-bold">1</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Closed Positions:</p>
+                            <p className="text-xl font-bold">4</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Margin Available:</p>
+                            <p className="text-xl font-bold">₹4,05,860.01</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Margin Used:</p>
+                            <p className="text-xl font-bold">₹167.58</p>
+                          </div>
+                          <div className="flex items-end gap-2">
+                            <Button size="icon" variant="ghost">
+                              <Eye className="h-5 w-5" />
+                            </Button>
+                            <Button size="sm" className="bg-success hover:bg-success/90">
+                              + Top up
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Open Holdings */}
+                      <div className="bg-muted/30 rounded-lg p-4">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                          <div className="flex items-center gap-4">
+                            <h4 className="text-lg font-bold">Open</h4>
+                            <Select defaultValue="pnl">
+                              <SelectTrigger className="w-[120px] h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="pnl">P&L</SelectItem>
+                                <SelectItem value="value">Value</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <Button variant="outline" size="sm" className="border-warning text-warning hover:bg-warning/10">
+                            <TrendingUp className="h-4 w-4 mr-2" />
+                            Analyse
+                          </Button>
+                        </div>
+
+                        {/* Filters */}
+                        <div className="flex gap-2 mb-4">
+                          <Button
+                            size="sm"
+                            variant={openPosFilter === "all" ? "default" : "outline"}
+                            onClick={() => setOpenPosFilter("all")}
+                          >
+                            All <Badge variant="secondary" className="ml-2">1</Badge>
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant={openPosFilter === "loss" ? "default" : "outline"}
+                            onClick={() => setOpenPosFilter("loss")}
+                          >
+                            In Loss <Badge variant="secondary" className="ml-2">1</Badge>
+                          </Button>
+                        </div>
+
+                        {/* Open Holdings Table */}
+                        <div className="overflow-x-auto bg-white rounded-lg">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead className="w-12">
+                                  <Checkbox />
+                                </TableHead>
+                                <TableHead>B/S</TableHead>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Product</TableHead>
+                                <TableHead className="text-right">Qty</TableHead>
+                                <TableHead className="text-right">Avg Price</TableHead>
+                                <TableHead className="text-right">LTP</TableHead>
+                                <TableHead className="text-right">P&L</TableHead>
+                                <TableHead className="text-right">Change %</TableHead>
+                                <TableHead className="text-center">Action</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {filteredOpenPositions.map((pos) => (
+                                <TableRow key={pos.id}>
+                                  <TableCell>
+                                    <Checkbox />
+                                  </TableCell>
+                                  <TableCell>
+                                    <Badge className="bg-success hover:bg-success">{pos.type}</Badge>
+                                  </TableCell>
+                                  <TableCell className="font-medium">{pos.name}</TableCell>
+                                  <TableCell>
+                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
+                                      {pos.product}
+                                    </Badge>
+                                  </TableCell>
+                                  <TableCell className="text-right text-success">+{pos.qty}</TableCell>
+                                  <TableCell className="text-right">{pos.avgPrice.toFixed(2)}</TableCell>
+                                  <TableCell className="text-right">{pos.ltp.toFixed(2)}</TableCell>
+                                  <TableCell className={`text-right font-semibold ${pos.pnl < 0 ? 'text-destructive' : 'text-success'}`}>
+                                    {pos.pnl.toFixed(2)}
+                                  </TableCell>
+                                  <TableCell className={`text-right ${pos.changePercent < 0 ? 'text-destructive' : 'text-success'}`}>
+                                    {pos.changePercent.toFixed(2)}%
+                                  </TableCell>
+                                  <TableCell className="text-center">
+                                    <Button size="icon" variant="ghost" className="h-8 w-8">
+                                      <X className="h-4 w-4" />
+                                    </Button>
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+
+                        {/* Actions Row */}
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+                          <Button variant="ghost" size="sm" className="gap-2">
+                            <Download className="h-4 w-4" />
+                            Download as CSV
+                          </Button>
+                          <div className="flex items-center gap-3">
+                            <span className="text-sm font-semibold">
+                              Total P&L: <span className="text-destructive">-187.50</span>
+                            </span>
+                            <Button variant="outline" size="sm">
+                              Set P&L Exit
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Closed Holdings */}
+                      <div className="bg-muted/30 rounded-lg p-4">
+                        <div className="flex items-center gap-4 mb-4">
+                          <h4 className="text-lg font-bold">Closed</h4>
+                        </div>
+
+                        {/* Filters */}
+                        <div className="flex gap-2 mb-4">
+                          <Button
+                            size="sm"
+                            variant={closedPosFilter === "all" ? "default" : "outline"}
+                            onClick={() => setClosedPosFilter("all")}
+                          >
+                            All <Badge variant="secondary" className="ml-2">4</Badge>
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant={closedPosFilter === "profit" ? "default" : "outline"}
+                            onClick={() => setClosedPosFilter("profit")}
+                          >
+                            In Profit <Badge variant="secondary" className="ml-2">3</Badge>
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant={closedPosFilter === "loss" ? "default" : "outline"}
+                            onClick={() => setClosedPosFilter("loss")}
+                          >
+                            In Loss <Badge variant="secondary" className="ml-2">1</Badge>
+                          </Button>
+                        </div>
+
+                        {/* Closed Holdings Table */}
+                        <div className="overflow-x-auto bg-white rounded-lg">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Product</TableHead>
+                                <TableHead className="text-right">Qty</TableHead>
+                                <TableHead className="text-right">Buy Avg Price</TableHead>
+                                <TableHead className="text-right">Sell Avg Price</TableHead>
+                                <TableHead className="text-right">LTP</TableHead>
+                                <TableHead className="text-right">P&L</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {filteredClosedPositions.map((pos) => (
+                                <TableRow key={pos.id}>
+                                  <TableCell>
+                                    <div className="flex items-center gap-2">
+                                      <Badge variant="secondary" className="w-7 h-7 flex items-center justify-center">
+                                        {pos.type}
+                                      </Badge>
+                                      <div>
+                                        <p className="font-medium">{pos.name}</p>
+                                        <p className="text-xs text-muted-foreground">
+                                          {pos.exchange} <Badge variant="outline" className="ml-1 text-xs">W</Badge>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell>
+                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
+                                      {pos.product}
+                                    </Badge>
+                                  </TableCell>
+                                  <TableCell className="text-right">{pos.qty}</TableCell>
+                                  <TableCell className="text-right">{pos.buyAvgPrice.toFixed(2)}</TableCell>
+                                  <TableCell className="text-right">{pos.sellAvgPrice.toFixed(2)}</TableCell>
+                                  <TableCell className="text-right">{pos.ltp.toFixed(2)}</TableCell>
+                                  <TableCell className={`text-right font-semibold ${pos.pnl < 0 ? 'text-destructive' : 'text-success'}`}>
+                                    {pos.pnl.toFixed(2)}
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+
+                        {/* Actions Row */}
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+                          <Button variant="ghost" size="sm" className="gap-2">
+                            <Download className="h-4 w-4" />
+                            Download as CSV
+                          </Button>
+                          <span className="text-sm font-semibold">
+                            Realised P&L: <span className="text-success">9,026.25</span>
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   )}
 
                   {activeTab === "orders" && (
-                    <div className="text-center py-8 text-muted-foreground">
-                      Order book view coming soon
+                    <div className="space-y-6">
+                      {/* Pending Orders */}
+                      <div className="bg-muted/30 rounded-lg p-6">
+                        <h4 className="text-lg font-bold mb-4">Pending Orders</h4>
+                        <div className="flex items-center gap-3 text-muted-foreground p-8 bg-white rounded-lg border-2 border-dashed">
+                          <FileText className="h-10 w-10 text-muted-foreground/50" />
+                          <p>Orders when placed appear here. None at this moment...</p>
+                        </div>
+                      </div>
+
+                      {/* Executed Orders */}
+                      <div className="bg-muted/30 rounded-lg p-4">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                          <div className="flex items-center gap-4">
+                            <h4 className="text-lg font-bold">Executed</h4>
+                            <div className="flex gap-2">
+                              <Button size="sm" variant="default">
+                                All
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                Success <Badge variant="secondary" className="ml-2">8</Badge>
+                              </Button>
+                            </div>
+                          </div>
+                          <div className="relative flex-1 max-w-md">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              placeholder="Search for Executed Orders"
+                              value={orderSearchQuery}
+                              onChange={(e) => setOrderSearchQuery(e.target.value)}
+                              className="pl-9"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Executed Orders Table */}
+                        <div className="overflow-x-auto bg-white rounded-lg">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Time</TableHead>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Product</TableHead>
+                                <TableHead className="text-right">Qty</TableHead>
+                                <TableHead>Order Type</TableHead>
+                                <TableHead className="text-right">Price</TableHead>
+                                <TableHead className="text-right">LTP</TableHead>
+                                <TableHead className="text-center">Status</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {executedOrders.map((order) => (
+                                <TableRow key={order.id}>
+                                  <TableCell className="font-medium">{order.time}</TableCell>
+                                  <TableCell>
+                                    <div className="flex items-center gap-2">
+                                      <Badge 
+                                        className={order.type === "B" 
+                                          ? "bg-success hover:bg-success" 
+                                          : "bg-destructive hover:bg-destructive"
+                                        }
+                                      >
+                                        {order.type}
+                                      </Badge>
+                                      <div>
+                                        <p className="font-medium">{order.name}</p>
+                                        <p className="text-xs text-muted-foreground">
+                                          <Badge variant="outline" className="text-xs mr-1">W</Badge>
+                                          {order.exchange}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell>
+                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
+                                      {order.product}
+                                    </Badge>
+                                  </TableCell>
+                                  <TableCell className="text-right">{order.qty}</TableCell>
+                                  <TableCell>{order.orderType}</TableCell>
+                                  <TableCell className="text-right">{order.price.toFixed(2)}</TableCell>
+                                  <TableCell className="text-right">{order.ltp.toFixed(2)}</TableCell>
+                                  <TableCell className="text-center">
+                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
+                                      {order.status}
+                                    </Badge>
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+
+                        {/* Actions Row */}
+                        <div className="mt-4">
+                          <Button variant="ghost" size="sm" className="gap-2">
+                            <Download className="h-4 w-4" />
+                            Download as CSV
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
