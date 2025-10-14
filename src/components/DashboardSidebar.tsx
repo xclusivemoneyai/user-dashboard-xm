@@ -67,9 +67,9 @@ export const DashboardSidebar = () => {
         <SidebarItem icon={<CreditCard className="h-5 w-5" />} label="Pricing" path="/pricing" active={location.pathname === "/pricing"} />
 
         <SidebarItem label="Support" isHeader />
-        <SidebarItem icon={<Phone className="h-5 w-5" />} label="Call" />
-        <SidebarItem icon={<MessageCircle className="h-5 w-5" />} label="WhatsApp" />
-        <SidebarItem icon={<Video className="h-5 w-5" />} label="Tutorials" />
+        <SidebarItem icon={<Phone className="h-5 w-5" />} label="Call" path="/call" active={location.pathname === "/call"} />
+        <SidebarItem icon={<MessageCircle className="h-5 w-5" />} label="WhatsApp" path="/whatsapp" active={location.pathname === "/whatsapp"} />
+        <SidebarItem icon={<Video className="h-5 w-5" />} label="Tutorials" path="/tutorials" active={location.pathname === "/tutorials"} />
 
         <SidebarItem label="Partner With Us" isHeader />
         <SidebarItem icon={<UserPlus className="h-5 w-5" />} label="Personal Referral" />
