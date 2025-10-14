@@ -7,7 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Users, Plus, AlertCircle, Lock, Info, Trash2, Eye, Download, X, TrendingUp, Search, FileText, ChevronDown, ChevronRight } from "lucide-react";
+import { Users, Plus, AlertCircle, Lock, Info, Trash2, Eye, Download, X, TrendingUp, Search, FileText, ChevronDown, ChevronRight, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -264,18 +264,18 @@ const CopyTrading = () => {
       <DashboardHeader />
       <DashboardSidebar />
       
-      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
-        <div className="max-w-7xl mx-auto space-y-6">
+      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-6">
+        <div className="max-w-7xl mx-auto space-y-4">
           {/* Header */}
           <Card>
-            <CardHeader>
+            <CardHeader className="pb-4">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                   <CardTitle className="flex items-center gap-2 text-2xl">
                     <Users className="h-6 w-6" />
                     Copy Trading Setup
                   </CardTitle>
-                  <CardDescription className="mt-2">
+                  <CardDescription className="mt-1">
                     Manage your trading accounts for copy trading. Use the{" "}
                     <button
                       onClick={() => navigate("/account-config")}
@@ -296,7 +296,7 @@ const CopyTrading = () => {
 
           {/* Unassigned Accounts */}
           <Card className="border-blue-200 bg-blue-50/50">
-            <CardHeader className="bg-blue-100 border-b border-blue-200">
+            <CardHeader className="bg-blue-100 border-b border-blue-200 pb-3">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <AlertCircle className="h-5 w-5 text-blue-700" />
                 Unassigned Accounts
@@ -305,7 +305,7 @@ const CopyTrading = () => {
                 Accounts added but not yet assigned a role (Master or Child). Assign their role below to get started.
               </CardDescription>
             </CardHeader>
-            <CardContent className="pt-6">
+            <CardContent className="pt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {unassignedAccounts.map((account) => (
                   <Card key={account.id} className="bg-white">
@@ -334,7 +334,7 @@ const CopyTrading = () => {
 
           {/* Master Accounts */}
           <Card className="border-green-200 bg-green-50/50">
-            <CardHeader className="bg-green-100 border-b border-green-200">
+            <CardHeader className="bg-green-100 border-b border-green-200 pb-3">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Lock className="h-5 w-5 text-green-700" />
                 Master Accounts
@@ -343,13 +343,13 @@ const CopyTrading = () => {
                 Accounts selected to replicate their trades across linked child accounts.
               </CardDescription>
             </CardHeader>
-            <CardContent className="pt-6">
+            <CardContent className="pt-4">
               {masterAccounts.map((master) => (
                 <Collapsible 
                   key={master.id} 
                   open={expandedMasterAccounts.includes(master.id)}
                   onOpenChange={() => toggleMasterExpand(master.id)}
-                  className="space-y-4 bg-white rounded-lg p-4 md:p-6"
+                  className="space-y-4 bg-white rounded-lg p-3 md:p-4"
                 >
                   {/* Master Info */}
                   <div className="overflow-x-auto">
@@ -378,7 +378,14 @@ const CopyTrading = () => {
                               </Button>
                             </CollapsibleTrigger>
                           </TableCell>
-                          <TableCell className="font-medium">{master.id}</TableCell>
+                          <TableCell className="font-medium">
+                            <div className="flex items-center gap-2">
+                              <div className="flex h-6 w-6 items-center justify-center rounded bg-primary/10">
+                                <ArrowRight className="h-4 w-4 text-primary" />
+                              </div>
+                              {master.id}
+                            </div>
+                          </TableCell>
                           <TableCell>{master.username}</TableCell>
                           <TableCell className="capitalize">{master.broker}</TableCell>
                           <TableCell className="text-center">
@@ -1083,7 +1090,7 @@ const CopyTrading = () => {
 
           {/* Child Accounts */}
           <Card className="border-blue-200 bg-blue-50/50">
-            <CardHeader className="bg-blue-100 border-b border-blue-200">
+            <CardHeader className="bg-blue-100 border-b border-blue-200 pb-3">
               <CardTitle className="flex items-center gap-2 text-lg">
                 <Users className="h-5 w-5 text-blue-700" />
                 Child Accounts
@@ -1092,7 +1099,7 @@ const CopyTrading = () => {
                 Accounts where all trades from their assigned Master will be copied.
               </CardDescription>
             </CardHeader>
-            <CardContent className="pt-6">
+            <CardContent className="pt-4">
               <div className="overflow-x-auto bg-white rounded-lg">
                 <Table>
                   <TableHeader>
@@ -1128,7 +1135,12 @@ const CopyTrading = () => {
                               </CollapsibleTrigger>
                             </TableCell>
                             <TableCell className="font-medium">
-                              {child.name} ({child.id})
+                              <div className="flex items-center gap-2">
+                                <div className="flex h-6 w-6 items-center justify-center rounded bg-primary/10">
+                                  <ArrowRight className="h-4 w-4 text-primary" />
+                                </div>
+                                {child.name} ({child.id})
+                              </div>
                             </TableCell>
                             <TableCell>
                               <div>

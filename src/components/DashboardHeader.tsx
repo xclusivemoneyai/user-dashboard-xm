@@ -22,6 +22,10 @@ export const DashboardHeader = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <span className="text-lg mr-2">+</span>
+            New Automation
+          </Button>
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="ghost" size="icon" className="relative">
