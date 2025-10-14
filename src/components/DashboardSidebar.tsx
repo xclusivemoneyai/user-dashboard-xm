@@ -83,7 +83,7 @@ export const DashboardSidebar = () => {
         <SidebarItem icon={<Bell className="h-4 w-4" />} label="Alert to Trade" path="/alert-to-trade" active={location.pathname === "/alert-to-trade"} />
         <SidebarItem icon={<BarChart3 className="h-4 w-4" />} label="Create Alert" path="/create-alerts" active={location.pathname === "/create-alerts"} />
         <SidebarItem icon={<Users2 className="h-4 w-4" />} label="Groups" path="/groups" active={location.pathname === "/groups"} />
-        <SidebarItem icon={<Store className="h-4 w-4" />} label="Marketplace" />
+        <SidebarItem icon={<Store className="h-4 w-4" />} label="Marketplace" path="/marketplace" active={location.pathname === "/marketplace"} />
 
           <SidebarItem label="Management" isHeader />
           <SidebarItem icon={<User className="h-4 w-4" />} label="User" path="/user" active={location.pathname === "/user"} />

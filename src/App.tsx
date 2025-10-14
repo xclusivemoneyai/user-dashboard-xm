@@ -15,6 +15,7 @@ import WhatsApp from "./pages/WhatsApp";
 import Tutorials from "./pages/Tutorials";
 import Groups from "./pages/Groups";
 import CopyTrading from "./pages/CopyTrading";
+import Marketplace from "./pages/Marketplace";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/copy-trading" element={<CopyTrading />} />
           <Route path="/alert-to-trade" element={<AlertToTrade />} />
           <Route path="/create-alerts" element={<CreateAlerts />} />
+          <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/user" element={<User />} />
           <Route path="/invoices" element={<Invoices />} />
           <Route path="/pricing" element={<Pricing />} />
