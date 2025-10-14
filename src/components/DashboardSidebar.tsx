@@ -37,10 +37,10 @@ export const DashboardSidebar = () => {
     <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 border-r border-border bg-sidebar shadow-sm">
       <div className="flex flex-col gap-0.5 p-4">
         <SidebarItem icon={<LayoutDashboard className="h-5 w-5" />} label="Summary" />
-        <SidebarItem icon={<TrendingUp className="h-5 w-5" />} label="Account Config" />
+        <SidebarItem icon={<TrendingUp className="h-5 w-5" />} label="Account Config" active />
         <SidebarItem icon={<Users className="h-5 w-5" />} label="Copy Trading" />
         <SidebarItem icon={<Bell className="h-5 w-5" />} label="Alert to Trade" />
-        <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Create Alerts" active />
+        <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Create Alerts" />
         <SidebarItem icon={<Users2 className="h-5 w-5" />} label="Groups" />
         
         <div className="mt-4">
