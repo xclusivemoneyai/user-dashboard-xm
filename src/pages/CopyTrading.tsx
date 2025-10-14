@@ -7,13 +7,24 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Users, Plus, AlertCircle, Lock, Info, Trash2 } from "lucide-react";
+import { Users, Plus, AlertCircle, Lock, Info, Trash2, Eye, Download, X, TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const CopyTrading = () => {
   const navigate = useNavigate();
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState("children");
+  const [openPosFilter, setOpenPosFilter] = useState("all");
+  const [closedPosFilter, setClosedPosFilter] = useState("all");
 
   // Mock data
   const unassignedAccounts = [
@@ -41,6 +52,83 @@ const CopyTrading = () => {
     { id: "1106883507", name: "Aman_Dhan", master: "Amit_Zerodha", masterId: "CX9849", broker: "dhan", status: "LIVE", copyEnabled: false, quantity: 1 },
     { id: "1100434692", name: "Amit_Dhan", master: "Amit_Zerodha", masterId: "CX9849", broker: "dhan", status: "LIVE", copyEnabled: true, quantity: 1 }
   ];
+
+  // Positions mock data
+  const openPositions = [
+    {
+      id: "1",
+      type: "B",
+      name: "NIFTY 14 OCT 25600 CALL",
+      product: "Normal",
+      qty: 75,
+      avgPrice: 2.40,
+      ltp: 0.05,
+      pnl: -187.50,
+      changePercent: -97.92
+    }
+  ];
+
+  const closedPositions = [
+    {
+      id: "1",
+      type: "C",
+      name: "NIFTY 14 OCT 24800 PUT",
+      exchange: "NSE",
+      product: "Normal",
+      qty: 75,
+      buyAvgPrice: 6.10,
+      sellAvgPrice: 1.40,
+      ltp: 0.05,
+      pnl: -352.50
+    },
+    {
+      id: "2",
+      type: "C",
+      name: "NIFTY 14 OCT 25200 CALL",
+      exchange: "NSE",
+      product: "Normal",
+      qty: 150,
+      buyAvgPrice: 56.08,
+      sellAvgPrice: 60.10,
+      ltp: 0.05,
+      pnl: 603.75
+    },
+    {
+      id: "3",
+      type: "C",
+      name: "NIFTY 14 OCT 25200 PUT",
+      exchange: "NSE",
+      product: "Normal",
+      qty: 150,
+      buyAvgPrice: 16.05,
+      sellAvgPrice: 52.05,
+      ltp: 54.20,
+      pnl: 5400.00
+    },
+    {
+      id: "4",
+      type: "C",
+      name: "NIFTY 14 OCT 25400 CALL",
+      exchange: "NSE",
+      product: "Normal",
+      qty: 75,
+      buyAvgPrice: 17.15,
+      sellAvgPrice: 62.15,
+      ltp: 0.10,
+      pnl: 3375.00
+    }
+  ];
+
+  const filteredOpenPositions = openPositions.filter(pos => {
+    if (openPosFilter === "loss") return pos.pnl < 0;
+    return true;
+  });
+
+  const filteredClosedPositions = closedPositions.filter(pos => {
+    if (closedPosFilter === "profit") return pos.pnl > 0;
+    if (closedPosFilter === "loss") return pos.pnl < 0;
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -175,45 +263,327 @@ const CopyTrading = () => {
                   {/* Tabs */}
                   <div className="border-b border-border">
                     <div className="flex gap-6 overflow-x-auto">
-                      <button className="pb-3 px-1 font-medium text-foreground border-b-2 border-primary whitespace-nowrap">
+                      <button 
+                        onClick={() => setActiveTab("children")}
+                        className={`pb-3 px-1 font-medium whitespace-nowrap ${
+                          activeTab === "children" 
+                            ? "text-foreground border-b-2 border-primary" 
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
                         View Children
                       </button>
-                      <button className="pb-3 px-1 font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">
+                      <button 
+                        onClick={() => setActiveTab("positions")}
+                        className={`pb-3 px-1 font-medium whitespace-nowrap ${
+                          activeTab === "positions" 
+                            ? "text-foreground border-b-2 border-primary" 
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
                         Positions
                       </button>
-                      <button className="pb-3 px-1 font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">
+                      <button 
+                        onClick={() => setActiveTab("holdings")}
+                        className={`pb-3 px-1 font-medium whitespace-nowrap ${
+                          activeTab === "holdings" 
+                            ? "text-foreground border-b-2 border-primary" 
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
                         Holdings
                       </button>
-                      <button className="pb-3 px-1 font-medium text-muted-foreground hover:text-foreground whitespace-nowrap">
+                      <button 
+                        onClick={() => setActiveTab("orders")}
+                        className={`pb-3 px-1 font-medium whitespace-nowrap ${
+                          activeTab === "orders" 
+                            ? "text-foreground border-b-2 border-primary" 
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
                         Order Book
                       </button>
                     </div>
                   </div>
 
-                  {/* Linked Children */}
-                  <div>
-                    <h4 className="font-semibold mb-3">Linked Child Accounts</h4>
-                    <div className="space-y-2">
-                      {master.linkedChildren.map((child) => (
-                        <div key={child.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-muted rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <span className="font-medium">{child.name} ({child.id})</span>
+                  {/* Tab Content */}
+                  {activeTab === "children" && (
+                    <div>
+                      <h4 className="font-semibold mb-3">Linked Child Accounts</h4>
+                      <div className="space-y-2">
+                        {master.linkedChildren.map((child) => (
+                          <div key={child.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-muted rounded-lg">
+                            <div className="flex items-center gap-3">
+                              <span className="font-medium">{child.name} ({child.id})</span>
+                            </div>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
+                                {child.status}
+                              </Badge>
+                              <Switch checked={child.copyEnabled} />
+                              <Badge variant={child.copyEnabled ? "default" : "secondary"}>
+                                {child.copyEnabled ? "On" : "Off"}
+                              </Badge>
+                              <span className="text-sm">Qty: {child.quantity}</span>
+                              <Button variant="destructive" size="sm">Remove</Button>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
-                              {child.status}
-                            </Badge>
-                            <Switch checked={child.copyEnabled} />
-                            <Badge variant={child.copyEnabled ? "default" : "secondary"}>
-                              {child.copyEnabled ? "On" : "Off"}
-                            </Badge>
-                            <span className="text-sm">Qty: {child.quantity}</span>
-                            <Button variant="destructive" size="sm">Remove</Button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === "positions" && (
+                    <div className="space-y-6">
+                      {/* Summary Stats */}
+                      <div className="bg-muted/50 rounded-lg p-4 md:p-6">
+                        <h3 className="text-xl font-bold mb-4">Today's Positions</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Live P&L:</p>
+                            <p className="text-xl font-bold text-success">₹ 8,838.75</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Open Positions:</p>
+                            <p className="text-xl font-bold">1</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Closed Positions:</p>
+                            <p className="text-xl font-bold">4</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Margin Available:</p>
+                            <p className="text-xl font-bold">₹4,05,860.01</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Margin Used:</p>
+                            <p className="text-xl font-bold">₹167.58</p>
+                          </div>
+                          <div className="flex items-end gap-2">
+                            <Button size="icon" variant="ghost">
+                              <Eye className="h-5 w-5" />
+                            </Button>
+                            <Button size="sm" className="bg-success hover:bg-success/90">
+                              + Top up
+                            </Button>
                           </div>
                         </div>
-                      ))}
+                      </div>
+
+                      {/* Open Positions */}
+                      <div className="bg-muted/30 rounded-lg p-4">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                          <div className="flex items-center gap-4">
+                            <h4 className="text-lg font-bold">Open</h4>
+                            <Select defaultValue="pnl">
+                              <SelectTrigger className="w-[120px] h-9">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="pnl">P&L</SelectItem>
+                                <SelectItem value="value">Value</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <Button variant="outline" size="sm" className="border-warning text-warning hover:bg-warning/10">
+                            <TrendingUp className="h-4 w-4 mr-2" />
+                            Analyse
+                          </Button>
+                        </div>
+
+                        {/* Filters */}
+                        <div className="flex gap-2 mb-4">
+                          <Button
+                            size="sm"
+                            variant={openPosFilter === "all" ? "default" : "outline"}
+                            onClick={() => setOpenPosFilter("all")}
+                          >
+                            All <Badge variant="secondary" className="ml-2">1</Badge>
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant={openPosFilter === "loss" ? "default" : "outline"}
+                            onClick={() => setOpenPosFilter("loss")}
+                          >
+                            In Loss <Badge variant="secondary" className="ml-2">1</Badge>
+                          </Button>
+                        </div>
+
+                        {/* Open Positions Table */}
+                        <div className="overflow-x-auto bg-white rounded-lg">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead className="w-12">
+                                  <Checkbox />
+                                </TableHead>
+                                <TableHead>B/S</TableHead>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Product</TableHead>
+                                <TableHead className="text-right">Qty</TableHead>
+                                <TableHead className="text-right">Avg Price</TableHead>
+                                <TableHead className="text-right">LTP</TableHead>
+                                <TableHead className="text-right">P&L</TableHead>
+                                <TableHead className="text-right">Change %</TableHead>
+                                <TableHead className="text-center">Action</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {filteredOpenPositions.map((pos) => (
+                                <TableRow key={pos.id}>
+                                  <TableCell>
+                                    <Checkbox />
+                                  </TableCell>
+                                  <TableCell>
+                                    <Badge className="bg-success hover:bg-success">{pos.type}</Badge>
+                                  </TableCell>
+                                  <TableCell className="font-medium">{pos.name}</TableCell>
+                                  <TableCell>
+                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
+                                      {pos.product}
+                                    </Badge>
+                                  </TableCell>
+                                  <TableCell className="text-right text-success">+{pos.qty}</TableCell>
+                                  <TableCell className="text-right">{pos.avgPrice.toFixed(2)}</TableCell>
+                                  <TableCell className="text-right">{pos.ltp.toFixed(2)}</TableCell>
+                                  <TableCell className={`text-right font-semibold ${pos.pnl < 0 ? 'text-destructive' : 'text-success'}`}>
+                                    {pos.pnl.toFixed(2)}
+                                  </TableCell>
+                                  <TableCell className={`text-right ${pos.changePercent < 0 ? 'text-destructive' : 'text-success'}`}>
+                                    {pos.changePercent.toFixed(2)}%
+                                  </TableCell>
+                                  <TableCell className="text-center">
+                                    <Button size="icon" variant="ghost" className="h-8 w-8">
+                                      <X className="h-4 w-4" />
+                                    </Button>
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+
+                        {/* Actions Row */}
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+                          <Button variant="ghost" size="sm" className="gap-2">
+                            <Download className="h-4 w-4" />
+                            Download as CSV
+                          </Button>
+                          <div className="flex items-center gap-3">
+                            <span className="text-sm font-semibold">
+                              Total P&L: <span className="text-destructive">-187.50</span>
+                            </span>
+                            <Button variant="outline" size="sm">
+                              Set P&L Exit
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Closed Positions */}
+                      <div className="bg-muted/30 rounded-lg p-4">
+                        <div className="flex items-center gap-4 mb-4">
+                          <h4 className="text-lg font-bold">Closed</h4>
+                        </div>
+
+                        {/* Filters */}
+                        <div className="flex gap-2 mb-4">
+                          <Button
+                            size="sm"
+                            variant={closedPosFilter === "all" ? "default" : "outline"}
+                            onClick={() => setClosedPosFilter("all")}
+                          >
+                            All <Badge variant="secondary" className="ml-2">4</Badge>
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant={closedPosFilter === "profit" ? "default" : "outline"}
+                            onClick={() => setClosedPosFilter("profit")}
+                          >
+                            In Profit <Badge variant="secondary" className="ml-2">3</Badge>
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant={closedPosFilter === "loss" ? "default" : "outline"}
+                            onClick={() => setClosedPosFilter("loss")}
+                          >
+                            In Loss <Badge variant="secondary" className="ml-2">1</Badge>
+                          </Button>
+                        </div>
+
+                        {/* Closed Positions Table */}
+                        <div className="overflow-x-auto bg-white rounded-lg">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Product</TableHead>
+                                <TableHead className="text-right">Qty</TableHead>
+                                <TableHead className="text-right">Buy Avg Price</TableHead>
+                                <TableHead className="text-right">Sell Avg Price</TableHead>
+                                <TableHead className="text-right">LTP</TableHead>
+                                <TableHead className="text-right">P&L</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {filteredClosedPositions.map((pos) => (
+                                <TableRow key={pos.id}>
+                                  <TableCell>
+                                    <div className="flex items-center gap-2">
+                                      <Badge variant="secondary" className="w-7 h-7 flex items-center justify-center">
+                                        {pos.type}
+                                      </Badge>
+                                      <div>
+                                        <p className="font-medium">{pos.name}</p>
+                                        <p className="text-xs text-muted-foreground">
+                                          {pos.exchange} <Badge variant="outline" className="ml-1 text-xs">W</Badge>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell>
+                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
+                                      {pos.product}
+                                    </Badge>
+                                  </TableCell>
+                                  <TableCell className="text-right">{pos.qty}</TableCell>
+                                  <TableCell className="text-right">{pos.buyAvgPrice.toFixed(2)}</TableCell>
+                                  <TableCell className="text-right">{pos.sellAvgPrice.toFixed(2)}</TableCell>
+                                  <TableCell className="text-right">{pos.ltp.toFixed(2)}</TableCell>
+                                  <TableCell className={`text-right font-semibold ${pos.pnl < 0 ? 'text-destructive' : 'text-success'}`}>
+                                    {pos.pnl.toFixed(2)}
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+
+                        {/* Actions Row */}
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+                          <Button variant="ghost" size="sm" className="gap-2">
+                            <Download className="h-4 w-4" />
+                            Download as CSV
+                          </Button>
+                          <span className="text-sm font-semibold">
+                            Realised P&L: <span className="text-success">9,026.25</span>
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
+
+                  {activeTab === "holdings" && (
+                    <div className="text-center py-8 text-muted-foreground">
+                      Holdings view coming soon
+                    </div>
+                  )}
+
+                  {activeTab === "orders" && (
+                    <div className="text-center py-8 text-muted-foreground">
+                      Order book view coming soon
+                    </div>
+                  )}
                 </div>
               ))}
             </CardContent>
