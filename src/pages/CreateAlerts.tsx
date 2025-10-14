@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { DashboardSidebar } from "@/components/DashboardSidebar";
 import { StrategyCard } from "@/components/StrategyCard";
+import { CreateStrategyDialog } from "@/components/CreateStrategyDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BarChart3, Plus, Search } from "lucide-react";
@@ -34,6 +36,8 @@ const strategies = [
 ];
 
 const CreateAlerts = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
@@ -53,7 +57,7 @@ const CreateAlerts = () => {
                   Manage and create automated trading strategies for your connected accounts.
                 </p>
               </div>
-              <Button className="gap-2">
+              <Button className="gap-2" onClick={() => setIsDialogOpen(true)}>
                 <Plus className="h-4 w-4" />
                 New Strategy
               </Button>
@@ -93,6 +97,8 @@ const CreateAlerts = () => {
           </div>
         </div>
       </main>
+
+      <CreateStrategyDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
     </div>
   );
 };
