@@ -59,9 +59,7 @@ export const DashboardSidebar = () => {
         <SidebarItem icon={<Bell className="h-5 w-5" />} label="Alert to Trade" path="/alert-to-trade" active={location.pathname === "/alert-to-trade"} />
         <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Create Alert" path="/create-alerts" active={location.pathname === "/create-alerts"} />
         <SidebarItem icon={<Users2 className="h-5 w-5" />} label="Groups" />
-        
-        <SidebarItem label="Pages" isHeader />
-        <SidebarItem icon={<Store className="h-5 w-5" />} label="Marketplace" />
+        <SidebarItem icon={<Store className="h-5 w-5" />} label="Marketplace - Indicator/ Strategy" />
 
         <SidebarItem label="Management" isHeader />
         <SidebarItem icon={<User className="h-5 w-5" />} label="User" />
@@ -71,16 +69,11 @@ export const DashboardSidebar = () => {
 
         <SidebarItem label="Support" isHeader />
         <SidebarItem icon={<Phone className="h-5 w-5" />} label="Call" />
-        <SidebarItem icon={<Mail className="h-5 w-5" />} label="Mail" />
-        <SidebarItem icon={<Send className="h-5 w-5" />} label="Telegram Alerts Channel" />
         <SidebarItem icon={<MessageCircle className="h-5 w-5" />} label="WhatsApp" />
-        <SidebarItem icon={<MessageSquare className="h-5 w-5" />} label="Chat Support" />
-        <SidebarItem icon={<HelpCircle className="h-5 w-5" />} label="Request Anydesk Support" />
         <SidebarItem icon={<Video className="h-5 w-5" />} label="Tutorials" />
 
         <SidebarItem label="Partner With Us" isHeader />
         <SidebarItem icon={<UserPlus className="h-5 w-5" />} label="Personal Referral" />
-        <SidebarItem icon={<Briefcase className="h-5 w-5" />} label="Whitelabel Solution" />
       </div>
     </aside>
   );
