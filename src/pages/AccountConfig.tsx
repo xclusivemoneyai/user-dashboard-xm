@@ -55,8 +55,8 @@ const AccountConfig = () => {
       <DashboardHeader />
       <DashboardSidebar />
       
-      <main className="ml-64 pt-16">
-        <div className="p-8">
+      <main className="ml-0 md:ml-64 pt-16">
+        <div className="p-4 md:p-8">
           {/* Page Header */}
           <div className="bg-card rounded-xl p-8 mb-8 border border-border">
             <div className="flex items-start justify-between">

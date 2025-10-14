@@ -56,7 +56,7 @@ const Pricing = () => {
       <DashboardHeader />
       <DashboardSidebar />
       
-      <main className="ml-64 mt-16 p-8">
+      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-center mb-8">
             <Tabs value={billingCycle} onValueChange={setBillingCycle} className="w-auto">

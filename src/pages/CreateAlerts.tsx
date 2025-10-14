@@ -38,7 +38,7 @@ const CreateAlerts = () => {
       <DashboardHeader />
       <DashboardSidebar />
       
-      <main className="ml-64 mt-16 p-8">
+      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="max-w-5xl mx-auto">
           <div className="bg-card rounded-lg border border-border shadow-sm">
             <div className="bg-primary text-primary-foreground p-6 rounded-t-lg">

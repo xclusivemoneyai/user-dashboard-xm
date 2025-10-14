@@ -65,7 +65,7 @@ const Invoices = () => {
       <DashboardHeader />
       <DashboardSidebar />
       
-      <main className="ml-64 mt-16 p-8">
+      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">Invoice</h1>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">

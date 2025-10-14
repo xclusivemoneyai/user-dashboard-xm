@@ -9,7 +9,7 @@ const Call = () => {
       <DashboardHeader />
       <DashboardSidebar />
       
-      <main className="ml-64 mt-16 p-8">
+      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="flex items-center justify-center min-h-[calc(100vh-8rem)]">
           <div className="flex flex-col items-center text-center max-w-2xl">
             <div className="mb-8">

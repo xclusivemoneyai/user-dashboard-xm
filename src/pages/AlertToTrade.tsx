@@ -13,7 +13,7 @@ const AlertToTrade = () => {
       <DashboardHeader />
       <DashboardSidebar />
       
-      <main className="ml-64 mt-16 p-8">
+      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="flex justify-between items-center">
             <div>
