@@ -1,6 +1,9 @@
 import { Bell, Moon, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Badge } from "@/components/ui/badge";
+import { NotificationsPanel } from "./NotificationsPanel";
 
 export const DashboardHeader = () => {
   return (
@@ -19,9 +22,22 @@ export const DashboardHeader = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon">
-            <Bell className="h-5 w-5" />
-          </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="ghost" size="icon" className="relative">
+                <Bell className="h-5 w-5" />
+                <Badge
+                  variant="destructive"
+                  className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] rounded-full"
+                >
+                  9
+                </Badge>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0 border-border" align="end">
+              <NotificationsPanel />
+            </PopoverContent>
+          </Popover>
           <Button variant="ghost" size="icon">
             <Moon className="h-5 w-5" />
           </Button>
