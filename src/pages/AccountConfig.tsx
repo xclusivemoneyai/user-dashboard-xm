@@ -27,7 +27,6 @@ import { useToast } from "@/hooks/use-toast";
 const AccountConfig = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<"all" | "success" | "failed">("all");
-  const [denseMode, setDenseMode] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -125,16 +124,18 @@ const AccountConfig = () => {
       <main className="ml-0 md:ml-64 pt-16">
         <div className="p-4 md:p-8">
           {/* Page Header */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-6 bg-gradient-to-r from-primary/10 via-primary/5 to-background rounded-lg p-6 border border-primary/20">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Account Configuration</h1>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-2">
+                Account Configuration
+              </h1>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <span>Dashboard</span>
                 <span>•</span>
-                <span className="text-foreground">Account Configuration</span>
+                <span className="text-foreground font-medium">Account Configuration</span>
               </div>
             </div>
-            <Button className="gap-2">
+            <Button className="gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
               <Plus className="h-4 w-4" />
               Add New Account
             </Button>
@@ -419,9 +420,8 @@ const AccountConfig = () => {
 
             {/* Footer */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-3 border-t border-border">
-              <div className="flex items-center gap-3">
-                <Switch checked={denseMode} onCheckedChange={setDenseMode} />
-                <span className="text-sm text-muted-foreground">Dense</span>
+              <div className="text-sm text-muted-foreground">
+                Showing {filteredAccounts.length} of {accounts.length} accounts
               </div>
               
               <div className="flex flex-wrap items-center justify-center gap-4">
