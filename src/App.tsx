@@ -13,6 +13,7 @@ import Pricing from "./pages/Pricing";
 import Call from "./pages/Call";
 import WhatsApp from "./pages/WhatsApp";
 import Tutorials from "./pages/Tutorials";
+import Groups from "./pages/Groups";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/call" element={<Call />} />
           <Route path="/whatsapp" element={<WhatsApp />} />
           <Route path="/tutorials" element={<Tutorials />} />
+          <Route path="/groups" element={<Groups />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
