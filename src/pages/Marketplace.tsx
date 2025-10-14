@@ -269,20 +269,18 @@ const Marketplace = () => {
                 className="pl-10 h-11"
               />
             </div>
-          </div>
 
-          <div className="flex flex-col lg:flex-row gap-6">
-            {/* Sidebar Filters */}
-            <div className="lg:w-64 flex-shrink-0 space-y-6">
+            {/* Horizontal Filters */}
+            <div className="space-y-6 mt-6">
               {/* Categories */}
               <div>
-                <h3 className="font-semibold mb-3 text-sm">Categories</h3>
-                <div className="space-y-2">
+                <h3 className="font-semibold mb-3">Categories</h3>
+                <div className="flex flex-wrap gap-3">
                   {categories.map((category) => (
                     <Button
                       key={category.id}
                       variant={selectedCategory === category.id ? "default" : "outline"}
-                      className="w-full justify-start text-sm"
+                      className="rounded-full px-8 py-5 text-sm font-semibold"
                       onClick={() => setSelectedCategory(category.id)}
                     >
                       {category.label}
@@ -293,14 +291,13 @@ const Marketplace = () => {
 
               {/* Platform Filters */}
               <div>
-                <h3 className="font-semibold mb-3 text-sm">Platform</h3>
-                <div className="flex flex-wrap gap-2">
+                <h3 className="font-semibold mb-3">Platform</h3>
+                <div className="flex flex-wrap gap-3">
                   {platforms.map((platform) => (
                     <Button
                       key={platform.id}
                       variant={selectedPlatform === platform.id ? "default" : "outline"}
-                      size="sm"
-                      className="text-xs"
+                      className="rounded-full px-6 py-5 text-sm font-semibold"
                       onClick={() => setSelectedPlatform(platform.id)}
                     >
                       {platform.label}
@@ -311,23 +308,24 @@ const Marketplace = () => {
 
               {/* Filter Tags */}
               <div>
-                <h3 className="font-semibold mb-3 text-sm">Filter Tags</h3>
-                <div className="h-8 flex items-center">
-                  <span className="text-xs text-muted-foreground">No active filters</span>
+                <h3 className="font-semibold mb-3">Filter Tags</h3>
+                <div className="flex items-center">
+                  <span className="text-sm text-muted-foreground">No active filters</span>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Main Content */}
-            <div className="flex-1">
-              <div className="flex items-center justify-between mb-6">
-                <p className="text-sm text-muted-foreground">
-                  <span className="font-semibold">{indicators.length}</span> RESULTS
-                </p>
-              </div>
+          {/* Main Content */}
+          <div className="mt-8">
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-sm text-muted-foreground">
+                <span className="font-semibold">{indicators.length}</span> RESULTS
+              </p>
+            </div>
 
-              {/* Indicators Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {/* Indicators Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
                 {indicators.map((indicator) => (
                   <Card key={indicator.id} className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
                     {/* Chart Preview */}
@@ -373,7 +371,6 @@ const Marketplace = () => {
                     </CardContent>
                   </Card>
                 ))}
-              </div>
             </div>
           </div>
         </div>
