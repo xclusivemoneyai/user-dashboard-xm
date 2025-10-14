@@ -401,11 +401,21 @@ const CopyTrading = () => {
 
                   {/* Master Actions */}
                   <div className="flex flex-wrap gap-2">
-                    <Button variant="destructive" size="sm">Remove Master</Button>
-                    <Button variant="outline" size="sm">Turn On All Child Copying</Button>
-                    <Button variant="outline" size="sm">Turn Off All Child Copying</Button>
-                    <Button variant="outline" size="sm">Exit Master Positions</Button>
-                    <Button variant="outline" size="sm">Exit All Child Positions</Button>
+                    <Button size="sm" variant="outline" className="border-green-500 text-green-700 hover:bg-green-50">
+                      Turn On All Child Copying
+                    </Button>
+                    <Button size="sm" variant="outline">
+                      Turn Off All Child Copying
+                    </Button>
+                    <Button size="sm" variant="outline" className="border-cyan-500 text-cyan-700 hover:bg-cyan-50">
+                      Exit Master Positions
+                    </Button>
+                    <Button size="sm" variant="outline">
+                      Exit All Child Positions
+                    </Button>
+                    <Button size="sm" variant="outline" className="border-destructive text-destructive hover:bg-destructive/10">
+                      Remove Master
+                    </Button>
                   </div>
 
                   {/* Tabs */}
