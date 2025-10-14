@@ -3,12 +3,18 @@ import { DashboardSidebar } from "@/components/DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Users, Flame, Calendar, ChevronLeft, ChevronRight, MoreVertical, Search, Copy, RefreshCw } from "lucide-react";
+import { Plus, Users, Flame, Calendar, ChevronLeft, ChevronRight, MoreVertical, Search, Copy, RefreshCw, Trash2, Edit, Download } from "lucide-react";
 import { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -135,62 +141,62 @@ const AccountConfig = () => {
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-            <div className="bg-card rounded-lg p-4 border border-border">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
-                  <Users className="h-6 w-6 text-blue-600" />
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
+            <div className="bg-card rounded-lg p-3 border border-border">
+              <div className="flex items-center gap-2">
+                <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                  <Users className="h-5 w-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Total capacity</p>
-                  <p className="text-2xl font-bold">2</p>
+                  <p className="text-xs text-muted-foreground">Total capacity</p>
+                  <p className="text-xl font-bold">2</p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-card rounded-lg p-4 border border-border">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-                  <Users className="h-6 w-6 text-green-600" />
+            <div className="bg-card rounded-lg p-3 border border-border">
+              <div className="flex items-center gap-2">
+                <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
+                  <Users className="h-5 w-5 text-green-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Master capacity</p>
-                  <p className="text-2xl font-bold">1</p>
+                  <p className="text-xs text-muted-foreground">Master capacity</p>
+                  <p className="text-xl font-bold">1</p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-card rounded-lg p-4 border border-border">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="h-12 w-12 rounded-full bg-yellow-100 flex items-center justify-center">
-                  <Users className="h-6 w-6 text-yellow-600" />
+            <div className="bg-card rounded-lg p-3 border border-border">
+              <div className="flex items-center gap-2">
+                <div className="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center">
+                  <Users className="h-5 w-5 text-yellow-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Children capacity</p>
-                  <p className="text-2xl font-bold">1</p>
+                  <p className="text-xs text-muted-foreground">Children capacity</p>
+                  <p className="text-xl font-bold">1</p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-card rounded-lg p-4 border border-border">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="h-12 w-12 rounded-full bg-orange-100 flex items-center justify-center">
-                  <Flame className="h-6 w-6 text-orange-600" />
+            <div className="bg-card rounded-lg p-3 border border-border">
+              <div className="flex items-center gap-2">
+                <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                  <Flame className="h-5 w-5 text-orange-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Plan name</p>
-                  <p className="text-lg font-semibold">Custom</p>
+                  <p className="text-xs text-muted-foreground">Plan name</p>
+                  <p className="text-base font-semibold">Custom</p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-card rounded-lg p-4 border border-border">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="h-12 w-12 rounded-full bg-slate-100 flex items-center justify-center">
-                  <Calendar className="h-6 w-6 text-slate-600" />
+            <div className="bg-card rounded-lg p-3 border border-border">
+              <div className="flex items-center gap-2">
+                <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center">
+                  <Calendar className="h-5 w-5 text-slate-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Validity</p>
+                  <p className="text-xs text-muted-foreground">Validity</p>
                   <p className="text-sm font-semibold">04 Nov 2025</p>
                 </div>
               </div>
@@ -200,17 +206,17 @@ const AccountConfig = () => {
           {/* Accounts Table */}
           <div className="bg-card rounded-lg border border-border">
             {/* Tabs */}
-            <div className="flex items-center gap-6 px-6 pt-4 border-b border-border">
+            <div className="flex items-center gap-6 px-4 pt-3 pb-2 border-b border-border">
               <button
                 onClick={() => setActiveTab("all")}
-                className={`pb-3 px-1 font-medium transition-colors relative flex items-center gap-2 ${
+                className={`pb-2 px-1 font-medium transition-colors relative flex items-center gap-2 text-sm ${
                   activeTab === "all"
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 All
-                <Badge variant="secondary" className="rounded-full">
+                <Badge variant="secondary" className="rounded-full h-5 px-2 text-xs">
                   {accounts.length}
                 </Badge>
                 {activeTab === "all" && (
@@ -219,14 +225,14 @@ const AccountConfig = () => {
               </button>
               <button
                 onClick={() => setActiveTab("success")}
-                className={`pb-3 px-1 font-medium transition-colors relative flex items-center gap-2 ${
+                className={`pb-2 px-1 font-medium transition-colors relative flex items-center gap-2 text-sm ${
                   activeTab === "success"
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Success
-                <Badge variant="secondary" className="rounded-full">
+                <Badge className="rounded-full h-5 px-2 text-xs bg-success/20 text-success hover:bg-success/20 border-0">
                   {successCount}
                 </Badge>
                 {activeTab === "success" && (
@@ -235,14 +241,14 @@ const AccountConfig = () => {
               </button>
               <button
                 onClick={() => setActiveTab("failed")}
-                className={`pb-3 px-1 font-medium transition-colors relative flex items-center gap-2 ${
+                className={`pb-2 px-1 font-medium transition-colors relative flex items-center gap-2 text-sm ${
                   activeTab === "failed"
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Failed
-                <Badge variant="secondary" className="rounded-full">
+                <Badge className="rounded-full h-5 px-2 text-xs bg-destructive/20 text-destructive hover:bg-destructive/20 border-0">
                   {failedCount}
                 </Badge>
                 {activeTab === "failed" && (
@@ -252,10 +258,10 @@ const AccountConfig = () => {
             </div>
 
             {/* Search and Filter */}
-            <div className="flex items-center justify-between gap-4 p-4 border-b border-border">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 p-3 border-b border-border">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
                 <Select defaultValue="all">
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full sm:w-[160px] h-9">
                     <SelectValue placeholder="Broker" />
                   </SelectTrigger>
                   <SelectContent>
@@ -266,104 +272,147 @@ const AccountConfig = () => {
                   </SelectContent>
                 </Select>
                 
-                <div className="relative">
+                <div className="relative w-full sm:w-auto">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9 w-64"
+                    className="pl-9 w-full sm:w-56 h-9"
                   />
                 </div>
               </div>
               
-              <Button variant="ghost" size="icon">
-                <MoreVertical className="h-5 w-5" />
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-9 w-9">
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>
+                    <Download className="h-4 w-4 mr-2" />
+                    Export
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
             {/* Table */}
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-12">
+                  <TableRow className="hover:bg-transparent">
+                    <TableHead className="w-12 h-10">
                       <Checkbox />
                     </TableHead>
-                    <TableHead>Client ID</TableHead>
-                    <TableHead>Opening Balance</TableHead>
-                    <TableHead>Auto-Login</TableHead>
-                    <TableHead>Last Login Time</TableHead>
-                    <TableHead>Developer URL</TableHead>
-                    <TableHead>Static IP</TableHead>
-                    <TableHead>Action</TableHead>
+                    <TableHead className="h-10">Client ID</TableHead>
+                    <TableHead className="h-10 hidden lg:table-cell">Opening Balance</TableHead>
+                    <TableHead className="h-10">Auto-Login</TableHead>
+                    <TableHead className="h-10 hidden md:table-cell">Last Login Time</TableHead>
+                    <TableHead className="h-10 hidden xl:table-cell">Developer URL</TableHead>
+                    <TableHead className="h-10 hidden xl:table-cell">Static IP</TableHead>
+                    <TableHead className="h-10">Action</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredAccounts.map((account) => (
-                    <TableRow key={account.id} className={denseMode ? "h-12" : ""}>
-                      <TableCell>
+                    <TableRow key={account.id} className="h-14">
+                      <TableCell className="py-2">
                         <Checkbox />
                       </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-3">
-                          <Avatar className={`h-10 w-10 ${account.avatarColor}`}>
-                            <AvatarFallback className="text-white font-semibold">
+                      <TableCell className="py-2">
+                        <div className="flex items-center gap-2">
+                          <Avatar className={`h-8 w-8 ${account.avatarColor}`}>
+                            <AvatarFallback className="text-white font-semibold text-xs">
                               {account.name.substring(0, 2).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <div>
-                            <p className="font-medium">{account.name}</p>
-                            <p className="text-sm text-muted-foreground">{account.clientId}</p>
+                          <div className="min-w-0">
+                            <p className="font-medium text-sm truncate">{account.name}</p>
+                            <p className="text-xs text-muted-foreground truncate">{account.clientId}</p>
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell>{account.balance}</TableCell>
-                      <TableCell>
+                      <TableCell className="py-2 hidden lg:table-cell">
+                        <span className="text-sm">{account.balance}</span>
+                      </TableCell>
+                      <TableCell className="py-2">
                         <Badge 
                           variant={account.autoLoginStatus === "success" ? "outline" : "destructive"}
-                          className={account.autoLoginStatus === "success" ? "bg-success/10 text-success border-success/20" : ""}
+                          className={`text-xs ${account.autoLoginStatus === "success" ? "bg-success/10 text-success border-success/20" : ""}`}
                         >
                           {account.autoLogin}
                         </Badge>
                       </TableCell>
-                      <TableCell>
-                        <div className="text-sm">
-                          <p>{account.lastLoginTime.split(" ")[0]}</p>
+                      <TableCell className="py-2 hidden md:table-cell">
+                        <div className="text-xs">
+                          <p className="font-medium">{account.lastLoginTime.split(" ")[0]}</p>
                           <p className="text-muted-foreground">{account.lastLoginTime.split(" ")[1]}</p>
                         </div>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="py-2 hidden xl:table-cell">
                         <Button 
                           variant="outline" 
                           size="sm"
-                          className="bg-success/10 text-success border-success/20 hover:bg-success/20"
+                          className="h-8 text-xs bg-success/10 text-success border-success/20 hover:bg-success/20"
                           onClick={() => copyToClipboard("https://developer-url.com", "URL")}
                         >
                           <Copy className="h-3 w-3 mr-1" />
                           Copy URL
                         </Button>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="py-2 hidden xl:table-cell">
                         <Button 
                           variant="outline" 
                           size="sm"
-                          className="bg-success/10 text-success border-success/20 hover:bg-success/20"
+                          className="h-8 text-xs bg-success/10 text-success border-success/20 hover:bg-success/20"
                           onClick={() => copyToClipboard("192.168.1.1", "IP")}
                         >
                           <Copy className="h-3 w-3 mr-1" />
                           Copy IP
                         </Button>
                       </TableCell>
-                      <TableCell>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          className="bg-success/10 text-success border-success/20 hover:bg-success/20"
-                        >
-                          <RefreshCw className="h-3 w-3 mr-1" />
-                          Reconnect
-                        </Button>
+                      <TableCell className="py-2">
+                        <div className="flex items-center gap-1">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            className="h-8 text-xs bg-success/10 text-success border-success/20 hover:bg-success/20 hidden sm:inline-flex"
+                          >
+                            <RefreshCw className="h-3 w-3 mr-1" />
+                            Reconnect
+                          </Button>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <MoreVertical className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem className="sm:hidden">
+                                <RefreshCw className="h-4 w-4 mr-2" />
+                                Reconnect
+                              </DropdownMenuItem>
+                              <DropdownMenuItem className="xl:hidden">
+                                <Copy className="h-4 w-4 mr-2" />
+                                Copy URL
+                              </DropdownMenuItem>
+                              <DropdownMenuItem className="xl:hidden">
+                                <Copy className="h-4 w-4 mr-2" />
+                                Copy IP
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <Edit className="h-4 w-4 mr-2" />
+                                Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuItem className="text-destructive">
+                                <Trash2 className="h-4 w-4 mr-2" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -372,13 +421,13 @@ const AccountConfig = () => {
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between px-6 py-4 border-t border-border">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-3 border-t border-border">
               <div className="flex items-center gap-3">
                 <Switch checked={denseMode} onCheckedChange={setDenseMode} />
                 <span className="text-sm text-muted-foreground">Dense</span>
               </div>
               
-              <div className="flex items-center gap-6">
+              <div className="flex flex-wrap items-center justify-center gap-4">
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">Rows per page:</span>
                   <Select value={rowsPerPage.toString()} onValueChange={(val) => setRowsPerPage(Number(val))}>
