@@ -1,4 +1,4 @@
-import { Copy, ExternalLink, FileText, Pencil, Trash2 } from "lucide-react";
+import { Copy, ExternalLink, FileText, Pencil, Trash2, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -62,6 +62,9 @@ export const StrategyCard = ({
               </Button>
               <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0">
                 <ExternalLink className="h-3.5 w-3.5" />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0">
+                <Play className="h-3.5 w-3.5" />
               </Button>
             </div>
           </div>
