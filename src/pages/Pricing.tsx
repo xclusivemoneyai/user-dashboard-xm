@@ -10,10 +10,23 @@ import { useState } from "react";
 const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState("monthly");
 
+  const getDiscount = (cycle: string) => {
+    switch(cycle) {
+      case "quarterly": return 0.10; // 10% discount
+      case "yearly": return 0.25; // 25% discount
+      default: return 0;
+    }
+  };
+
+  const calculatePrice = (basePrice: number) => {
+    const discount = getDiscount(billingCycle);
+    return Math.round(basePrice * (1 - discount));
+  };
+
   const plans = [
     {
       name: "PROFESSIONAL",
-      price: 1899,
+      basePrice: 1899,
       originalPrice: 2849,
       bgColor: "bg-orange-50",
       textColor: "text-orange-600",
@@ -26,7 +39,7 @@ const Pricing = () => {
     },
     {
       name: "ENTERPRISE",
-      price: 3099,
+      basePrice: 3099,
       originalPrice: 3799,
       bgColor: "bg-emerald-50",
       textColor: "text-emerald-600",
@@ -39,7 +52,7 @@ const Pricing = () => {
     },
     {
       name: "Custom",
-      price: 845,
+      basePrice: 845,
       bgColor: "bg-pink-50",
       textColor: "text-pink-600",
       isActive: true,
@@ -57,14 +70,24 @@ const Pricing = () => {
       <DashboardSidebar />
       
       <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-center mb-8">
+        <div className="max-w-7xl mx-auto space-y-8">
+          <div className="text-center space-y-2">
+            <h1 className="text-3xl font-bold text-foreground">Choose Your Plan</h1>
+            <p className="text-muted-foreground">Select the perfect subscription plan for your trading needs</p>
+          </div>
+
+          <div className="flex justify-center">
             <Tabs value={billingCycle} onValueChange={setBillingCycle} className="w-auto">
               <TabsList className="bg-muted">
-                <TabsTrigger value="monthly">monthly</TabsTrigger>
-                <TabsTrigger value="quarterly">quarterly</TabsTrigger>
-                <TabsTrigger value="half-yearly">half-yearly</TabsTrigger>
-                <TabsTrigger value="yearly">yearly</TabsTrigger>
+                <TabsTrigger value="monthly">Monthly</TabsTrigger>
+                <TabsTrigger value="quarterly">
+                  Quarterly 
+                  <span className="ml-1 text-xs text-primary font-semibold">Save 10%</span>
+                </TabsTrigger>
+                <TabsTrigger value="yearly">
+                  Yearly 
+                  <span className="ml-1 text-xs text-primary font-semibold">Save 25%</span>
+                </TabsTrigger>
               </TabsList>
             </Tabs>
           </div>
@@ -82,10 +105,16 @@ const Pricing = () => {
 
                   <div className="mb-8">
                     <div className="flex items-baseline gap-2 mb-1">
-                      <span className="text-4xl font-bold">{plan.price}</span>
-                      {plan.originalPrice && (
+                      <span className="text-4xl font-bold">{calculatePrice(plan.basePrice)}</span>
+                      {plan.originalPrice && billingCycle === "monthly" && (
                         <span className="text-xl text-muted-foreground line-through">{plan.originalPrice}</span>
                       )}
+                      {billingCycle !== "monthly" && (
+                        <span className="text-xl text-muted-foreground line-through">{plan.basePrice}</span>
+                      )}
+                      <span className="text-sm text-muted-foreground">
+                        /{billingCycle === "monthly" ? "mo" : billingCycle === "quarterly" ? "3mo" : "yr"}
+                      </span>
                     </div>
                     <p className="text-sm text-muted-foreground">+18% GST applicable</p>
                   </div>

@@ -1,8 +1,7 @@
-import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, Phone, MessageCircle, Video, UserPlus, Menu, X, Bot, ChevronDown } from "lucide-react";
+import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, Phone, MessageCircle, Video, UserPlus, Menu, X, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface SidebarItemProps {
   icon?: React.ReactNode;
@@ -52,7 +51,6 @@ const SidebarItem = ({ icon, label, active, isHeader, path, subtitle }: SidebarI
 export const DashboardSidebar = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMarketplaceOpen, setIsMarketplaceOpen] = useState(false);
 
   return (
     <>
@@ -86,26 +84,7 @@ export const DashboardSidebar = () => {
         <SidebarItem icon={<Bell className="h-4 w-4" />} label="Alert to Trade" path="/alert-to-trade" active={location.pathname === "/alert-to-trade"} />
         <SidebarItem icon={<BarChart3 className="h-4 w-4" />} label="Create Alert" path="/create-alerts" active={location.pathname === "/create-alerts"} />
         <SidebarItem icon={<Users2 className="h-4 w-4" />} label="Groups" path="/groups" active={location.pathname === "/groups"} />
-        
-        <Collapsible open={isMarketplaceOpen} onOpenChange={setIsMarketplaceOpen} className="w-full">
-          <CollapsibleTrigger asChild>
-            <button
-              className={cn(
-                "flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
-                location.pathname === "/marketplace" || location.pathname === "/subscription"
-                  ? "bg-primary/10 text-primary border-l-4 border-primary -ml-4 pl-[12px]"
-                  : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-              )}
-            >
-              <Store className="h-4 w-4 flex-shrink-0" />
-              <span className="flex-1 text-left">Marketplace</span>
-              <ChevronDown className={cn("h-4 w-4 transition-transform", isMarketplaceOpen && "rotate-180")} />
-            </button>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="ml-6 mt-1 space-y-1">
-            <SidebarItem icon={<CreditCard className="h-4 w-4" />} label="Subscription" path="/subscription" active={location.pathname === "/subscription"} />
-          </CollapsibleContent>
-        </Collapsible>
+        <SidebarItem icon={<Store className="h-4 w-4" />} label="Marketplace" path="/marketplace" active={location.pathname === "/marketplace"} />
 
           <SidebarItem label="Management" isHeader />
           <SidebarItem icon={<User className="h-4 w-4" />} label="User" path="/user" active={location.pathname === "/user"} />
