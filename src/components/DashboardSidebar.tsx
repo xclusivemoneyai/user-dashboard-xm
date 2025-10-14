@@ -22,8 +22,8 @@ const SidebarItem = ({ icon, label, active, isHeader }: SidebarItemProps) => {
       className={cn(
         "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
         active
-          ? "bg-primary text-primary-foreground shadow-sm"
-          : "text-foreground hover:bg-muted"
+          ? "bg-primary/10 text-primary border-l-4 border-primary -ml-4 pl-[12px]"
+          : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
       )}
     >
       <div className="flex h-5 w-5 items-center justify-center">{icon}</div>
@@ -34,8 +34,8 @@ const SidebarItem = ({ icon, label, active, isHeader }: SidebarItemProps) => {
 
 export const DashboardSidebar = () => {
   return (
-    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 border-r border-border bg-sidebar">
-      <div className="flex flex-col gap-1 p-4">
+    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 border-r border-border bg-sidebar shadow-sm">
+      <div className="flex flex-col gap-0.5 p-4">
         <SidebarItem icon={<LayoutDashboard className="h-5 w-5" />} label="Summary" />
         <SidebarItem icon={<TrendingUp className="h-5 w-5" />} label="Account Config" />
         <SidebarItem icon={<Users className="h-5 w-5" />} label="Copy Trading" />
