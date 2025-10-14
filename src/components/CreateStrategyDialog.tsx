@@ -32,6 +32,7 @@ export const CreateStrategyDialog = ({ open, onOpenChange }: CreateStrategyDialo
   const [tradingSymbolType, setTradingSymbolType] = useState("single");
   const [singleSymbol, setSingleSymbol] = useState("");
   const [alertType, setAlertType] = useState("strategy");
+  const [transactionType, setTransactionType] = useState("BUY");
   const [action, setAction] = useState("{{strategy.order.action}}");
   const [orderType, setOrderType] = useState("Limit");
   const [orderValidity, setOrderValidity] = useState("Day");
@@ -103,6 +104,7 @@ export const CreateStrategyDialog = ({ open, onOpenChange }: CreateStrategyDialo
                 <SelectContent className="bg-card z-50">
                   <SelectItem value="NSE">NSE</SelectItem>
                   <SelectItem value="BSE">BSE</SelectItem>
+                  <SelectItem value="NSE and BSE">NSE and BSE</SelectItem>
                   <SelectItem value="NFO">NFO</SelectItem>
                   <SelectItem value="MCX">MCX</SelectItem>
                 </SelectContent>
@@ -143,13 +145,25 @@ export const CreateStrategyDialog = ({ open, onOpenChange }: CreateStrategyDialo
                 </div>
               </div>
             </RadioGroup>
-            <Textarea
-              placeholder="Enter single symbol (e.g., RELIANCE)"
-              value={singleSymbol}
-              onChange={(e) => setSingleSymbol(e.target.value)}
-              className="min-h-[80px] resize-none text-base"
-            />
-            <p className="text-sm text-muted-foreground">Enter the trading symbol.</p>
+            {tradingSymbolType === "single" ? (
+              <Textarea
+                placeholder="Enter single symbol (e.g., RELIANCE)"
+                value={singleSymbol}
+                onChange={(e) => setSingleSymbol(e.target.value)}
+                className="min-h-[80px] resize-none text-base"
+              />
+            ) : (
+              <Textarea
+                value="Symbols will be dynamically provided by TradingView ({{ticker}})"
+                readOnly
+                className="min-h-[80px] resize-none text-base bg-muted"
+              />
+            )}
+            <p className="text-sm text-muted-foreground">
+              {tradingSymbolType === "single" 
+                ? "Enter the trading symbol." 
+                : "For TradingView Watchlist alerts, symbols will be passed dynamically. No input needed here. Dynamic (TradingView {{ticker}})"}
+            </p>
           </div>
 
           {/* Alert Type */}
@@ -173,22 +187,39 @@ export const CreateStrategyDialog = ({ open, onOpenChange }: CreateStrategyDialo
             </RadioGroup>
           </div>
 
-          {/* Action and Order Type */}
+          {/* Action/Transaction Type and Order Type */}
           <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="action" className="text-base font-semibold">
-                Action
-              </Label>
-              <Input
-                id="action"
-                value={action}
-                onChange={(e) => setAction(e.target.value)}
-                className="text-base font-mono"
-              />
-              <p className="text-sm text-muted-foreground">
-                TradingView will replace this with BUY or SELL.
-              </p>
-            </div>
+            {alertType === "strategy" ? (
+              <div className="space-y-2">
+                <Label htmlFor="action" className="text-base font-semibold">
+                  Action
+                </Label>
+                <Input
+                  id="action"
+                  value={action}
+                  onChange={(e) => setAction(e.target.value)}
+                  className="text-base font-mono"
+                />
+                <p className="text-sm text-muted-foreground">
+                  TradingView will replace this with BUY or SELL.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <Label htmlFor="transactionType" className="text-base font-semibold">
+                  Type of Transaction <span className="text-destructive">*</span>
+                </Label>
+                <Select value={transactionType} onValueChange={setTransactionType}>
+                  <SelectTrigger id="transactionType" className="text-base">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-card z-50">
+                    <SelectItem value="BUY">BUY</SelectItem>
+                    <SelectItem value="SELL">SELL</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             <div className="space-y-2">
               <Label htmlFor="orderType" className="text-base font-semibold">
@@ -201,8 +232,6 @@ export const CreateStrategyDialog = ({ open, onOpenChange }: CreateStrategyDialo
                 <SelectContent className="bg-card z-50">
                   <SelectItem value="Limit">Limit</SelectItem>
                   <SelectItem value="Market">Market</SelectItem>
-                  <SelectItem value="SL">Stop Loss</SelectItem>
-                  <SelectItem value="SL-M">Stop Loss Market</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -220,7 +249,7 @@ export const CreateStrategyDialog = ({ open, onOpenChange }: CreateStrategyDialo
                 </SelectTrigger>
                 <SelectContent className="bg-card z-50">
                   <SelectItem value="Day">Day</SelectItem>
-                  <SelectItem value="IOC">IOC</SelectItem>
+                  <SelectItem value="IOC">IOC (Immediate or Cancel)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -236,6 +265,7 @@ export const CreateStrategyDialog = ({ open, onOpenChange }: CreateStrategyDialo
                 <SelectContent className="bg-card z-50">
                   <SelectItem value="Intraday / MIS">Intraday / MIS</SelectItem>
                   <SelectItem value="CNC / Longterm">CNC / Longterm</SelectItem>
+                  <SelectItem value="MTF">MTF</SelectItem>
                   <SelectItem value="MTF or Longterm">MTF or Longterm</SelectItem>
                 </SelectContent>
               </Select>
@@ -256,8 +286,12 @@ export const CreateStrategyDialog = ({ open, onOpenChange }: CreateStrategyDialo
                 type="number"
                 placeholder="e.g., 100"
                 value={orderQuantity}
-                onChange={(e) => setOrderQuantity(e.target.value)}
-                className="text-base"
+                onChange={(e) => {
+                  setOrderQuantity(e.target.value);
+                  if (e.target.value) setOrderValue("");
+                }}
+                disabled={!!orderValue}
+                className="text-base disabled:opacity-50 disabled:cursor-not-allowed"
               />
               <p className="text-sm text-muted-foreground">
                 Leave empty if specifying Order Value.
@@ -273,8 +307,12 @@ export const CreateStrategyDialog = ({ open, onOpenChange }: CreateStrategyDialo
                 type="number"
                 placeholder="e.g., 10000.00"
                 value={orderValue}
-                onChange={(e) => setOrderValue(e.target.value)}
-                className="text-base"
+                onChange={(e) => {
+                  setOrderValue(e.target.value);
+                  if (e.target.value) setOrderQuantity("");
+                }}
+                disabled={!!orderQuantity}
+                className="text-base disabled:opacity-50 disabled:cursor-not-allowed"
               />
               <p className="text-sm text-muted-foreground">
                 Auto-calculates quantity from live price.
