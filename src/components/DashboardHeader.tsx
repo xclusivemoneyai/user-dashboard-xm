@@ -1,11 +1,18 @@
-import { Bell, Moon, Settings } from "lucide-react";
+import { Bell, Moon, Sun, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
 import { NotificationsPanel } from "./NotificationsPanel";
+import { useTheme } from "next-themes";
 
 export const DashboardHeader = () => {
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
       <div className="flex h-16 items-center justify-between px-6">
@@ -42,8 +49,8 @@ export const DashboardHeader = () => {
               <NotificationsPanel />
             </PopoverContent>
           </Popover>
-          <Button variant="ghost" size="icon">
-            <Moon className="h-5 w-5" />
+          <Button variant="ghost" size="icon" onClick={toggleTheme}>
+            {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
           <Button variant="ghost" size="icon">
             <Settings className="h-5 w-5" />
