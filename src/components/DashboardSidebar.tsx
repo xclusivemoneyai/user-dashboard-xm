@@ -1,7 +1,8 @@
-import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, Phone, MessageCircle, Video, UserPlus, Menu, X, Bot } from "lucide-react";
+import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, Phone, MessageCircle, Video, UserPlus, Menu, X, Bot, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface SidebarItemProps {
   icon?: React.ReactNode;
@@ -10,9 +11,10 @@ interface SidebarItemProps {
   isHeader?: boolean;
   path?: string;
   subtitle?: string;
+  nested?: boolean;
 }
 
-const SidebarItem = ({ icon, label, active, isHeader, path, subtitle }: SidebarItemProps) => {
+const SidebarItem = ({ icon, label, active, isHeader, path, subtitle, nested }: SidebarItemProps) => {
   const navigate = useNavigate();
 
   if (isHeader) {
@@ -34,9 +36,11 @@ const SidebarItem = ({ icon, label, active, isHeader, path, subtitle }: SidebarI
       onClick={handleClick}
       className={cn(
         "flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
+        nested && "ml-6",
         active
           ? "bg-primary/10 text-primary border-l-4 border-primary -ml-4 pl-[12px]"
-          : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+          : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
+        nested && active && "ml-2"
       )}
     >
       <div className="flex h-4 w-4 items-center justify-center flex-shrink-0">{icon}</div>
@@ -51,6 +55,9 @@ const SidebarItem = ({ icon, label, active, isHeader, path, subtitle }: SidebarI
 export const DashboardSidebar = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAlertToTradeOpen, setIsAlertToTradeOpen] = useState(
+    location.pathname === "/alert-to-trade" || location.pathname === "/create-alerts"
+  );
 
   return (
     <>
@@ -81,8 +88,43 @@ export const DashboardSidebar = () => {
         <SidebarItem icon={<Bot className="h-4 w-4" />} label="XM GPT" path="/xm-gpt" active={location.pathname === "/xm-gpt"} />
         <SidebarItem icon={<TrendingUp className="h-4 w-4" />} label="Account Config" path="/account-config" active={location.pathname === "/account-config"} />
         <SidebarItem icon={<Users className="h-4 w-4" />} label="Copy Trading" path="/copy-trading" active={location.pathname === "/copy-trading"} />
-        <SidebarItem icon={<Bell className="h-4 w-4" />} label="Alert to Trade" path="/alert-to-trade" active={location.pathname === "/alert-to-trade"} />
-        <SidebarItem icon={<BarChart3 className="h-4 w-4" />} label="Create Alert" path="/create-alerts" active={location.pathname === "/create-alerts"} />
+        
+        {/* Alert to Trade Collapsible */}
+        <Collapsible open={isAlertToTradeOpen} onOpenChange={setIsAlertToTradeOpen}>
+          <CollapsibleTrigger asChild>
+            <button
+              className={cn(
+                "flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
+                (location.pathname === "/alert-to-trade" || location.pathname === "/create-alerts")
+                  ? "bg-primary/10 text-primary border-l-4 border-primary -ml-4 pl-[12px]"
+                  : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+              )}
+            >
+              <div className="flex h-4 w-4 items-center justify-center flex-shrink-0">
+                <Bell className="h-4 w-4" />
+              </div>
+              <span className="text-sm leading-tight flex-1 text-left">Alert to Trade</span>
+              <ChevronDown className={cn("h-4 w-4 transition-transform", isAlertToTradeOpen && "rotate-180")} />
+            </button>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-0.5 mt-0.5">
+            <SidebarItem 
+              icon={<Bell className="h-4 w-4" />} 
+              label="Alert to Trade" 
+              path="/alert-to-trade" 
+              active={location.pathname === "/alert-to-trade"} 
+              nested 
+            />
+            <SidebarItem 
+              icon={<BarChart3 className="h-4 w-4" />} 
+              label="Create Alert" 
+              path="/create-alerts" 
+              active={location.pathname === "/create-alerts"} 
+              nested 
+            />
+          </CollapsibleContent>
+        </Collapsible>
+
         <SidebarItem icon={<Users2 className="h-4 w-4" />} label="Groups" path="/groups" active={location.pathname === "/groups"} />
         <SidebarItem icon={<Store className="h-4 w-4" />} label="Marketplace" path="/marketplace" active={location.pathname === "/marketplace"} />
 
