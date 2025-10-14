@@ -12,6 +12,7 @@ interface Notification {
   description: string;
   timestamp: string;
   accountName: string;
+  username: string;
   accountType?: string;
   read: boolean;
 }
@@ -24,6 +25,7 @@ const mockNotifications: Notification[] = [
     description: "Your Buy order for 75 Qty of NIFTY 14 OCT 25200 CALL has been executed at ₹ 0.80 on Dhan.",
     timestamp: "2025-10-14 15:00:49",
     accountName: "Dhan",
+    username: "Ankit_Dhan",
     accountType: "CE",
     read: false,
   },
@@ -34,6 +36,7 @@ const mockNotifications: Notification[] = [
     description: "Your Sell order for 75 Qty of NIFTY 14 OCT 25200 CALL has been executed at ₹ 52.50 on Dhan.",
     timestamp: "2025-10-14 10:19:12",
     accountName: "Dhan",
+    username: "akku_dhan",
     accountType: "PE",
     read: false,
   },
@@ -44,6 +47,7 @@ const mockNotifications: Notification[] = [
     description: "Your order could not be placed due to insufficient margin in Zerodha account.",
     timestamp: "2025-10-14 09:45:23",
     accountName: "Zerodha",
+    username: "trading_user",
     read: false,
   },
 ];
@@ -145,7 +149,7 @@ export const NotificationsPanel = () => {
                         </p>
                         <div className="flex items-center gap-2 mt-2">
                           <Badge variant="outline" className="text-xs font-normal">
-                            {notification.accountName}
+                            {notification.accountName} ({notification.username})
                           </Badge>
                           <span className="text-xs text-muted-foreground">
                             {notification.timestamp.split(" ")[0]}
