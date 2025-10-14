@@ -7,6 +7,9 @@ import Index from "./pages/Index";
 import AccountConfig from "./pages/AccountConfig";
 import CreateAlerts from "./pages/CreateAlerts";
 import AlertToTrade from "./pages/AlertToTrade";
+import User from "./pages/User";
+import Invoices from "./pages/Invoices";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +25,9 @@ const App = () => (
           <Route path="/account-config" element={<AccountConfig />} />
           <Route path="/alert-to-trade" element={<AlertToTrade />} />
           <Route path="/create-alerts" element={<CreateAlerts />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/invoices" element={<Invoices />} />
+          <Route path="/pricing" element={<Pricing />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

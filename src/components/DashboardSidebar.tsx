@@ -62,10 +62,9 @@ export const DashboardSidebar = () => {
         <SidebarItem icon={<Store className="h-5 w-5" />} label="Marketplace - Indicator/ Strategy" />
 
         <SidebarItem label="Management" isHeader />
-        <SidebarItem icon={<User className="h-5 w-5" />} label="User" />
-        <SidebarItem icon={<FileText className="h-5 w-5" />} label="Invoices" />
-        <SidebarItem icon={<CreditCard className="h-5 w-5" />} label="Change Plan" />
-        <SidebarItem icon={<Lock className="h-5 w-5" />} label="Increase Limits" subtitle="change master or child capacity" />
+        <SidebarItem icon={<User className="h-5 w-5" />} label="User" path="/user" active={location.pathname === "/user"} />
+        <SidebarItem icon={<FileText className="h-5 w-5" />} label="Invoices" path="/invoices" active={location.pathname === "/invoices"} />
+        <SidebarItem icon={<CreditCard className="h-5 w-5" />} label="Pricing" path="/pricing" active={location.pathname === "/pricing"} />
 
         <SidebarItem label="Support" isHeader />
         <SidebarItem icon={<Phone className="h-5 w-5" />} label="Call" />

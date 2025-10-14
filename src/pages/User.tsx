@@ -1,0 +1,182 @@
+import { DashboardHeader } from "@/components/DashboardHeader";
+import { DashboardSidebar } from "@/components/DashboardSidebar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CreditCard, KeyRound } from "lucide-react";
+import { useState } from "react";
+
+const User = () => {
+  const [formData, setFormData] = useState({
+    firstName: "amit",
+    lastName: "yadav",
+    email: "wifibutters@gmail.com",
+    phone: "8287502355",
+    address1: "sdf",
+    address2: "sdf",
+    state: "Haryana",
+    zipCode: "122101",
+    gstn: ""
+  });
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <DashboardHeader />
+      <DashboardSidebar />
+      
+      <main className="ml-64 mt-16 p-8">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold mb-2">User</h1>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>Management</span>
+            <span>•</span>
+            <span className="text-foreground">User</span>
+          </div>
+        </div>
+
+        <Tabs defaultValue="general" className="w-full">
+          <TabsList className="mb-6">
+            <TabsTrigger value="general" className="gap-2">
+              <CreditCard className="h-4 w-4" />
+              General
+            </TabsTrigger>
+            <TabsTrigger value="security" className="gap-2">
+              <KeyRound className="h-4 w-4" />
+              Security
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="general">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <Card className="lg:col-span-1">
+                <CardContent className="pt-6 flex flex-col items-center">
+                  <Avatar className="h-64 w-64 mb-4">
+                    <AvatarImage src="/placeholder.svg" />
+                    <AvatarFallback className="text-4xl">AY</AvatarFallback>
+                  </Avatar>
+                  <p className="text-lg font-medium text-muted-foreground">amityadaviitd</p>
+                </CardContent>
+              </Card>
+
+              <Card className="lg:col-span-2">
+                <CardContent className="pt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">First Name</Label>
+                      <Input
+                        id="firstName"
+                        value={formData.firstName}
+                        onChange={(e) => handleInputChange("firstName", e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Last Name</Label>
+                      <Input
+                        id="lastName"
+                        value={formData.lastName}
+                        onChange={(e) => handleInputChange("lastName", e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email Address</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange("email", e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <Input
+                        id="phone"
+                        value={formData.phone}
+                        onChange={(e) => handleInputChange("phone", e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="address1">Address1</Label>
+                      <Input
+                        id="address1"
+                        value={formData.address1}
+                        onChange={(e) => handleInputChange("address1", e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="address2">Address2</Label>
+                      <Input
+                        id="address2"
+                        value={formData.address2}
+                        onChange={(e) => handleInputChange("address2", e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="state">State</Label>
+                      <Select value={formData.state} onValueChange={(value) => handleInputChange("state", value)}>
+                        <SelectTrigger id="state">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Haryana">Haryana</SelectItem>
+                          <SelectItem value="Delhi">Delhi</SelectItem>
+                          <SelectItem value="Maharashtra">Maharashtra</SelectItem>
+                          <SelectItem value="Karnataka">Karnataka</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="zipCode">Zip/Code</Label>
+                      <Input
+                        id="zipCode"
+                        value={formData.zipCode}
+                        onChange={(e) => handleInputChange("zipCode", e.target.value)}
+                      />
+                    </div>
+
+                    <div className="space-y-2 md:col-span-2">
+                      <Label htmlFor="gstn">GSTN (Optional)</Label>
+                      <Input
+                        id="gstn"
+                        value={formData.gstn}
+                        onChange={(e) => handleInputChange("gstn", e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end mt-6">
+                    <Button size="lg">Save Changes</Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="security">
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-muted-foreground">Security settings will be available here.</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </main>
+    </div>
+  );
+};
+
+export default User;
