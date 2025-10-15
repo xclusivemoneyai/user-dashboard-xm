@@ -31,6 +31,7 @@ const AccountConfig = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showAddAccount, setShowAddAccount] = useState(false);
   const [selectedBroker, setSelectedBroker] = useState("");
+  const [brokerSearch, setBrokerSearch] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     clientId: "",
@@ -136,6 +137,10 @@ const AccountConfig = () => {
 
   const successCount = accounts.filter(a => a.autoLoginStatus === "success").length;
   const failedCount = accounts.filter(a => a.autoLoginStatus === "error").length;
+
+  const filteredBrokers = brokers.filter(broker =>
+    broker.name.toLowerCase().includes(brokerSearch.toLowerCase())
+  );
 
   const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
@@ -245,23 +250,84 @@ const AccountConfig = () => {
               
               {/* Broker Selection */}
               <div className="mb-6">
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 lg:grid-cols-10 xl:grid-cols-14 gap-3 sm:gap-4">
-                  {brokers.map((broker) => (
+                {/* Mobile Search Bar */}
+                <div className="md:hidden mb-4">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search broker..."
+                      value={brokerSearch}
+                      onChange={(e) => setBrokerSearch(e.target.value)}
+                      className="pl-9 h-10"
+                    />
+                  </div>
+                </div>
+
+                {/* Desktop Search Bar */}
+                <div className="hidden md:block mb-4">
+                  <div className="relative max-w-xs">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search broker..."
+                      value={brokerSearch}
+                      onChange={(e) => setBrokerSearch(e.target.value)}
+                      className="pl-9 h-9"
+                    />
+                  </div>
+                </div>
+
+                {/* Mobile Horizontal Carousel */}
+                <div className="md:hidden overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
+                  <div className="flex gap-3 min-w-max">
+                    {filteredBrokers.map((broker) => (
+                      <button
+                        key={broker.id}
+                        onClick={() => {
+                          setSelectedBroker(broker.id);
+                          setBrokerSearch("");
+                        }}
+                        className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all flex-shrink-0 w-[100px] ${
+                          selectedBroker === broker.id
+                            ? "border-primary bg-primary/5"
+                            : "border-border hover:border-primary/50"
+                        }`}
+                      >
+                        <div className={`h-12 w-12 rounded-full ${broker.color} flex items-center justify-center text-white font-bold text-sm`}>
+                          {broker.name.substring(0, 2).toUpperCase()}
+                        </div>
+                        <span className="text-xs font-medium text-center line-clamp-2">{broker.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                  {filteredBrokers.length === 0 && (
+                    <p className="text-sm text-muted-foreground text-center py-4">No brokers found</p>
+                  )}
+                </div>
+
+                {/* Desktop Grid */}
+                <div className="hidden md:grid grid-cols-4 lg:grid-cols-7 xl:grid-cols-10 gap-4">
+                  {filteredBrokers.map((broker) => (
                     <button
                       key={broker.id}
-                      onClick={() => setSelectedBroker(broker.id)}
-                      className={`flex flex-col items-center gap-2 p-2 sm:p-3 rounded-lg border-2 transition-all ${
+                      onClick={() => {
+                        setSelectedBroker(broker.id);
+                        setBrokerSearch("");
+                      }}
+                      className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all ${
                         selectedBroker === broker.id
                           ? "border-primary bg-primary/5"
                           : "border-border hover:border-primary/50"
                       }`}
                     >
-                      <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-full ${broker.color} flex items-center justify-center text-white font-bold text-xs sm:text-sm`}>
+                      <div className={`h-12 w-12 rounded-full ${broker.color} flex items-center justify-center text-white font-bold text-sm`}>
                         {broker.name.substring(0, 2).toUpperCase()}
                       </div>
-                      <span className="text-[10px] sm:text-xs font-medium text-center line-clamp-1">{broker.name}</span>
+                      <span className="text-xs font-medium text-center line-clamp-1">{broker.name}</span>
                     </button>
                   ))}
+                  {filteredBrokers.length === 0 && (
+                    <p className="text-sm text-muted-foreground col-span-full text-center py-4">No brokers found</p>
+                  )}
                 </div>
               </div>
 
