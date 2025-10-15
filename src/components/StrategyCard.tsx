@@ -1,8 +1,12 @@
-import { Copy, ExternalLink, FileText, Pencil, Trash2, Play } from "lucide-react";
+import { useState } from "react";
+import { Copy, FileText, Pencil, Trash2, Play, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { PayloadDialog } from "@/components/PayloadDialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { toast } from "@/hooks/use-toast";
 
 interface StrategyCardProps {
   title: string;
@@ -16,12 +20,94 @@ interface StrategyCardProps {
 export const StrategyCard = ({
   title,
   type,
-  status,
+  status: initialStatus,
   description,
   accounts,
   webhookUrl,
 }: StrategyCardProps) => {
+  const [status, setStatus] = useState<"active" | "inactive">(initialStatus);
+  const [isConnected, setIsConnected] = useState(false);
+  const [showPayload, setShowPayload] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+  const samplePayload = `{
+  "exchange": "NSE",
+  "transactionType": "BUY",
+  "orderType": "limit",
+  "orderValidity": "day",
+  "productType": "intraday",
+  "masterAccounts": [
+    "${accounts}"
+  ]
+}`;
+
+  const handleTestConnection = () => {
+    // Simulate connection test
+    setTimeout(() => {
+      setIsConnected(true);
+      toast({
+        title: "Success!",
+        description: "Connection tested successfully",
+      });
+    }, 500);
+  };
+
+  const handleToggleStatus = () => {
+    const newStatus = status === "active" ? "inactive" : "active";
+    setStatus(newStatus);
+    toast({
+      title: "Status Updated",
+      description: `Strategy ${newStatus === "active" ? "activated" : "deactivated"} successfully`,
+    });
+  };
+
+  const handleClone = () => {
+    toast({
+      title: "Strategy Cloned",
+      description: "Strategy has been cloned successfully",
+    });
+  };
+
+  const handleEdit = () => {
+    toast({
+      title: "Opening Editor",
+      description: "Opening strategy editor...",
+    });
+  };
+
+  const handleLogs = () => {
+    toast({
+      title: "Loading Logs",
+      description: "Strategy logs are being loaded...",
+    });
+  };
+
+  const handleDelete = () => {
+    setShowDeleteDialog(false);
+    toast({
+      title: "Strategy Deleted",
+      description: "Strategy has been deleted successfully",
+      variant: "destructive",
+    });
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(webhookUrl);
+    toast({
+      title: "Copied!",
+      description: "Webhook URL copied to clipboard",
+    });
+  };
+
+  const handleRefresh = () => {
+    toast({
+      title: "Refreshing",
+      description: "Strategy details refreshed",
+    });
+  };
+
   return (
+    <>
     <Card className="hover:shadow-lg transition-all duration-300 border-border">
       <CardHeader className="pb-4">
         <div className="flex items-start gap-4">
@@ -57,14 +143,19 @@ export const StrategyCard = ({
               <code className="flex-1 truncate rounded bg-muted px-2 py-1 text-xs font-mono">
                 {webhookUrl}
               </code>
-              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0">
+              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0" onClick={handleCopy}>
                 <Copy className="h-3.5 w-3.5" />
               </Button>
-              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0">
-                <ExternalLink className="h-3.5 w-3.5" />
+              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0" onClick={handleRefresh}>
+                <RefreshCw className="h-3.5 w-3.5" />
               </Button>
-              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0">
-                <Play className="h-3.5 w-3.5" />
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-7 w-7 shrink-0"
+                onClick={handleTestConnection}
+              >
+                <Play className={`h-3.5 w-3.5 ${isConnected ? 'text-success' : 'text-destructive'}`} />
               </Button>
             </div>
           </div>
@@ -73,31 +164,61 @@ export const StrategyCard = ({
 
       <CardFooter className="flex-col gap-2 pt-4 border-t border-border">
         <div className="flex w-full gap-2">
-          <Button variant="warning" size="sm" className="flex-1">
-            Deactivate
+          <Button 
+            variant={status === "active" ? "warning" : "success"} 
+            size="sm" 
+            className="flex-1"
+            onClick={handleToggleStatus}
+          >
+            {status === "active" ? "Deactivate" : "Activate"}
           </Button>
-          <Button variant="default" size="sm" className="flex-1">
+          <Button variant="outline" size="sm" className="flex-1 bg-muted" onClick={handleClone}>
             Clone
           </Button>
-          <Button variant="outline" size="sm" className="flex-1">
+          <Button variant="secondary" size="sm" className="flex-1" onClick={() => setShowPayload(true)}>
             Payload
           </Button>
         </div>
         <div className="flex w-full gap-2">
-          <Button variant="outline" size="sm" className="flex-1">
+          <Button variant="outline" size="sm" className="flex-1 bg-muted" onClick={handleLogs}>
             <FileText className="h-4 w-4 mr-1" />
             Logs
           </Button>
-          <Button variant="default" size="sm" className="flex-1">
+          <Button variant="outline" size="sm" className="flex-1 bg-muted" onClick={handleEdit}>
             <Pencil className="h-4 w-4 mr-1" />
             Edit
           </Button>
-          <Button variant="destructive" size="sm" className="flex-1">
+          <Button variant="destructive" size="sm" className="flex-1" onClick={() => setShowDeleteDialog(true)}>
             <Trash2 className="h-4 w-4 mr-1" />
             Delete
           </Button>
         </div>
       </CardFooter>
     </Card>
+
+    <PayloadDialog
+      open={showPayload}
+      onOpenChange={setShowPayload}
+      webhookUrl={webhookUrl}
+      payload={samplePayload}
+    />
+
+    <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This will permanently delete the strategy "{title}". This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 };

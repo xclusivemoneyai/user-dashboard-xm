@@ -1,15 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { DashboardSidebar } from "@/components/DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { StrategyCard } from "@/components/StrategyCard";
-import { CreateStrategyDialog } from "@/components/CreateStrategyDialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search } from "lucide-react";
 
 const AlertToTrade = () => {
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [accountFilter, setAccountFilter] = useState("all");
@@ -26,7 +26,7 @@ const AlertToTrade = () => {
               <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Alert to Trade</h1>
               <p className="text-sm sm:text-base text-muted-foreground mt-1 sm:mt-2">Manage your trading strategies and alerts</p>
             </div>
-            <Button size="lg" onClick={() => setIsCreateDialogOpen(true)} className="w-full sm:w-auto">
+            <Button size="lg" onClick={() => navigate("/create-alerts")} className="w-full sm:w-auto">
               New Strategy
             </Button>
           </div>
@@ -98,11 +98,6 @@ const AlertToTrade = () => {
           </div>
         </div>
       </main>
-
-      <CreateStrategyDialog 
-        open={isCreateDialogOpen} 
-        onOpenChange={setIsCreateDialogOpen}
-      />
     </div>
   );
 };
