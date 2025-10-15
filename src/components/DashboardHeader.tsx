@@ -28,10 +28,13 @@ export const DashboardHeader = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+        <div className="flex items-center gap-1 sm:gap-2">
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 hidden sm:flex">
             <span className="text-lg mr-2">+</span>
             New Automation
+          </Button>
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 sm:hidden" size="icon">
+            <span className="text-lg">+</span>
           </Button>
           <Popover>
             <PopoverTrigger asChild>
@@ -52,10 +55,10 @@ export const DashboardHeader = () => {
           <Button variant="ghost" size="icon" onClick={toggleTheme}>
             {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="hidden sm:flex">
             <Settings className="h-5 w-5" />
           </Button>
-          <Avatar className="h-9 w-9">
+          <Avatar className="h-8 w-8 sm:h-9 sm:w-9">
             <AvatarImage src="" />
             <AvatarFallback className="bg-primary text-primary-foreground">U</AvatarFallback>
           </Avatar>

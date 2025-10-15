@@ -247,13 +247,13 @@ const Marketplace = () => {
 
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center gap-3 mb-4">
-              <TrendingUp className="h-8 w-8 text-primary" />
+            <div className="flex items-start gap-3 mb-4">
+              <TrendingUp className="h-6 w-6 sm:h-8 sm:w-8 text-primary flex-shrink-0 mt-1" />
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                   Universal hub for custom indicators
                 </h1>
-                <p className="text-muted-foreground text-sm mt-1">
+                <p className="text-muted-foreground text-xs sm:text-sm mt-1">
                   Discover and integrate powerful trading indicators for your platform
                 </p>
               </div>
@@ -271,10 +271,10 @@ const Marketplace = () => {
             </div>
 
             {/* Horizontal Filters */}
-            <div className="space-y-6 mt-6">
+            <div className="space-y-4 md:space-y-6 mt-4 md:mt-6">
               {/* Categories */}
               <div>
-                <h3 className="font-semibold mb-3">Categories</h3>
+                <h3 className="font-semibold mb-2 md:mb-3 text-sm sm:text-base">Categories</h3>
                 <div className="flex flex-wrap gap-3">
                   {categories.map((category) => (
                     <Button
@@ -291,7 +291,7 @@ const Marketplace = () => {
 
               {/* Platform Filters */}
               <div>
-                <h3 className="font-semibold mb-3">Platform</h3>
+                <h3 className="font-semibold mb-2 md:mb-3 text-sm sm:text-base">Platform</h3>
                 <div className="flex flex-wrap gap-3">
                   {platforms.map((platform) => (
                     <Button
@@ -308,7 +308,7 @@ const Marketplace = () => {
 
               {/* Filter Tags */}
               <div>
-                <h3 className="font-semibold mb-3">Filter Tags</h3>
+                <h3 className="font-semibold mb-2 md:mb-3 text-sm sm:text-base">Filter Tags</h3>
                 <div className="flex items-center">
                   <span className="text-sm text-muted-foreground">No active filters</span>
                 </div>
@@ -325,7 +325,7 @@ const Marketplace = () => {
             </div>
 
             {/* Indicators Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6">
                 {indicators.map((indicator) => (
                   <Card key={indicator.id} className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
                     {/* Chart Preview */}

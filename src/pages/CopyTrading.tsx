@@ -264,18 +264,18 @@ const CopyTrading = () => {
       <DashboardHeader />
       <DashboardSidebar />
       
-      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
+      <main className="ml-0 md:ml-64 mt-16 p-3 sm:p-4 md:p-6">
+        <div className="max-w-7xl mx-auto space-y-3 sm:space-y-4">
           {/* Header */}
           <Card>
-            <CardHeader className="pb-4">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <CardHeader className="pb-3 sm:pb-4">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4">
                 <div>
-                  <CardTitle className="flex items-center gap-2 text-2xl">
-                    <Users className="h-6 w-6" />
+                  <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl">
+                    <Users className="h-5 w-5 sm:h-6 sm:w-6" />
                     Copy Trading Setup
                   </CardTitle>
-                  <CardDescription className="mt-1">
+                  <CardDescription className="mt-1 text-xs sm:text-sm">
                     Manage your trading accounts for copy trading. Use the{" "}
                     <button
                       onClick={() => navigate("/account-config")}
@@ -286,9 +286,10 @@ const CopyTrading = () => {
                     page to add new accounts. Below, you can assign roles, link/unlink accounts, and control the copying process.
                   </CardDescription>
                 </div>
-                <Button onClick={() => navigate("/account-config")} className="shrink-0">
+                <Button onClick={() => navigate("/account-config")} className="w-full sm:w-auto shrink-0 text-sm">
                   <Plus className="h-4 w-4 mr-2" />
-                  Configure New Account
+                  <span className="hidden sm:inline">Configure New Account</span>
+                  <span className="sm:hidden">Add Account</span>
                 </Button>
               </div>
             </CardHeader>
@@ -296,17 +297,17 @@ const CopyTrading = () => {
 
           {/* Unassigned Accounts */}
           <Card className="border-primary/20 bg-primary/5 dark:bg-primary/10">
-            <CardHeader className="bg-primary/10 dark:bg-primary/20 border-b border-primary/20 pb-3">
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <AlertCircle className="h-5 w-5 text-primary" />
+            <CardHeader className="bg-primary/10 dark:bg-primary/20 border-b border-primary/20 pb-2 sm:pb-3">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                 Unassigned Accounts
               </CardTitle>
-              <CardDescription className="text-foreground/70">
+              <CardDescription className="text-foreground/70 text-xs sm:text-sm">
                 Accounts added but not yet assigned a role (Master or Child). Assign their role below to get started.
               </CardDescription>
             </CardHeader>
-            <CardContent className="pt-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <CardContent className="pt-3 sm:pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 {unassignedAccounts.map((account) => (
                   <Card key={account.id} className="bg-card border-border">
                     <CardContent className="pt-6">
@@ -334,22 +335,22 @@ const CopyTrading = () => {
 
           {/* Master Accounts */}
           <Card className="border-success/20 bg-success/5 dark:bg-success/10">
-            <CardHeader className="bg-success/10 dark:bg-success/20 border-b border-success/20 pb-3">
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Lock className="h-5 w-5 text-success" />
+            <CardHeader className="bg-success/10 dark:bg-success/20 border-b border-success/20 pb-2 sm:pb-3">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                <Lock className="h-4 w-4 sm:h-5 sm:w-5 text-success" />
                 Master Accounts
               </CardTitle>
-              <CardDescription className="text-foreground/70">
+              <CardDescription className="text-foreground/70 text-xs sm:text-sm">
                 Accounts selected to replicate their trades across linked child accounts.
               </CardDescription>
             </CardHeader>
-            <CardContent className="pt-4">
+            <CardContent className="pt-3 sm:pt-4">
               {masterAccounts.map((master) => (
                 <Collapsible 
                   key={master.id} 
                   open={expandedMasterAccounts.includes(master.id)}
                   onOpenChange={() => toggleMasterExpand(master.id)}
-                  className="space-y-4 bg-card rounded-lg p-3 md:p-4 border border-border"
+                  className="space-y-3 sm:space-y-4 bg-card rounded-lg p-2 sm:p-3 md:p-4 border border-border"
                 >
                   {/* Master Info */}
                   <div className="overflow-x-auto">
@@ -407,20 +408,20 @@ const CopyTrading = () => {
                   <CollapsibleContent className="space-y-4">
 
                   {/* Master Actions */}
-                  <div className="flex flex-wrap gap-2">
-                    <Button size="sm" variant="outline" className="border-success text-success hover:bg-success/10">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    <Button size="sm" variant="outline" className="border-success text-success hover:bg-success/10 text-xs">
                       Turn On All Child Copying
                     </Button>
-                    <Button size="sm" variant="outline">
+                    <Button size="sm" variant="outline" className="text-xs">
                       Turn Off All Child Copying
                     </Button>
-                    <Button size="sm" variant="outline" className="border-accent text-accent hover:bg-accent/10">
+                    <Button size="sm" variant="outline" className="border-accent text-accent hover:bg-accent/10 text-xs">
                       Exit Master Positions
                     </Button>
-                    <Button size="sm" variant="outline">
+                    <Button size="sm" variant="outline" className="text-xs">
                       Exit All Child Positions
                     </Button>
-                    <Button size="sm" variant="outline" className="border-destructive text-destructive hover:bg-destructive/10">
+                    <Button size="sm" variant="outline" className="border-destructive text-destructive hover:bg-destructive/10 text-xs">
                       Remove Master
                     </Button>
                   </div>

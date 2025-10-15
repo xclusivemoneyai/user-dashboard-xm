@@ -41,11 +41,11 @@ const CreateAlerts = () => {
       <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="max-w-5xl mx-auto">
           <div className="bg-card rounded-lg border border-border shadow-sm">
-            <div className="bg-primary text-primary-foreground p-6 rounded-t-lg">
-              <h1 className="text-2xl font-bold">Create New Strategy</h1>
+            <div className="bg-primary text-primary-foreground p-4 sm:p-6 rounded-t-lg">
+              <h1 className="text-xl sm:text-2xl font-bold">Create New Strategy</h1>
             </div>
 
-            <div className="p-8 space-y-6">
+            <div className="p-4 sm:p-6 md:p-8 space-y-4 md:space-y-6">
               {/* Strategy Name */}
               <div className="space-y-2">
                 <Label htmlFor="strategyName" className="text-base font-semibold">
@@ -82,7 +82,7 @@ const CreateAlerts = () => {
               </div>
 
               {/* Exchange and Symbol Token */}
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="exchange" className="text-base font-semibold">
                     Exchange <span className="text-destructive">*</span>
@@ -178,7 +178,7 @@ const CreateAlerts = () => {
               </div>
 
               {/* Action/Transaction Type and Order Type */}
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 {alertType === "strategy" ? (
                   <div className="space-y-2">
                     <Label htmlFor="action" className="text-base font-semibold">
@@ -228,7 +228,7 @@ const CreateAlerts = () => {
               </div>
 
               {/* Order Validity and Type of Product */}
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="orderValidity" className="text-base font-semibold">
                     Order Validity
@@ -266,7 +266,7 @@ const CreateAlerts = () => {
               </div>
 
               {/* Order Quantity and Order Value */}
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="orderQuantity" className="text-base font-semibold">
                     Order Quantity
@@ -344,15 +344,15 @@ const CreateAlerts = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-between pt-4 pb-2">
+              <div className="flex flex-col sm:flex-row justify-between gap-3 pt-4 pb-2">
                 <Button
                   variant="outline"
                   size="lg"
-                  className="px-8"
+                  className="w-full sm:w-auto px-6 sm:px-8"
                 >
                   Cancel
                 </Button>
-                <Button size="lg" className="px-8">
+                <Button size="lg" className="w-full sm:w-auto px-6 sm:px-8">
                   Save Strategy
                 </Button>
               </div>

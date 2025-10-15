@@ -48,9 +48,9 @@ const User = () => {
       <DashboardSidebar />
       
       <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">User</h1>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">User</h1>
+          <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
             <span>Management</span>
             <span>•</span>
             <span className="text-foreground">User</span>
@@ -58,32 +58,32 @@ const User = () => {
         </div>
 
         <Tabs defaultValue="general" className="w-full">
-          <TabsList className="mb-6">
-            <TabsTrigger value="general" className="gap-2">
-              <CreditCard className="h-4 w-4" />
-              General
+          <TabsList className="mb-4 sm:mb-6 w-full sm:w-auto">
+            <TabsTrigger value="general" className="gap-1 sm:gap-2 flex-1 sm:flex-initial">
+              <CreditCard className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-xs sm:text-sm">General</span>
             </TabsTrigger>
-            <TabsTrigger value="security" className="gap-2">
-              <KeyRound className="h-4 w-4" />
-              Security
+            <TabsTrigger value="security" className="gap-1 sm:gap-2 flex-1 sm:flex-initial">
+              <KeyRound className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="text-xs sm:text-sm">Security</span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="general">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
               <Card className="lg:col-span-1">
                 <CardContent className="pt-6 flex flex-col items-center">
-                  <Avatar className="h-64 w-64 mb-4">
+                  <Avatar className="h-32 w-32 sm:h-48 sm:w-48 md:h-64 md:w-64 mb-4">
                     <AvatarImage src="/placeholder.svg" />
-                    <AvatarFallback className="text-4xl">AY</AvatarFallback>
+                    <AvatarFallback className="text-2xl sm:text-3xl md:text-4xl">AY</AvatarFallback>
                   </Avatar>
-                  <p className="text-lg font-medium text-muted-foreground">amityadaviitd</p>
+                  <p className="text-base sm:text-lg font-medium text-muted-foreground">amityadaviitd</p>
                 </CardContent>
               </Card>
 
               <Card className="lg:col-span-2">
                 <CardContent className="pt-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="firstName">First Name</Label>
                       <Input

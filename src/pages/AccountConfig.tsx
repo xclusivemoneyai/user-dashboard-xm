@@ -124,81 +124,82 @@ const AccountConfig = () => {
       <main className="ml-0 md:ml-64 pt-16">
         <div className="p-4 md:p-8">
           {/* Page Header */}
-          <div className="flex items-center justify-between mb-6 bg-gradient-to-r from-primary/10 via-primary/5 to-background rounded-lg p-6 border border-primary/20">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 md:mb-6 bg-gradient-to-r from-primary/10 via-primary/5 to-background rounded-lg p-4 sm:p-6 border border-primary/20">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-2">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-2">
                 Account Configuration
               </h1>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
                 <span>Dashboard</span>
                 <span>•</span>
                 <span className="text-foreground font-medium">Account Configuration</span>
               </div>
             </div>
-            <Button className="gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+            <Button className="w-full sm:w-auto gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
               <Plus className="h-4 w-4" />
-              Add New Account
+              <span className="hidden sm:inline">Add New Account</span>
+              <span className="sm:hidden">Add Account</span>
             </Button>
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
-            <div className="bg-card rounded-lg p-3 border border-border">
-              <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
-                  <Users className="h-5 w-5 text-primary" />
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 mb-4 md:mb-6">
+            <div className="bg-card rounded-lg p-2 sm:p-3 border border-border">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                  <Users className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                 </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">Total capacity</p>
-                  <p className="text-xl font-bold">2</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-card rounded-lg p-3 border border-border">
-              <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-success/20 flex items-center justify-center">
-                  <Users className="h-5 w-5 text-success" />
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">Master capacity</p>
-                  <p className="text-xl font-bold">1</p>
+                <div className="min-w-0">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground truncate">Total capacity</p>
+                  <p className="text-lg sm:text-xl font-bold">2</p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-card rounded-lg p-3 border border-border">
-              <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-warning/20 flex items-center justify-center">
-                  <Users className="h-5 w-5 text-warning" />
+            <div className="bg-card rounded-lg p-2 sm:p-3 border border-border">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-success/20 flex items-center justify-center flex-shrink-0">
+                  <Users className="h-4 w-4 sm:h-5 sm:w-5 text-success" />
                 </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">Children capacity</p>
-                  <p className="text-xl font-bold">1</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-card rounded-lg p-3 border border-border">
-              <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-destructive/20 flex items-center justify-center">
-                  <Flame className="h-5 w-5 text-destructive" />
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">Plan name</p>
-                  <p className="text-base font-semibold">Custom</p>
+                <div className="min-w-0">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground truncate">Master capacity</p>
+                  <p className="text-lg sm:text-xl font-bold">1</p>
                 </div>
               </div>
             </div>
             
-            <div className="bg-card rounded-lg p-3 border border-border">
-              <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
-                  <Calendar className="h-5 w-5 text-foreground" />
+            <div className="bg-card rounded-lg p-2 sm:p-3 border border-border">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-warning/20 flex items-center justify-center flex-shrink-0">
+                  <Users className="h-4 w-4 sm:h-5 sm:w-5 text-warning" />
                 </div>
-                <div>
-                  <p className="text-xs text-muted-foreground">Validity</p>
-                  <p className="text-sm font-semibold">04 Nov 2025</p>
+                <div className="min-w-0">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground truncate">Children capacity</p>
+                  <p className="text-lg sm:text-xl font-bold">1</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-card rounded-lg p-2 sm:p-3 border border-border">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-destructive/20 flex items-center justify-center flex-shrink-0">
+                  <Flame className="h-4 w-4 sm:h-5 sm:w-5 text-destructive" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground truncate">Plan name</p>
+                  <p className="text-sm sm:text-base font-semibold">Custom</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-card rounded-lg p-2 sm:p-3 border border-border">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                  <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground truncate">Validity</p>
+                  <p className="text-xs sm:text-sm font-semibold truncate">04 Nov 2025</p>
                 </div>
               </div>
             </div>

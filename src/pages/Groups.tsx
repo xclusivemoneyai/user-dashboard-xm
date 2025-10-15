@@ -30,12 +30,12 @@ const Groups = () => {
       <DashboardHeader />
       <DashboardSidebar />
       
-      <main className="ml-64 mt-16 p-4 md:p-8">
-        <div className="max-w-7xl mx-auto space-y-6">
+      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
+        <div className="max-w-7xl mx-auto space-y-4 md:space-y-6">
           {/* Header */}
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold mb-2">Groups Management</h1>
-            <p className="text-muted-foreground">
+          <div className="mb-4 md:mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2">Groups Management</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">
               Organize and manage your account groups for efficient trading operations.
             </p>
           </div>
@@ -290,16 +290,16 @@ const Groups = () => {
           {/* Place Group Order */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                 <Send className="h-5 w-5" />
                 Place Group Order
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-xs sm:text-sm">
                 Execute orders for an entire group at once
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
                 <div>
                   <label className="text-sm font-medium mb-2 block">Group</label>
                   <Select>

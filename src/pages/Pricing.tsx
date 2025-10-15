@@ -72,22 +72,22 @@ const Pricing = () => {
       <DashboardSidebar />
       
       <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
-        <div className="max-w-7xl mx-auto space-y-8">
+        <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
           {/* Current Subscription Section */}
           <Card className="bg-card border-border">
             <CardHeader className="pb-3">
-              <CardTitle className="text-3xl font-bold">Current Subscription</CardTitle>
-              <CardDescription className="text-base">Manage your active subscription</CardDescription>
+              <CardTitle className="text-2xl sm:text-3xl font-bold">Current Subscription</CardTitle>
+              <CardDescription className="text-sm sm:text-base">Manage your active subscription</CardDescription>
             </CardHeader>
             <CardContent>
               <Card className="border-border">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="space-y-1">
-                      <p className="text-xl font-semibold">Pro Plan</p>
-                      <p className="text-sm text-muted-foreground">Next billing date: January 15, 2026</p>
+                      <p className="text-lg sm:text-xl font-semibold">Pro Plan</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Next billing date: January 15, 2026</p>
                     </div>
-                    <Button variant="outline" size="lg" className="px-8">
+                    <Button variant="outline" size="lg" className="w-full sm:w-auto px-6 sm:px-8">
                       Manage Subscription
                     </Button>
                   </div>
@@ -97,9 +97,9 @@ const Pricing = () => {
           </Card>
 
           {/* Choose Your Plan Section */}
-          <div className="text-center space-y-3 pt-4">
-            <h1 className="text-4xl font-bold text-foreground">Choose Your Plan</h1>
-            <p className="text-lg text-muted-foreground">Select the perfect subscription plan for your trading needs</p>
+          <div className="text-center space-y-2 md:space-y-3 pt-2 md:pt-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">Choose Your Plan</h1>
+            <p className="text-sm sm:text-base md:text-lg text-muted-foreground px-4">Select the perfect subscription plan for your trading needs</p>
           </div>
 
           <div className="flex justify-center">
@@ -118,7 +118,7 @@ const Pricing = () => {
             </Tabs>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 pt-2 md:pt-4">
             {plans.map((plan) => (
               <Card 
                 key={plan.name} 
