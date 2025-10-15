@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { PayloadDialog } from "@/components/PayloadDialog";
+import { LogsDialog } from "@/components/LogsDialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 
@@ -15,6 +16,7 @@ interface StrategyCardProps {
   description: string;
   accounts: string;
   webhookUrl: string;
+  onEdit?: () => void;
 }
 
 export const StrategyCard = ({
@@ -24,10 +26,12 @@ export const StrategyCard = ({
   description,
   accounts,
   webhookUrl,
+  onEdit,
 }: StrategyCardProps) => {
   const [status, setStatus] = useState<"active" | "inactive">(initialStatus);
   const [isConnected, setIsConnected] = useState(false);
   const [showPayload, setShowPayload] = useState(false);
+  const [showLogs, setShowLogs] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const samplePayload = `{
@@ -69,17 +73,13 @@ export const StrategyCard = ({
   };
 
   const handleEdit = () => {
-    toast({
-      title: "Opening Editor",
-      description: "Opening strategy editor...",
-    });
+    if (onEdit) {
+      onEdit();
+    }
   };
 
   const handleLogs = () => {
-    toast({
-      title: "Loading Logs",
-      description: "Strategy logs are being loaded...",
-    });
+    setShowLogs(true);
   };
 
   const handleDelete = () => {
@@ -175,7 +175,7 @@ export const StrategyCard = ({
           <Button variant="outline" size="sm" className="flex-1 bg-muted" onClick={handleClone}>
             Clone
           </Button>
-          <Button variant="secondary" size="sm" className="flex-1" onClick={() => setShowPayload(true)}>
+          <Button variant="default" size="sm" className="flex-1" onClick={() => setShowPayload(true)}>
             Payload
           </Button>
         </div>
@@ -201,6 +201,12 @@ export const StrategyCard = ({
       onOpenChange={setShowPayload}
       webhookUrl={webhookUrl}
       payload={samplePayload}
+    />
+
+    <LogsDialog
+      open={showLogs}
+      onOpenChange={setShowLogs}
+      strategyTitle={title}
     />
 
     <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>

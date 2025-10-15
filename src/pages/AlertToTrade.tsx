@@ -13,6 +13,13 @@ const AlertToTrade = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [accountFilter, setAccountFilter] = useState("all");
+  const [editingStrategy, setEditingStrategy] = useState<string | null>(null);
+
+  const handleEdit = (strategyTitle: string) => {
+    setEditingStrategy(strategyTitle);
+    // Scroll to top to show the edit form
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -70,6 +77,71 @@ const AlertToTrade = () => {
             </Select>
           </div>
 
+          {/* Edit Form Section */}
+          {editingStrategy && (
+            <div className="bg-card border border-border rounded-lg p-4 md:p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold">Edit Strategy: {editingStrategy}</h2>
+                <Button variant="ghost" size="sm" onClick={() => setEditingStrategy(null)}>
+                  Close
+                </Button>
+              </div>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Strategy Name</label>
+                  <Input defaultValue={editingStrategy} placeholder="Enter strategy name" />
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Type</label>
+                  <Select defaultValue="stocks-systematic">
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="stocks-systematic">Stocks - Systematic</SelectItem>
+                      <SelectItem value="stocks-discretionary">Stocks - Discretionary</SelectItem>
+                      <SelectItem value="options">Options</SelectItem>
+                      <SelectItem value="futures">Futures</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Description</label>
+                  <Input placeholder="Enter description" />
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Accounts</label>
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select account" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="dhan-akku">dhan - akku_dhan (1100880151)</SelectItem>
+                      <SelectItem value="dhan-aman">dhan - Aman_Dhan (1106883507)</SelectItem>
+                      <SelectItem value="dhan-amit">dhan - Amit_Dhan (1100434692)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="flex gap-2 pt-4">
+                  <Button className="flex-1" onClick={() => {
+                    setEditingStrategy(null);
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                  }}>
+                    Save Changes
+                  </Button>
+                  <Button variant="outline" className="flex-1" onClick={() => setEditingStrategy(null)}>
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             <StrategyCard
               title="test zerodha (idea)"
@@ -78,6 +150,7 @@ const AlertToTrade = () => {
               description="No description provided for this strategy."
               accounts="Amit_Zerodha (CX9849) (zerodha)"
               webhookUrl="https://dashboard.xclusiv..."
+              onEdit={() => handleEdit("test zerodha (idea)")}
             />
             <StrategyCard
               title="Amit_Dhan_Strategy_Test"
@@ -86,6 +159,7 @@ const AlertToTrade = () => {
               description="No description provided for this strategy."
               accounts="Amit_Dhan (1100434692) (dhan)"
               webhookUrl="https://dashboard.xclusiv..."
+              onEdit={() => handleEdit("Amit_Dhan_Strategy_Test")}
             />
             <StrategyCard
               title="test - single stock (idea)"
@@ -94,6 +168,7 @@ const AlertToTrade = () => {
               description="No description provided for this strategy."
               accounts="60"
               webhookUrl="https://dashboard.xclusiv..."
+              onEdit={() => handleEdit("test - single stock (idea)")}
             />
           </div>
         </div>
