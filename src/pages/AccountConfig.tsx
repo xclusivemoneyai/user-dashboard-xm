@@ -29,6 +29,35 @@ const AccountConfig = () => {
   const [activeTab, setActiveTab] = useState<"all" | "success" | "failed">("all");
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showAddAccount, setShowAddAccount] = useState(false);
+  const [selectedBroker, setSelectedBroker] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    clientId: "",
+    password: "",
+    apiKey: "",
+    apiSecret: "",
+    totpKey: "",
+    email: "",
+    mobile: "",
+  });
+
+  const brokers = [
+    { id: "broker1", name: "Broker1", color: "bg-gray-500" },
+    { id: "flattrade", name: "Flattrade", color: "bg-indigo-500" },
+    { id: "acagarwal", name: "Acagarwal", color: "bg-blue-500" },
+    { id: "motilaloswal", name: "Motilaloswal", color: "bg-indigo-700" },
+    { id: "kotakneo", name: "Kotakneo", color: "bg-red-500" },
+    { id: "tradejini", name: "Tradejini", color: "bg-teal-500" },
+    { id: "zebu", name: "Zebu", color: "bg-blue-700" },
+    { id: "enrichmoney", name: "Enrichmoney", color: "bg-gray-900" },
+    { id: "dhan", name: "Dhan", color: "bg-emerald-500" },
+    { id: "finvasia", name: "Finvasia", color: "bg-yellow-600" },
+    { id: "fyers", name: "Fyers", color: "bg-indigo-600" },
+    { id: "groww", name: "Groww", color: "bg-cyan-500" },
+    { id: "aliceblue", name: "Aliceblue", color: "bg-teal-600" },
+    { id: "zerodha", name: "Zerodha", color: "bg-orange-500" },
+  ];
 
   const accounts = [
     {
@@ -135,10 +164,13 @@ const AccountConfig = () => {
                 <span className="text-foreground font-medium">Account Configuration</span>
               </div>
             </div>
-            <Button className="w-full sm:w-auto gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+            <Button 
+              onClick={() => setShowAddAccount(!showAddAccount)}
+              className="w-full sm:w-auto gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+            >
               <Plus className="h-4 w-4" />
-              <span className="hidden sm:inline">Add New Account</span>
-              <span className="sm:hidden">Add Account</span>
+              <span className="hidden sm:inline">{showAddAccount ? "Cancel" : "Add New Account"}</span>
+              <span className="sm:hidden">{showAddAccount ? "Cancel" : "Add Account"}</span>
             </Button>
           </div>
 
@@ -204,6 +236,151 @@ const AccountConfig = () => {
               </div>
             </div>
           </div>
+
+          {/* Add Account Form */}
+          {showAddAccount && (
+            <div className="bg-card rounded-lg border border-border p-4 sm:p-6 mb-4 md:mb-6 animate-in fade-in slide-in-from-top-4">
+              <h2 className="text-lg sm:text-xl font-bold mb-4">Add/Edit Account Details</h2>
+              <p className="text-sm text-muted-foreground mb-6">Select your broker to configure account credentials.</p>
+              
+              {/* Broker Selection */}
+              <div className="mb-6">
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 lg:grid-cols-10 xl:grid-cols-14 gap-3 sm:gap-4">
+                  {brokers.map((broker) => (
+                    <button
+                      key={broker.id}
+                      onClick={() => setSelectedBroker(broker.id)}
+                      className={`flex flex-col items-center gap-2 p-2 sm:p-3 rounded-lg border-2 transition-all ${
+                        selectedBroker === broker.id
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50"
+                      }`}
+                    >
+                      <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-full ${broker.color} flex items-center justify-center text-white font-bold text-xs sm:text-sm`}>
+                        {broker.name.substring(0, 2).toUpperCase()}
+                      </div>
+                      <span className="text-[10px] sm:text-xs font-medium text-center line-clamp-1">{broker.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Form Fields */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                <div>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">Username (for your reference)</label>
+                  <Input
+                    value={formData.username}
+                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                    placeholder="Username"
+                    className="h-9 sm:h-10"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">
+                    {selectedBroker === "flattrade" ? "Flattrade Client ID" : "Client ID"}
+                  </label>
+                  <Input
+                    value={formData.clientId}
+                    onChange={(e) => setFormData({ ...formData, clientId: e.target.value })}
+                    placeholder={selectedBroker === "flattrade" ? "Flattrade Client ID" : "Client ID"}
+                    className="h-9 sm:h-10"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">Password</label>
+                  <Input
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    placeholder="••••••••"
+                    className="h-9 sm:h-10"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">API Key</label>
+                  <Input
+                    value={formData.apiKey}
+                    onChange={(e) => setFormData({ ...formData, apiKey: e.target.value })}
+                    placeholder="API Key"
+                    className="h-9 sm:h-10"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">API Secret</label>
+                  <Input
+                    type="password"
+                    value={formData.apiSecret}
+                    onChange={(e) => setFormData({ ...formData, apiSecret: e.target.value })}
+                    placeholder="API Secret"
+                    className="h-9 sm:h-10"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">TOTP Key</label>
+                  <Input
+                    value={formData.totpKey}
+                    onChange={(e) => setFormData({ ...formData, totpKey: e.target.value })}
+                    placeholder="TOTP Key"
+                    className="h-9 sm:h-10"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">Email Id (optional)</label>
+                  <Input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="Email Id (optional)"
+                    className="h-9 sm:h-10"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">Mobile no (optional)</label>
+                  <Input
+                    type="tel"
+                    value={formData.mobile}
+                    onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                    placeholder="Mobile no (optional)"
+                    className="h-9 sm:h-10"
+                  />
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 justify-end">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setShowAddAccount(false)}
+                  className="w-full sm:w-auto"
+                >
+                  Close
+                </Button>
+                <Button 
+                  onClick={() => {
+                    toast({
+                      title: "Account added",
+                      description: "Account has been added successfully",
+                    });
+                    setShowAddAccount(false);
+                    setFormData({
+                      username: "",
+                      clientId: "",
+                      password: "",
+                      apiKey: "",
+                      apiSecret: "",
+                      totpKey: "",
+                      email: "",
+                      mobile: "",
+                    });
+                  }}
+                  className="w-full sm:w-auto bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+                >
+                  Add Account
+                </Button>
+              </div>
+            </div>
+          )}
 
           {/* Accounts Table */}
           <div className="bg-card rounded-lg border border-border">
