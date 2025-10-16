@@ -6,9 +6,77 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { LayoutDashboard, TrendingUp, Users, Bell, ArrowUpRight, ArrowDownRight, Wallet, IndianRupee, TrendingDown, Activity } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
 
 const Index = () => {
   const navigate = useNavigate();
+  const [selectedPeriod, setSelectedPeriod] = useState("1D");
+
+  const performanceData = {
+    "1D": [
+      { time: "9:00", value: 2847000 },
+      { time: "10:00", value: 2843000 },
+      { time: "11:00", value: 2851000 },
+      { time: "12:00", value: 2848000 },
+      { time: "1:00", value: 2855000 },
+      { time: "2:00", value: 2849000 },
+      { time: "3:00", value: 2858000 },
+      { time: "4:00", value: 2862000 },
+    ],
+    "1W": [
+      { time: "Mon", value: 2800000 },
+      { time: "Tue", value: 2820000 },
+      { time: "Wed", value: 2810000 },
+      { time: "Thu", value: 2835000 },
+      { time: "Fri", value: 2847650 },
+    ],
+    "1M": [
+      { time: "W1", value: 2700000 },
+      { time: "W2", value: 2750000 },
+      { time: "W3", value: 2800000 },
+      { time: "W4", value: 2847650 },
+    ],
+    "3M": [
+      { time: "Jan", value: 2540000 },
+      { time: "Feb", value: 2650000 },
+      { time: "Mar", value: 2847650 },
+    ],
+    "6M": [
+      { time: "Oct", value: 2400000 },
+      { time: "Nov", value: 2500000 },
+      { time: "Dec", value: 2600000 },
+      { time: "Jan", value: 2700000 },
+      { time: "Feb", value: 2750000 },
+      { time: "Mar", value: 2847650 },
+    ],
+    "1Y": [
+      { time: "Apr", value: 2290000 },
+      { time: "Jun", value: 2350000 },
+      { time: "Aug", value: 2450000 },
+      { time: "Oct", value: 2500000 },
+      { time: "Dec", value: 2650000 },
+      { time: "Feb", value: 2750000 },
+      { time: "Mar", value: 2847650 },
+    ],
+    "All": [
+      { time: "2022", value: 2000000 },
+      { time: "2023", value: 2400000 },
+      { time: "2024", value: 2847650 },
+    ],
+  };
+
+  const performanceMetrics = {
+    "1D": { return: "+0.4%", comparison: "vs benchmark" },
+    "1W": { return: "+2.1%", comparison: "vs benchmark" },
+    "1M": { return: "+5.6%", comparison: "vs benchmark" },
+    "3M": { return: "+12.4%", comparison: "vs benchmark" },
+    "6M": { return: "+18.7%", comparison: "vs benchmark" },
+    "1Y": { return: "+24.3%", comparison: "vs benchmark" },
+    "All": { return: "+42.3%", comparison: "vs benchmark" },
+  };
+
+  const periods = ["1D", "1W", "1M", "3M", "6M", "1Y", "All"];
 
   return (
     <div className="min-h-screen bg-background">
@@ -160,6 +228,91 @@ const Index = () => {
               </Card>
             </div>
           </div>
+
+          {/* Portfolio Performance */}
+          <Card className="p-4 sm:p-6 mb-6 md:mb-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold">Portfolio Performance</h2>
+              <div className="flex gap-1">
+                {periods.map((period) => (
+                  <Button
+                    key={period}
+                    variant={selectedPeriod === period ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setSelectedPeriod(period)}
+                    className="text-xs"
+                  >
+                    {period}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            
+            <div className="mb-6">
+              <div className="flex items-baseline gap-2 mb-1">
+                <p className="text-3xl font-bold">{performanceMetrics[selectedPeriod as keyof typeof performanceMetrics].return}</p>
+                <span className="text-sm text-green-600 flex items-center gap-1">
+                  <TrendingUp className="h-4 w-4" />
+                  {performanceMetrics[selectedPeriod as keyof typeof performanceMetrics].comparison}
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground">Portfolio return for {selectedPeriod}</p>
+            </div>
+
+            <div className="h-64 mb-6">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={performanceData[selectedPeriod as keyof typeof performanceData]}>
+                  <defs>
+                    <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis 
+                    dataKey="time" 
+                    className="text-xs"
+                    stroke="hsl(var(--muted-foreground))"
+                  />
+                  <YAxis 
+                    className="text-xs"
+                    stroke="hsl(var(--muted-foreground))"
+                    tickFormatter={(value) => `₹${(value / 100000).toFixed(1)}L`}
+                  />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: "hsl(var(--background))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: "8px"
+                    }}
+                    formatter={(value: number) => [`₹${value.toLocaleString()}`, "Value"]}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="hsl(var(--primary))" 
+                    strokeWidth={2}
+                    fill="url(#colorValue)" 
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              <div className="text-center">
+                <p className="text-2xl font-bold text-green-600">+24.3%</p>
+                <p className="text-sm text-muted-foreground mt-1">1 Year</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold text-blue-600">+18.7%</p>
+                <p className="text-sm text-muted-foreground mt-1">6 Months</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold text-purple-600">+12.4%</p>
+                <p className="text-sm text-muted-foreground mt-1">3 Months</p>
+              </div>
+            </div>
+          </Card>
 
           {/* Two Column Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
