@@ -2,7 +2,9 @@ import { DashboardHeader } from "@/components/DashboardHeader";
 import { DashboardSidebar } from "@/components/DashboardSidebar";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, TrendingUp, Users, Bell, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { LayoutDashboard, TrendingUp, Users, Bell, ArrowUpRight, ArrowDownRight, Wallet, IndianRupee, TrendingDown, Activity } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
@@ -33,86 +35,340 @@ const Index = () => {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
             <Card className="p-4 sm:p-6">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-xs sm:text-sm text-muted-foreground">Total Portfolio</p>
-                <TrendingUp className="h-4 w-4 text-success" />
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs sm:text-sm text-muted-foreground">Total Portfolio Value</p>
+                <div className="h-10 w-10 rounded-lg bg-green-500/10 flex items-center justify-center">
+                  <Wallet className="h-5 w-5 text-green-500" />
+                </div>
               </div>
-              <p className="text-2xl sm:text-3xl font-bold mb-1">₹2,45,890</p>
-              <div className="flex items-center gap-1 text-xs text-success">
-                <ArrowUpRight className="h-3 w-3" />
-                <span>+12.5%</span>
-              </div>
+              <p className="text-2xl sm:text-3xl font-bold">₹28,47,650</p>
             </Card>
 
             <Card className="p-4 sm:p-6">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-xs sm:text-sm text-muted-foreground">Active Strategies</p>
-                <Bell className="h-4 w-4 text-primary" />
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs sm:text-sm text-muted-foreground">Total Investment</p>
+                <div className="h-10 w-10 rounded-lg bg-purple-500/10 flex items-center justify-center">
+                  <IndianRupee className="h-5 w-5 text-purple-500" />
+                </div>
               </div>
-              <p className="text-2xl sm:text-3xl font-bold mb-1">8</p>
-              <p className="text-xs text-muted-foreground">3 alerts triggered today</p>
+              <p className="text-2xl sm:text-3xl font-bold">₹24,50,000</p>
             </Card>
 
             <Card className="p-4 sm:p-6">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-xs sm:text-sm text-muted-foreground">Connected Accounts</p>
-                <Users className="h-4 w-4 text-primary" />
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs sm:text-sm text-muted-foreground">Total Gain/Loss</p>
+                <div className="h-10 w-10 rounded-lg bg-green-500/10 flex items-center justify-center">
+                  <ArrowUpRight className="h-5 w-5 text-green-500" />
+                </div>
               </div>
-              <p className="text-2xl sm:text-3xl font-bold mb-1">3</p>
-              <p className="text-xs text-muted-foreground">2 brokers connected</p>
+              <p className="text-2xl sm:text-3xl font-bold text-green-600">₹3,97,650</p>
+              <p className="text-xs text-green-600 mt-1">+16.23%</p>
             </Card>
 
             <Card className="p-4 sm:p-6">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-xs sm:text-sm text-muted-foreground">Today's P&L</p>
-                <TrendingUp className="h-4 w-4 text-destructive" />
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs sm:text-sm text-muted-foreground">Today's Gain/Loss</p>
+                <div className="h-10 w-10 rounded-lg bg-green-500/10 flex items-center justify-center">
+                  <ArrowUpRight className="h-5 w-5 text-green-500" />
+                </div>
               </div>
-              <p className="text-2xl sm:text-3xl font-bold mb-1">₹-3,240</p>
-              <div className="flex items-center gap-1 text-xs text-destructive">
-                <ArrowDownRight className="h-3 w-3" />
-                <span>-1.3%</span>
+              <p className="text-2xl sm:text-3xl font-bold text-green-600">₹12,450</p>
+              <p className="text-xs text-green-600 mt-1">+0.44%</p>
+            </Card>
+          </div>
+
+          {/* Account Summary */}
+          <div className="mb-6 md:mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold">Account Summary</h2>
+              <Button variant="link" onClick={() => navigate('/account-config')}>Manage Accounts</Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+              <Card className="p-4 sm:p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-lg bg-orange-500/10 flex items-center justify-center">
+                      <Activity className="h-5 w-5 text-orange-500" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Zerodha</p>
+                      <p className="text-xs text-muted-foreground">ZD1234</p>
+                    </div>
+                  </div>
+                  <Badge className="bg-green-500/10 text-green-600 hover:bg-green-500/20">active</Badge>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Portfolio Value</span>
+                    <span className="font-semibold">₹12,45,000</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Gain/Loss</span>
+                    <span className="font-semibold text-green-600">₹1,45,000<span className="text-xs ml-1">+13.2%</span></span>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-4 sm:p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                      <Activity className="h-5 w-5 text-blue-500" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Dhan</p>
+                      <p className="text-xs text-muted-foreground">DH5678</p>
+                    </div>
+                  </div>
+                  <Badge className="bg-green-500/10 text-green-600 hover:bg-green-500/20">active</Badge>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Portfolio Value</span>
+                    <span className="font-semibold">₹8,56,000</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Gain/Loss</span>
+                    <span className="font-semibold text-green-600">₹1,56,000<span className="text-xs ml-1">+22.3%</span></span>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-4 sm:p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-lg bg-purple-500/10 flex items-center justify-center">
+                      <Activity className="h-5 w-5 text-purple-500" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Angel One</p>
+                      <p className="text-xs text-muted-foreground">AO9012</p>
+                    </div>
+                  </div>
+                  <Badge className="bg-green-500/10 text-green-600 hover:bg-green-500/20">active</Badge>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Portfolio Value</span>
+                    <span className="font-semibold">₹7,46,650</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Gain/Loss</span>
+                    <span className="font-semibold text-green-600">₹96,650<span className="text-xs ml-1">+14.9%</span></span>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+
+          {/* Two Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
+            {/* Top Holdings */}
+            <Card className="p-4 sm:p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold">Top Holdings</h2>
+                <Button variant="link">View All Holdings</Button>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left py-2 font-medium text-muted-foreground">Stock</th>
+                      <th className="text-right py-2 font-medium text-muted-foreground">Qty</th>
+                      <th className="text-right py-2 font-medium text-muted-foreground">Value</th>
+                      <th className="text-right py-2 font-medium text-muted-foreground">P&L</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b">
+                      <td className="py-3">
+                        <div>
+                          <p className="font-semibold">RELIANCE</p>
+                          <p className="text-xs text-muted-foreground">Reliance Industries</p>
+                        </div>
+                      </td>
+                      <td className="text-right">150</td>
+                      <td className="text-right font-semibold">₹4,01,745</td>
+                      <td className="text-right">
+                        <span className="text-green-600 font-semibold">₹34,170</span>
+                        <p className="text-xs text-green-600">+9.3%</p>
+                      </td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-3">
+                        <div>
+                          <p className="font-semibold">TCS</p>
+                          <p className="text-xs text-muted-foreground">Tata Consultancy</p>
+                        </div>
+                      </td>
+                      <td className="text-right">80</td>
+                      <td className="text-right font-semibold">₹2,76,496</td>
+                      <td className="text-right">
+                        <span className="text-green-600 font-semibold">₹16,436</span>
+                        <p className="text-xs text-green-600">+6.3%</p>
+                      </td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-3">
+                        <div>
+                          <p className="font-semibold">INFY</p>
+                          <p className="text-xs text-muted-foreground">Infosys Limited</p>
+                        </div>
+                      </td>
+                      <td className="text-right">120</td>
+                      <td className="text-right font-semibold">₹1,88,136</td>
+                      <td className="text-right">
+                        <span className="text-green-600 font-semibold">₹14,106</span>
+                        <p className="text-xs text-green-600">+8.1%</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+
+            {/* Sector Allocation */}
+            <Card className="p-4 sm:p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold">Sector Allocation</h2>
+                <Button variant="link">View Details</Button>
+              </div>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="h-3 w-3 rounded-full bg-blue-500"></div>
+                      <span>Information Technology</span>
+                    </div>
+                    <span className="font-semibold">28.5%</span>
+                  </div>
+                  <Progress value={28.5} className="h-2" />
+                  <p className="text-xs text-muted-foreground">₹8,11,781</p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="h-3 w-3 rounded-full bg-green-500"></div>
+                      <span>Financial Services</span>
+                    </div>
+                    <span className="font-semibold">24.2%</span>
+                  </div>
+                  <Progress value={24.2} className="h-2" />
+                  <p className="text-xs text-muted-foreground">₹6,89,211</p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
+                      <span>Oil & Gas</span>
+                    </div>
+                    <span className="font-semibold">18.3%</span>
+                  </div>
+                  <Progress value={18.3} className="h-2" />
+                  <p className="text-xs text-muted-foreground">₹5,21,120</p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="h-3 w-3 rounded-full bg-purple-500"></div>
+                      <span>Consumer Goods</span>
+                    </div>
+                    <span className="font-semibold">12.1%</span>
+                  </div>
+                  <Progress value={12.1} className="h-2" />
+                  <p className="text-xs text-muted-foreground">₹3,44,566</p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="h-3 w-3 rounded-full bg-red-500"></div>
+                      <span>Healthcare</span>
+                    </div>
+                    <span className="font-semibold">8.7%</span>
+                  </div>
+                  <Progress value={8.7} className="h-2" />
+                  <p className="text-xs text-muted-foreground">₹2,47,746</p>
+                </div>
               </div>
             </Card>
           </div>
 
-          {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            <Card className="p-4 sm:p-6 cursor-pointer hover:border-primary transition-colors" onClick={() => navigate('/account-config')}>
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Users className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+          {/* Recent Transactions */}
+          <Card className="p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold">Recent Transactions</h2>
+              <Button variant="link">View All</Button>
+            </div>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center">
+                    <ArrowDownRight className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-semibold">WIPRO</p>
+                      <Badge variant="secondary" className="text-xs">BUY</Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground">50 shares @ ₹445.20 • Zerodha • 15 Jan 2024</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold mb-1 text-sm sm:text-base">Account Config</h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Manage trading accounts</p>
-                </div>
+                <p className="font-semibold">₹22,260</p>
               </div>
-            </Card>
 
-            <Card className="p-4 sm:p-6 cursor-pointer hover:border-primary transition-colors" onClick={() => navigate('/create-alerts')}>
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Bell className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-red-500/10 flex items-center justify-center">
+                    <ArrowUpRight className="h-5 w-5 text-red-600" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-semibold">BHARTIARTL</p>
+                      <Badge variant="destructive" className="text-xs">SELL</Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground">30 shares @ ₹1156.75 • Dhan • 14 Jan 2024</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold mb-1 text-sm sm:text-base">Create Alerts</h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Setup automated strategies</p>
-                </div>
+                <p className="font-semibold">₹34,703</p>
               </div>
-            </Card>
 
-            <Card className="p-4 sm:p-6 cursor-pointer hover:border-primary transition-colors">
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center">
+                    <ArrowDownRight className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-semibold">MARUTI</p>
+                      <Badge variant="secondary" className="text-xs">BUY</Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground">10 shares @ ₹10450.30 • Angel One • 12 Jan 2024</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold mb-1 text-sm sm:text-base">Analytics</h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground">View performance reports</p>
-                </div>
+                <p className="font-semibold">₹1,04,503</p>
               </div>
-            </Card>
-          </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                    <IndianRupee className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <p className="font-semibold">TCS</p>
+                      <Badge variant="outline" className="text-xs">DIVIDEND</Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground">80 shares @ ₹25.00 • Dhan • 10 Jan 2024</p>
+                  </div>
+                </div>
+                <p className="font-semibold">₹2,000</p>
+              </div>
+            </div>
+          </Card>
         </div>
       </main>
     </div>
