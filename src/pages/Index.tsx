@@ -147,11 +147,11 @@ const Index = () => {
 
           {/* Account Summary */}
           <div className="mb-6 md:mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">Account Summary</h2>
-              <Button variant="link" onClick={() => navigate('/account-config')}>Manage Accounts</Button>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+              <h2 className="text-lg sm:text-xl font-bold">Account Summary</h2>
+              <Button variant="link" size="sm" onClick={() => navigate('/account-config')} className="self-start sm:self-auto">Manage Accounts</Button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               <Card className="p-4 sm:p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
@@ -231,16 +231,16 @@ const Index = () => {
 
           {/* Portfolio Performance */}
           <Card className="p-4 sm:p-6 mb-6 md:mb-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold">Portfolio Performance</h2>
-              <div className="flex gap-1">
+            <div className="flex flex-col gap-4 mb-6">
+              <h2 className="text-lg sm:text-xl font-bold">Portfolio Performance</h2>
+              <div className="flex flex-wrap gap-1.5">
                 {periods.map((period) => (
                   <Button
                     key={period}
-                    variant={selectedPeriod === period ? "default" : "ghost"}
+                    variant={selectedPeriod === period ? "default" : "outline"}
                     size="sm"
                     onClick={() => setSelectedPeriod(period)}
-                    className="text-xs"
+                    className="text-xs px-3 py-1.5 h-auto min-w-[44px]"
                   >
                     {period}
                   </Button>
@@ -248,42 +248,47 @@ const Index = () => {
               </div>
             </div>
             
-            <div className="mb-6">
-              <div className="flex items-baseline gap-2 mb-1">
-                <p className="text-3xl font-bold">{performanceMetrics[selectedPeriod as keyof typeof performanceMetrics].return}</p>
-                <span className="text-sm text-green-600 flex items-center gap-1">
-                  <TrendingUp className="h-4 w-4" />
+            <div className="mb-4 sm:mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2 mb-1">
+                <p className="text-2xl sm:text-3xl font-bold">{performanceMetrics[selectedPeriod as keyof typeof performanceMetrics].return}</p>
+                <span className="text-xs sm:text-sm text-green-600 flex items-center gap-1">
+                  <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" />
                   {performanceMetrics[selectedPeriod as keyof typeof performanceMetrics].comparison}
                 </span>
               </div>
-              <p className="text-sm text-muted-foreground">Portfolio return for {selectedPeriod}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">Portfolio return for {selectedPeriod}</p>
             </div>
 
-            <div className="h-64 mb-6">
+            <div className="h-48 sm:h-64 mb-4 sm:mb-6 -mx-2 sm:mx-0">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={performanceData[selectedPeriod as keyof typeof performanceData]}>
+                <AreaChart data={performanceData[selectedPeriod as keyof typeof performanceData]} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
                   <defs>
                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
                       <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" opacity={0.3} />
                   <XAxis 
                     dataKey="time" 
-                    className="text-xs"
+                    className="text-[10px] sm:text-xs"
                     stroke="hsl(var(--muted-foreground))"
+                    tick={{ fontSize: 10 }}
                   />
                   <YAxis 
-                    className="text-xs"
+                    className="text-[10px] sm:text-xs"
                     stroke="hsl(var(--muted-foreground))"
                     tickFormatter={(value) => `₹${(value / 100000).toFixed(1)}L`}
+                    tick={{ fontSize: 10 }}
+                    width={45}
                   />
                   <Tooltip 
                     contentStyle={{ 
                       backgroundColor: "hsl(var(--background))",
                       border: "1px solid hsl(var(--border))",
-                      borderRadius: "8px"
+                      borderRadius: "8px",
+                      fontSize: "12px",
+                      padding: "8px"
                     }}
                     formatter={(value: number) => [`₹${value.toLocaleString()}`, "Value"]}
                   />
@@ -298,18 +303,18 @@ const Index = () => {
               </ResponsiveContainer>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-green-600">+24.3%</p>
-                <p className="text-sm text-muted-foreground mt-1">1 Year</p>
+            <div className="grid grid-cols-3 gap-2 sm:gap-4">
+              <div className="text-center p-2 sm:p-3 rounded-lg bg-muted/30">
+                <p className="text-lg sm:text-2xl font-bold text-green-600">+24.3%</p>
+                <p className="text-[10px] sm:text-sm text-muted-foreground mt-0.5 sm:mt-1">1 Year</p>
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-blue-600">+18.7%</p>
-                <p className="text-sm text-muted-foreground mt-1">6 Months</p>
+              <div className="text-center p-2 sm:p-3 rounded-lg bg-muted/30">
+                <p className="text-lg sm:text-2xl font-bold text-blue-600">+18.7%</p>
+                <p className="text-[10px] sm:text-sm text-muted-foreground mt-0.5 sm:mt-1">6 Months</p>
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-purple-600">+12.4%</p>
-                <p className="text-sm text-muted-foreground mt-1">3 Months</p>
+              <div className="text-center p-2 sm:p-3 rounded-lg bg-muted/30">
+                <p className="text-lg sm:text-2xl font-bold text-purple-600">+12.4%</p>
+                <p className="text-[10px] sm:text-sm text-muted-foreground mt-0.5 sm:mt-1">3 Months</p>
               </div>
             </div>
           </Card>
@@ -318,12 +323,12 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
             {/* Top Holdings */}
             <Card className="p-4 sm:p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold">Top Holdings</h2>
-                <Button variant="link">View All Holdings</Button>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+                <h2 className="text-lg sm:text-xl font-bold">Top Holdings</h2>
+                <Button variant="link" size="sm" className="self-start sm:self-auto">View All</Button>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+              <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+                <table className="w-full text-xs sm:text-sm min-w-[500px] sm:min-w-0">
                   <thead>
                     <tr className="border-b">
                       <th className="text-left py-2 font-medium text-muted-foreground">Stock</th>
@@ -382,69 +387,69 @@ const Index = () => {
 
             {/* Sector Allocation */}
             <Card className="p-4 sm:p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold">Sector Allocation</h2>
-                <Button variant="link">View Details</Button>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+                <h2 className="text-lg sm:text-xl font-bold">Sector Allocation</h2>
+                <Button variant="link" size="sm" className="self-start sm:self-auto">View Details</Button>
               </div>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="h-3 w-3 rounded-full bg-blue-500"></div>
-                      <span>Information Technology</span>
+              <div className="space-y-3 sm:space-y-4">
+                <div className="space-y-1.5 sm:space-y-2">
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-blue-500 flex-shrink-0"></div>
+                      <span className="truncate">Information Technology</span>
                     </div>
-                    <span className="font-semibold">28.5%</span>
+                    <span className="font-semibold ml-2">28.5%</span>
                   </div>
-                  <Progress value={28.5} className="h-2" />
-                  <p className="text-xs text-muted-foreground">₹8,11,781</p>
+                  <Progress value={28.5} className="h-1.5 sm:h-2" />
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">₹8,11,781</p>
                 </div>
 
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="h-3 w-3 rounded-full bg-green-500"></div>
-                      <span>Financial Services</span>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-green-500 flex-shrink-0"></div>
+                      <span className="truncate">Financial Services</span>
                     </div>
-                    <span className="font-semibold">24.2%</span>
+                    <span className="font-semibold ml-2">24.2%</span>
                   </div>
-                  <Progress value={24.2} className="h-2" />
-                  <p className="text-xs text-muted-foreground">₹6,89,211</p>
+                  <Progress value={24.2} className="h-1.5 sm:h-2" />
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">₹6,89,211</p>
                 </div>
 
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
-                      <span>Oil & Gas</span>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-yellow-500 flex-shrink-0"></div>
+                      <span className="truncate">Oil & Gas</span>
                     </div>
-                    <span className="font-semibold">18.3%</span>
+                    <span className="font-semibold ml-2">18.3%</span>
                   </div>
-                  <Progress value={18.3} className="h-2" />
-                  <p className="text-xs text-muted-foreground">₹5,21,120</p>
+                  <Progress value={18.3} className="h-1.5 sm:h-2" />
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">₹5,21,120</p>
                 </div>
 
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="h-3 w-3 rounded-full bg-purple-500"></div>
-                      <span>Consumer Goods</span>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-purple-500 flex-shrink-0"></div>
+                      <span className="truncate">Consumer Goods</span>
                     </div>
-                    <span className="font-semibold">12.1%</span>
+                    <span className="font-semibold ml-2">12.1%</span>
                   </div>
-                  <Progress value={12.1} className="h-2" />
-                  <p className="text-xs text-muted-foreground">₹3,44,566</p>
+                  <Progress value={12.1} className="h-1.5 sm:h-2" />
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">₹3,44,566</p>
                 </div>
 
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="h-3 w-3 rounded-full bg-red-500"></div>
-                      <span>Healthcare</span>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <div className="flex items-center justify-between text-xs sm:text-sm">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-red-500 flex-shrink-0"></div>
+                      <span className="truncate">Healthcare</span>
                     </div>
-                    <span className="font-semibold">8.7%</span>
+                    <span className="font-semibold ml-2">8.7%</span>
                   </div>
-                  <Progress value={8.7} className="h-2" />
-                  <p className="text-xs text-muted-foreground">₹2,47,746</p>
+                  <Progress value={8.7} className="h-1.5 sm:h-2" />
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">₹2,47,746</p>
                 </div>
               </div>
             </Card>
@@ -452,73 +457,73 @@ const Index = () => {
 
           {/* Recent Transactions */}
           <Card className="p-4 sm:p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">Recent Transactions</h2>
-              <Button variant="link">View All</Button>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+              <h2 className="text-lg sm:text-xl font-bold">Recent Transactions</h2>
+              <Button variant="link" size="sm" className="self-start sm:self-auto">View All</Button>
             </div>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center">
-                    <ArrowDownRight className="h-5 w-5 text-green-600" />
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                  <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                    <ArrowDownRight className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="font-semibold">WIPRO</p>
-                      <Badge variant="secondary" className="text-xs">BUY</Badge>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                      <p className="font-semibold text-sm sm:text-base">WIPRO</p>
+                      <Badge variant="secondary" className="text-[10px] sm:text-xs px-1.5 py-0">BUY</Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground">50 shares @ ₹445.20 • Zerodha • 15 Jan 2024</p>
+                    <p className="text-[10px] sm:text-xs text-muted-foreground truncate">50 shares @ ₹445.20 • Zerodha</p>
                   </div>
                 </div>
-                <p className="font-semibold">₹22,260</p>
+                <p className="font-semibold text-sm sm:text-base whitespace-nowrap">₹22,260</p>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-red-500/10 flex items-center justify-center">
-                    <ArrowUpRight className="h-5 w-5 text-red-600" />
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                  <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                    <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="font-semibold">BHARTIARTL</p>
-                      <Badge variant="destructive" className="text-xs">SELL</Badge>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                      <p className="font-semibold text-sm sm:text-base">BHARTIARTL</p>
+                      <Badge variant="destructive" className="text-[10px] sm:text-xs px-1.5 py-0">SELL</Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground">30 shares @ ₹1156.75 • Dhan • 14 Jan 2024</p>
+                    <p className="text-[10px] sm:text-xs text-muted-foreground truncate">30 shares @ ₹1156.75 • Dhan</p>
                   </div>
                 </div>
-                <p className="font-semibold">₹34,703</p>
+                <p className="font-semibold text-sm sm:text-base whitespace-nowrap">₹34,703</p>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center">
-                    <ArrowDownRight className="h-5 w-5 text-green-600" />
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                  <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                    <ArrowDownRight className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="font-semibold">MARUTI</p>
-                      <Badge variant="secondary" className="text-xs">BUY</Badge>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                      <p className="font-semibold text-sm sm:text-base">MARUTI</p>
+                      <Badge variant="secondary" className="text-[10px] sm:text-xs px-1.5 py-0">BUY</Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground">10 shares @ ₹10450.30 • Angel One • 12 Jan 2024</p>
+                    <p className="text-[10px] sm:text-xs text-muted-foreground truncate">10 shares @ ₹10450.30 • Angel One</p>
                   </div>
                 </div>
-                <p className="font-semibold">₹1,04,503</p>
+                <p className="font-semibold text-sm sm:text-base whitespace-nowrap">₹1,04,503</p>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center">
-                    <IndianRupee className="h-5 w-5 text-blue-600" />
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                  <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                    <IndianRupee className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="font-semibold">TCS</p>
-                      <Badge variant="outline" className="text-xs">DIVIDEND</Badge>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                      <p className="font-semibold text-sm sm:text-base">TCS</p>
+                      <Badge variant="outline" className="text-[10px] sm:text-xs px-1.5 py-0">DIVIDEND</Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground">80 shares @ ₹25.00 • Dhan • 10 Jan 2024</p>
+                    <p className="text-[10px] sm:text-xs text-muted-foreground truncate">80 shares @ ₹25.00 • Dhan</p>
                   </div>
                 </div>
-                <p className="font-semibold">₹2,000</p>
+                <p className="font-semibold text-sm sm:text-base whitespace-nowrap">₹2,000</p>
               </div>
             </div>
           </Card>
