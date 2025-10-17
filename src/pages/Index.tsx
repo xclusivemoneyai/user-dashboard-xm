@@ -4,7 +4,9 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { LayoutDashboard, TrendingUp, Users, Bell, ArrowUpRight, ArrowDownRight, Wallet, IndianRupee, TrendingDown, Activity } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { LayoutDashboard, TrendingUp, Users, Bell, ArrowUpRight, ArrowDownRight, Wallet, IndianRupee, TrendingDown, Activity, Filter, Search, ArrowUpDown, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
@@ -319,71 +321,330 @@ const Index = () => {
             </div>
           </Card>
 
+          {/* Top Holdings - Full Width */}
+          <Card className="p-4 sm:p-6 mb-6 md:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+              <h2 className="text-lg sm:text-xl font-bold">Holdings</h2>
+              <div className="relative flex-1 max-w-xs">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search stocks..." 
+                  className="pl-9 h-9 text-sm"
+                />
+              </div>
+            </div>
+            
+            {/* Filters */}
+            <div className="flex items-center gap-2 mb-4 flex-wrap">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Filter className="h-4 w-4" />
+                <span className="hidden sm:inline">Filters:</span>
+              </div>
+              <Select defaultValue="all-accounts">
+                <SelectTrigger className="w-[140px] sm:w-[160px] h-9 text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all-accounts">All Accounts</SelectItem>
+                  <SelectItem value="zerodha">Zerodha</SelectItem>
+                  <SelectItem value="dhan">Dhan</SelectItem>
+                  <SelectItem value="angel-one">Angel One</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              <Select defaultValue="all-stocks">
+                <SelectTrigger className="w-[120px] sm:w-[140px] h-9 text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all-stocks">All Stocks</SelectItem>
+                  <SelectItem value="equity">Equity</SelectItem>
+                  <SelectItem value="options">Options</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left py-3 px-2 font-medium text-muted-foreground">
+                      <div className="flex items-center gap-1 cursor-pointer">
+                        Symbol <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </th>
+                    <th className="text-left py-3 px-2 font-medium text-muted-foreground">Name</th>
+                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">
+                      <div className="flex items-center justify-end gap-1 cursor-pointer">
+                        Qty <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </th>
+                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">Avg Price</th>
+                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">LTP</th>
+                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">Invested</th>
+                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">
+                      <div className="flex items-center justify-end gap-1 cursor-pointer">
+                        Current Value <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </th>
+                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">
+                      <div className="flex items-center justify-end gap-1 cursor-pointer">
+                        Gain/Loss <ArrowUpDown className="h-3 w-3" />
+                      </div>
+                    </th>
+                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">Account</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b hover:bg-muted/30">
+                    <td className="py-3 px-2 font-semibold">AXISBANK</td>
+                    <td className="py-3 px-2 text-muted-foreground">Axis Bank Ltd.</td>
+                    <td className="py-3 px-2 text-right">75</td>
+                    <td className="py-3 px-2 text-right">₹990.00</td>
+                    <td className="py-3 px-2 text-right">₹1,045.00</td>
+                    <td className="py-3 px-2 text-right">₹74,250.00</td>
+                    <td className="py-3 px-2 text-right font-semibold">₹78,375.00</td>
+                    <td className="py-3 px-2 text-right">
+                      <div className="text-green-600 font-semibold">+₹4,125.00</div>
+                      <div className="text-xs text-green-600">(+5.56%)</div>
+                    </td>
+                    <td className="py-3 px-2 text-right">
+                      <Badge variant="outline" className="border-blue-500 text-blue-600 text-xs">Zerodha</Badge>
+                    </td>
+                  </tr>
+                  <tr className="border-b hover:bg-muted/30">
+                    <td className="py-3 px-2 font-semibold">BHARTIARTL</td>
+                    <td className="py-3 px-2 text-muted-foreground">Bharti Airtel Ltd.</td>
+                    <td className="py-3 px-2 text-right">90</td>
+                    <td className="py-3 px-2 text-right">₹850.00</td>
+                    <td className="py-3 px-2 text-right">₹920.00</td>
+                    <td className="py-3 px-2 text-right">₹76,500.00</td>
+                    <td className="py-3 px-2 text-right font-semibold">₹82,800.00</td>
+                    <td className="py-3 px-2 text-right">
+                      <div className="text-green-600 font-semibold">+₹6,300.00</div>
+                      <div className="text-xs text-green-600">(+8.24%)</div>
+                    </td>
+                    <td className="py-3 px-2 text-right">
+                      <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">Angel One</Badge>
+                    </td>
+                  </tr>
+                  <tr className="border-b hover:bg-muted/30">
+                    <td className="py-3 px-2 font-semibold">HDFCBANK</td>
+                    <td className="py-3 px-2 text-muted-foreground">HDFC Bank Ltd.</td>
+                    <td className="py-3 px-2 text-right">100</td>
+                    <td className="py-3 px-2 text-right">₹1,580.00</td>
+                    <td className="py-3 px-2 text-right">₹1,650.00</td>
+                    <td className="py-3 px-2 text-right">₹1,58,000.00</td>
+                    <td className="py-3 px-2 text-right font-semibold">₹1,65,000.00</td>
+                    <td className="py-3 px-2 text-right">
+                      <div className="text-green-600 font-semibold">+₹7,000.00</div>
+                      <div className="text-xs text-green-600">(+4.43%)</div>
+                    </td>
+                    <td className="py-3 px-2 text-right">
+                      <Badge variant="outline" className="border-emerald-500 text-emerald-600 text-xs">Dhan</Badge>
+                    </td>
+                  </tr>
+                  <tr className="border-b hover:bg-muted/30">
+                    <td className="py-3 px-2 font-semibold">ICICIBANK</td>
+                    <td className="py-3 px-2 text-muted-foreground">ICICI Bank Ltd.</td>
+                    <td className="py-3 px-2 text-right">120</td>
+                    <td className="py-3 px-2 text-right">₹920.00</td>
+                    <td className="py-3 px-2 text-right">₹985.00</td>
+                    <td className="py-3 px-2 text-right">₹1,10,400.00</td>
+                    <td className="py-3 px-2 text-right font-semibold">₹1,18,200.00</td>
+                    <td className="py-3 px-2 text-right">
+                      <div className="text-green-600 font-semibold">+₹7,800.00</div>
+                      <div className="text-xs text-green-600">(+7.07%)</div>
+                    </td>
+                    <td className="py-3 px-2 text-right">
+                      <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">Angel One</Badge>
+                    </td>
+                  </tr>
+                  <tr className="border-b hover:bg-muted/30">
+                    <td className="py-3 px-2 font-semibold">INFY</td>
+                    <td className="py-3 px-2 text-muted-foreground">Infosys Ltd.</td>
+                    <td className="py-3 px-2 text-right">80</td>
+                    <td className="py-3 px-2 text-right">₹1,420.00</td>
+                    <td className="py-3 px-2 text-right">₹1,385.00</td>
+                    <td className="py-3 px-2 text-right">₹1,13,600.00</td>
+                    <td className="py-3 px-2 text-right font-semibold">₹1,10,800.00</td>
+                    <td className="py-3 px-2 text-right">
+                      <div className="text-red-600 font-semibold">-₹2,800.00</div>
+                      <div className="text-xs text-red-600">(-2.46%)</div>
+                    </td>
+                    <td className="py-3 px-2 text-right">
+                      <Badge variant="outline" className="border-emerald-500 text-emerald-600 text-xs">Dhan</Badge>
+                    </td>
+                  </tr>
+                  <tr className="border-b hover:bg-muted/30">
+                    <td className="py-3 px-2 font-semibold">RELIANCE</td>
+                    <td className="py-3 px-2 text-muted-foreground">Reliance Industries Ltd.</td>
+                    <td className="py-3 px-2 text-right">50</td>
+                    <td className="py-3 px-2 text-right">₹2,450.00</td>
+                    <td className="py-3 px-2 text-right">₹2,680.00</td>
+                    <td className="py-3 px-2 text-right">₹1,22,500.00</td>
+                    <td className="py-3 px-2 text-right font-semibold">₹1,34,000.00</td>
+                    <td className="py-3 px-2 text-right">
+                      <div className="text-green-600 font-semibold">+₹11,500.00</div>
+                      <div className="text-xs text-green-600">(+9.39%)</div>
+                    </td>
+                    <td className="py-3 px-2 text-right">
+                      <Badge variant="outline" className="border-blue-500 text-blue-600 text-xs">Zerodha</Badge>
+                    </td>
+                  </tr>
+                  <tr className="border-b hover:bg-muted/30">
+                    <td className="py-3 px-2 font-semibold">TCS</td>
+                    <td className="py-3 px-2 text-muted-foreground">Tata Consultancy Services</td>
+                    <td className="py-3 px-2 text-right">30</td>
+                    <td className="py-3 px-2 text-right">₹3,520.00</td>
+                    <td className="py-3 px-2 text-right">₹3,780.00</td>
+                    <td className="py-3 px-2 text-right">₹1,05,600.00</td>
+                    <td className="py-3 px-2 text-right font-semibold">₹1,13,400.00</td>
+                    <td className="py-3 px-2 text-right">
+                      <div className="text-green-600 font-semibold">+₹7,800.00</div>
+                      <div className="text-xs text-green-600">(+7.39%)</div>
+                    </td>
+                    <td className="py-3 px-2 text-right">
+                      <Badge variant="outline" className="border-blue-500 text-blue-600 text-xs">Zerodha</Badge>
+                    </td>
+                  </tr>
+                  <tr className="border-b hover:bg-muted/30">
+                    <td className="py-3 px-2 font-semibold">WIPRO</td>
+                    <td className="py-3 px-2 text-muted-foreground">Wipro Ltd.</td>
+                    <td className="py-3 px-2 text-right">110</td>
+                    <td className="py-3 px-2 text-right">₹410.00</td>
+                    <td className="py-3 px-2 text-right">₹395.00</td>
+                    <td className="py-3 px-2 text-right">₹45,100.00</td>
+                    <td className="py-3 px-2 text-right font-semibold">₹43,450.00</td>
+                    <td className="py-3 px-2 text-right">
+                      <div className="text-red-600 font-semibold">-₹1,650.00</div>
+                      <div className="text-xs text-red-600">(-3.66%)</div>
+                    </td>
+                    <td className="py-3 px-2 text-right">
+                      <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">Angel One</Badge>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="lg:hidden space-y-3">
+              <Card className="p-3 border-l-4 border-l-blue-500">
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <h3 className="font-bold text-base">AXISBANK</h3>
+                    <p className="text-xs text-muted-foreground">Axis Bank Ltd.</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-base">₹78,375.00</p>
+                    <p className="text-xs text-green-600 font-semibold">+₹4,125.00 (+5.56%)</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">B</Badge>
+                  <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-600">Normal</Badge>
+                  <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">W</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-muted-foreground">Qty. 75 x ₹1,045.00 NSE</p>
+                  <Badge variant="outline" className="border-blue-500 text-blue-600 text-xs">Zerodha</Badge>
+                </div>
+              </Card>
+
+              <Card className="p-3 border-l-4 border-l-orange-500">
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <h3 className="font-bold text-base">BHARTIARTL</h3>
+                    <p className="text-xs text-muted-foreground">Bharti Airtel Ltd.</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-base">₹82,800.00</p>
+                    <p className="text-xs text-green-600 font-semibold">+₹6,300.00 (+8.24%)</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">B</Badge>
+                  <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-600">Normal</Badge>
+                  <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">W</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-muted-foreground">Qty. 90 x ₹920.00 NSE</p>
+                  <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">Angel One</Badge>
+                </div>
+              </Card>
+
+              <Card className="p-3 border-l-4 border-l-emerald-500">
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <h3 className="font-bold text-base">HDFCBANK</h3>
+                    <p className="text-xs text-muted-foreground">HDFC Bank Ltd.</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-base">₹1,65,000.00</p>
+                    <p className="text-xs text-green-600 font-semibold">+₹7,000.00 (+4.43%)</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">B</Badge>
+                  <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-600">Normal</Badge>
+                  <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">W</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-muted-foreground">Qty. 100 x ₹1,650.00 NSE</p>
+                  <Badge variant="outline" className="border-emerald-500 text-emerald-600 text-xs">Dhan</Badge>
+                </div>
+              </Card>
+
+              <Card className="p-3 border-l-4 border-l-red-500">
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <h3 className="font-bold text-base">INFY</h3>
+                    <p className="text-xs text-muted-foreground">Infosys Ltd.</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-base">₹1,10,800.00</p>
+                    <p className="text-xs text-red-600 font-semibold">-₹2,800.00 (-2.46%)</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">B</Badge>
+                  <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-600">Normal</Badge>
+                  <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">W</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-muted-foreground">Qty. 80 x ₹1,385.00 NSE</p>
+                  <Badge variant="outline" className="border-emerald-500 text-emerald-600 text-xs">Dhan</Badge>
+                </div>
+              </Card>
+
+              <Card className="p-3 border-l-4 border-l-blue-500">
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <h3 className="font-bold text-base">RELIANCE</h3>
+                    <p className="text-xs text-muted-foreground">Reliance Industries Ltd.</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-base">₹1,34,000.00</p>
+                    <p className="text-xs text-green-600 font-semibold">+₹11,500.00 (+9.39%)</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">B</Badge>
+                  <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-600">Normal</Badge>
+                  <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">W</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-muted-foreground">Qty. 50 x ₹2,680.00 NSE</p>
+                  <Badge variant="outline" className="border-blue-500 text-blue-600 text-xs">Zerodha</Badge>
+                </div>
+              </Card>
+            </div>
+          </Card>
+
           {/* Two Column Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
-            {/* Top Holdings */}
-            <Card className="p-4 sm:p-6">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-                <h2 className="text-lg sm:text-xl font-bold">Top Holdings</h2>
-                <Button variant="link" size="sm" className="self-start sm:self-auto">View All</Button>
-              </div>
-              <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
-                <table className="w-full text-xs sm:text-sm min-w-[500px] sm:min-w-0">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left py-2 font-medium text-muted-foreground">Stock</th>
-                      <th className="text-right py-2 font-medium text-muted-foreground">Qty</th>
-                      <th className="text-right py-2 font-medium text-muted-foreground">Value</th>
-                      <th className="text-right py-2 font-medium text-muted-foreground">P&L</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b">
-                      <td className="py-3">
-                        <div>
-                          <p className="font-semibold">RELIANCE</p>
-                          <p className="text-xs text-muted-foreground">Reliance Industries</p>
-                        </div>
-                      </td>
-                      <td className="text-right">150</td>
-                      <td className="text-right font-semibold">₹4,01,745</td>
-                      <td className="text-right">
-                        <span className="text-green-600 font-semibold">₹34,170</span>
-                        <p className="text-xs text-green-600">+9.3%</p>
-                      </td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="py-3">
-                        <div>
-                          <p className="font-semibold">TCS</p>
-                          <p className="text-xs text-muted-foreground">Tata Consultancy</p>
-                        </div>
-                      </td>
-                      <td className="text-right">80</td>
-                      <td className="text-right font-semibold">₹2,76,496</td>
-                      <td className="text-right">
-                        <span className="text-green-600 font-semibold">₹16,436</span>
-                        <p className="text-xs text-green-600">+6.3%</p>
-                      </td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="py-3">
-                        <div>
-                          <p className="font-semibold">INFY</p>
-                          <p className="text-xs text-muted-foreground">Infosys Limited</p>
-                        </div>
-                      </td>
-                      <td className="text-right">120</td>
-                      <td className="text-right font-semibold">₹1,88,136</td>
-                      <td className="text-right">
-                        <span className="text-green-600 font-semibold">₹14,106</span>
-                        <p className="text-xs text-green-600">+8.1%</p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </Card>
 
             {/* Sector Allocation */}
             <Card className="p-4 sm:p-6">
