@@ -7,6 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Users, Plus, AlertCircle, Lock, Info, Trash2, Eye, Download, X, TrendingUp, Search, FileText, ChevronDown, ChevronRight, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +24,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
 
 const CopyTrading = () => {
   const navigate = useNavigate();
@@ -79,8 +81,12 @@ const CopyTrading = () => {
     {
       id: "1",
       type: "B",
+      symbol: "NIFTY 14 OCT 25600 CALL",
       name: "NIFTY 14 OCT 25600 CALL",
+      fullName: "Nifty Bank Ltd.",
       product: "Normal",
+      exchange: "NSE",
+      quantity: 75,
       qty: 75,
       avgPrice: 2.40,
       ltp: 0.05,
@@ -93,58 +99,78 @@ const CopyTrading = () => {
   const holdings = [
     {
       id: "1",
+      symbol: "ANANTRAJ",
       name: "ANANTRAJ",
+      fullName: "Anant Raj Ltd.",
+      quantity: 200,
       qty: 200,
       avgPrice: 508.15,
       invested: 101630.00,
       ltp: 621.00,
       ltpChange: -1.95,
+      exchange: "NSE",
       pnl: 22570.00,
       pnlPercent: 22.21
     },
     {
       id: "2",
+      symbol: "APARINDS",
       name: "APARINDS",
+      fullName: "Apar Industries Ltd.",
+      quantity: 12,
       qty: 12,
       avgPrice: 8060.87,
       invested: 96730.50,
       ltp: 8666.00,
       ltpChange: -1.42,
+      exchange: "NSE",
       pnl: 7261.50,
       pnlPercent: 7.51
     },
     {
       id: "3",
+      symbol: "BDL",
       name: "BDL",
+      fullName: "Bharat Dynamics Ltd.",
+      quantity: 0,
       qty: 0,
       margin: 200,
       avgPrice: 1354.93,
       invested: 270987.60,
       ltp: 1540.00,
       ltpChange: 2.33,
+      exchange: "NSE",
       pnl: 37012.40,
       pnlPercent: 13.66
     },
     {
       id: "4",
+      symbol: "BSE",
       name: "BSE",
+      fullName: "BSE Ltd.",
+      quantity: 75,
       qty: 75,
       avgPrice: 1464.26,
       invested: 109820.00,
       ltp: 2485.60,
       ltpChange: -0.94,
+      exchange: "NSE",
       pnl: 76600.00,
       pnlPercent: 69.75
     },
     {
       id: "5",
+      symbol: "CDSL",
       name: "CDSL",
+      fullName: "Central Depository Services Ltd.",
+      quantity: 0,
       qty: 0,
       margin: 300,
       avgPrice: 1238.60,
       invested: 371580.00,
       ltp: 1611.30,
       ltpChange: -0.56,
+      exchange: "NSE",
       pnl: 111810.00,
       pnlPercent: 30.09
     }
@@ -154,50 +180,70 @@ const CopyTrading = () => {
     {
       id: "1",
       type: "C",
+      symbol: "NIFTY 14 OCT 24800 PUT",
       name: "NIFTY 14 OCT 24800 PUT",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 75,
       qty: 75,
+      avgPrice: 6.10,
       buyAvgPrice: 6.10,
       sellAvgPrice: 1.40,
       ltp: 0.05,
-      pnl: -352.50
+      pnl: -352.50,
+      changePercent: -76.89
     },
     {
       id: "2",
       type: "C",
+      symbol: "NIFTY 14 OCT 25200 CALL",
       name: "NIFTY 14 OCT 25200 CALL",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 150,
       qty: 150,
+      avgPrice: 56.08,
       buyAvgPrice: 56.08,
       sellAvgPrice: 60.10,
       ltp: 0.05,
-      pnl: 603.75
+      pnl: 603.75,
+      changePercent: 7.17
     },
     {
       id: "3",
       type: "C",
+      symbol: "NIFTY 14 OCT 25200 PUT",
       name: "NIFTY 14 OCT 25200 PUT",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 150,
       qty: 150,
+      avgPrice: 16.05,
       buyAvgPrice: 16.05,
       sellAvgPrice: 52.05,
       ltp: 54.20,
-      pnl: 5400.00
+      pnl: 5400.00,
+      changePercent: 224.30
     },
     {
       id: "4",
       type: "C",
+      symbol: "NIFTY 14 OCT 25400 CALL",
       name: "NIFTY 14 OCT 25400 CALL",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 75,
       qty: 75,
+      avgPrice: 17.15,
       buyAvgPrice: 17.15,
       sellAvgPrice: 62.15,
       ltp: 0.10,
-      pnl: 3375.00
+      pnl: 3375.00,
+      changePercent: 262.54
     }
   ];
 
@@ -206,10 +252,13 @@ const CopyTrading = () => {
     {
       id: "1",
       time: "15:00:48",
-      type: "B",
+      type: "BUY",
+      symbol: "NIFTY 14 OCT 25200 CALL",
       name: "NIFTY 14 OCT 25200 CALL",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 75,
       qty: "75 / 75",
       orderType: "Limit",
       price: 0.80,
@@ -219,10 +268,13 @@ const CopyTrading = () => {
     {
       id: "2",
       time: "10:19:12",
-      type: "S",
+      type: "SELL",
+      symbol: "NIFTY 14 OCT 25200 CALL",
       name: "NIFTY 14 OCT 25200 CALL",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 75,
       qty: "75 / 75",
       orderType: "Limit",
       price: 52.50,
@@ -232,10 +284,13 @@ const CopyTrading = () => {
     {
       id: "3",
       time: "10:19:11",
-      type: "B",
+      type: "BUY",
+      symbol: "NIFTY 14 OCT 25600 CALL",
       name: "NIFTY 14 OCT 25600 CALL",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 75,
       qty: "75 / 75",
       orderType: "Limit",
       price: 2.25,
@@ -245,10 +300,13 @@ const CopyTrading = () => {
     {
       id: "4",
       time: "09:31:06",
-      type: "B",
+      type: "BUY",
+      symbol: "NIFTY 14 OCT 25200 PUT",
       name: "NIFTY 14 OCT 25200 PUT",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 150,
       qty: "150 / 150",
       orderType: "Market",
       price: 16.05,
@@ -258,10 +316,13 @@ const CopyTrading = () => {
     {
       id: "5",
       time: "09:31:06",
-      type: "S",
+      type: "SELL",
+      symbol: "NIFTY 14 OCT 24800 PUT",
       name: "NIFTY 14 OCT 24800 PUT",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 75,
       qty: "75 / 75",
       orderType: "Market",
       price: 1.40,
@@ -271,10 +332,13 @@ const CopyTrading = () => {
     {
       id: "6",
       time: "09:24:39",
-      type: "B",
+      type: "BUY",
+      symbol: "NIFTY 14 OCT 25400 CALL",
       name: "NIFTY 14 OCT 25400 CALL",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 75,
       qty: "75 / 75",
       orderType: "Market",
       price: 17.15,
@@ -284,10 +348,13 @@ const CopyTrading = () => {
     {
       id: "7",
       time: "09:15:16",
-      type: "S",
+      type: "SELL",
+      symbol: "NIFTY 14 OCT 25600 CALL",
       name: "NIFTY 14 OCT 25600 CALL",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 75,
       qty: "75 / 75",
       orderType: "Limit",
       price: 2.25,
@@ -297,10 +364,13 @@ const CopyTrading = () => {
     {
       id: "8",
       time: "09:15:15",
-      type: "B",
+      type: "BUY",
+      symbol: "NIFTY 14 OCT 25200 CALL",
       name: "NIFTY 14 OCT 25200 CALL",
+      fullName: "Nifty Options",
       exchange: "NSE",
       product: "Normal",
+      quantity: 75,
       qty: "75 / 75",
       orderType: "Limit",
       price: 111.35,
@@ -690,45 +760,37 @@ const CopyTrading = () => {
                           </Table>
                         </div>
 
-                        {/* Mobile Cards */}
+                        {/* Mobile Card View */}
                         <div className="md:hidden space-y-3">
-                          {filteredOpenPositions.map((pos) => (
-                            <Card key={pos.id} className="bg-card border">
-                              <CardContent className="p-4">
-                                <div className="space-y-3">
-                                  {/* First Row - Qty and Avg Price */}
-                                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                    <div className="flex items-center gap-2">
-                                      <span>Qty. {pos.qty}</span>
-                                      <span>•</span>
-                                      <span>Avg. {pos.avgPrice.toFixed(2)}</span>
-                                    </div>
-                                    <span className={`font-semibold ${pos.changePercent >= 0 ? 'text-success' : 'text-destructive'}`}>
-                                      {pos.changePercent >= 0 ? '+' : ''}{pos.changePercent.toFixed(2)}%
-                                    </span>
-                                  </div>
-
-                                  {/* Second Row - Name and P&L */}
-                                  <div className="flex items-start justify-between">
-                                    <h3 className="font-semibold text-lg">{pos.name}</h3>
-                                    <div className="text-right">
-                                      <p className={`font-bold text-lg ${pos.pnl >= 0 ? 'text-success' : 'text-destructive'}`}>
-                                        {pos.pnl >= 0 ? '+' : ''}{pos.pnl.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                      </p>
-                                    </div>
-                                  </div>
-
-                                  {/* Third Row - Product and LTP */}
-                                  <div className="flex items-center justify-between text-sm">
-                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
-                                      {pos.product}
-                                    </Badge>
-                                    <span className={`text-muted-foreground`}>
-                                      LTP {pos.ltp.toFixed(2)}
-                                    </span>
-                                  </div>
+                          {filteredOpenPositions.map((pos, i) => (
+                            <Card key={pos.id} className={cn("p-3 border-l-4", 
+                              pos.pnl >= 0 ? "border-l-green-500" : "border-l-red-500"
+                            )}>
+                              <div className="flex items-start justify-between mb-2">
+                                <div>
+                                  <h3 className="font-bold text-base">{pos.symbol}</h3>
+                                  <p className="text-xs text-muted-foreground">{pos.fullName}</p>
                                 </div>
-                              </CardContent>
+                                <div className="text-right">
+                                  <p className="font-bold text-base">₹{(pos.quantity * pos.ltp).toFixed(2)}</p>
+                                  <p className={cn("text-xs font-semibold", 
+                                    pos.pnl >= 0 ? "text-green-600" : "text-red-600"
+                                  )}>
+                                    {pos.pnl >= 0 ? "+" : ""}₹{pos.pnl.toFixed(2)} ({pos.pnl >= 0 ? "+" : ""}{pos.changePercent.toFixed(2)}%)
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2 mb-2">
+                                <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">B</Badge>
+                                <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-600">Normal</Badge>
+                                <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">W</Badge>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <p className="text-xs text-muted-foreground">Qty. {pos.quantity} x ₹{pos.avgPrice.toFixed(2)} {pos.exchange}</p>
+                                <Avatar className="h-6 w-6 rounded-md bg-blue-100">
+                                  <AvatarFallback className="rounded-md text-[10px] font-semibold text-blue-700">Z</AvatarFallback>
+                                </Avatar>
+                              </div>
                             </Card>
                           ))}
                         </div>
@@ -829,50 +891,44 @@ const CopyTrading = () => {
                           </Table>
                         </div>
 
-                        {/* Mobile Cards */}
+                        {/* Mobile Card View */}
                         <div className="md:hidden space-y-3">
-                          {filteredClosedPositions.map((pos) => (
-                            <Card key={pos.id} className="bg-card border">
-                              <CardContent className="p-4">
-                                <div className="space-y-3">
-                                  {/* First Row - Qty and Avg Prices */}
-                                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                    <div className="flex items-center gap-2">
-                                      <span>Qty. {pos.qty}</span>
-                                      <span>•</span>
-                                      <span>Buy {pos.buyAvgPrice.toFixed(2)}</span>
-                                    </div>
+                          {filteredClosedPositions.map((pos, i) => {
+                            const borderColor = i % 4 === 0 ? "border-l-blue-500" : i % 4 === 1 ? "border-l-orange-500" : i % 4 === 2 ? "border-l-green-500" : "border-l-red-500";
+                            const avatarBg = i % 4 === 0 ? "bg-blue-100" : i % 4 === 1 ? "bg-orange-100" : i % 4 === 2 ? "bg-green-100" : "bg-purple-100";
+                            const avatarText = i % 4 === 0 ? "text-blue-700" : i % 4 === 1 ? "text-orange-700" : i % 4 === 2 ? "text-green-700" : "text-purple-700";
+                            const avatarInitial = i % 4 === 0 ? "Z" : i % 4 === 1 ? "AO" : i % 4 === 2 ? "D" : "U";
+                            
+                            return (
+                              <Card key={pos.id} className={cn("p-3 border-l-4", borderColor)}>
+                                <div className="flex items-start justify-between mb-2">
+                                  <div>
+                                    <h3 className="font-bold text-base">{pos.symbol}</h3>
+                                    <p className="text-xs text-muted-foreground">{pos.fullName}</p>
                                   </div>
-
-                                  {/* Second Row - Name and P&L */}
-                                  <div className="flex items-start justify-between">
-                                    <div>
-                                      <h3 className="font-semibold text-lg">{pos.name}</h3>
-                                      <p className="text-xs text-muted-foreground mt-0.5">
-                                        {pos.exchange} <Badge variant="outline" className="ml-1 text-xs">W</Badge>
-                                      </p>
-                                    </div>
-                                    <div className="text-right">
-                                      <p className={`font-bold text-lg ${pos.pnl >= 0 ? 'text-success' : 'text-destructive'}`}>
-                                        {pos.pnl >= 0 ? '+' : ''}{pos.pnl.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                      </p>
-                                    </div>
-                                  </div>
-
-                                  {/* Third Row - Product and LTP */}
-                                  <div className="flex items-center justify-between text-sm">
-                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
-                                      {pos.product}
-                                    </Badge>
-                                    <div className="text-right text-muted-foreground">
-                                      <div>Sell {pos.sellAvgPrice.toFixed(2)}</div>
-                                      <div>LTP {pos.ltp.toFixed(2)}</div>
-                                    </div>
+                                  <div className="text-right">
+                                    <p className="font-bold text-base">₹{(pos.quantity * pos.ltp).toFixed(2)}</p>
+                                    <p className={cn("text-xs font-semibold",
+                                      pos.pnl >= 0 ? "text-green-600" : "text-red-600"
+                                    )}>
+                                      {pos.pnl >= 0 ? "+" : ""}₹{pos.pnl.toFixed(2)} ({pos.pnl >= 0 ? "+" : ""}{pos.changePercent.toFixed(2)}%)
+                                    </p>
                                   </div>
                                 </div>
-                              </CardContent>
-                            </Card>
-                          ))}
+                                <div className="flex items-center gap-2 mb-2">
+                                  <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">B</Badge>
+                                  <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-600">Normal</Badge>
+                                  <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">W</Badge>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <p className="text-xs text-muted-foreground">Qty. {pos.quantity} x ₹{pos.avgPrice.toFixed(2)} {pos.exchange}</p>
+                                  <Avatar className={cn("h-6 w-6 rounded-md", avatarBg)}>
+                                    <AvatarFallback className={cn("rounded-md text-[10px] font-semibold", avatarText)}>{avatarInitial}</AvatarFallback>
+                                  </Avatar>
+                                </div>
+                              </Card>
+                            );
+                          })}
                         </div>
 
                         {/* Actions Row */}
@@ -1019,52 +1075,46 @@ const CopyTrading = () => {
                           </Table>
                         </div>
 
-                        {/* Mobile Cards */}
+                        {/* Mobile Card View */}
                         <div className="md:hidden space-y-3">
-                          {holdings.map((holding) => (
-                            <Card key={holding.id} className="bg-card border">
-                              <CardContent className="p-4">
-                                <div className="space-y-3">
-                                  {/* First Row - Qty and Avg Price */}
-                                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                    <div className="flex items-center gap-2">
-                                      <span>Qty. {holding.qty || 0}</span>
-                                      {holding.margin && (
-                                        <>
-                                          <span>M: {holding.margin}</span>
-                                        </>
-                                      )}
-                                      <span>•</span>
-                                      <span>Avg. {holding.avgPrice.toFixed(2)}</span>
-                                    </div>
-                                    <span className={`font-semibold ${holding.pnlPercent >= 0 ? 'text-success' : 'text-destructive'}`}>
-                                      {holding.pnlPercent >= 0 ? '+' : ''}{holding.pnlPercent}%
-                                    </span>
+                          {holdings.map((holding, i) => {
+                            const pnl = holding.pnl;
+                            const pnlPercent = holding.pnlPercent;
+                            const borderColor = i % 4 === 0 ? "border-l-blue-500" : i % 4 === 1 ? "border-l-orange-500" : i % 4 === 2 ? "border-l-green-500" : "border-l-red-500";
+                            const avatarBg = i % 4 === 0 ? "bg-blue-100" : i % 4 === 1 ? "bg-orange-100" : i % 4 === 2 ? "bg-green-100" : "bg-purple-100";
+                            const avatarText = i % 4 === 0 ? "text-blue-700" : i % 4 === 1 ? "text-orange-700" : i % 4 === 2 ? "text-green-700" : "text-purple-700";
+                            const avatarInitial = i % 4 === 0 ? "Z" : i % 4 === 1 ? "AO" : i % 4 === 2 ? "D" : "U";
+                            
+                            return (
+                              <Card key={holding.id} className={cn("p-3 border-l-4", borderColor)}>
+                                <div className="flex items-start justify-between mb-2">
+                                  <div>
+                                    <h3 className="font-bold text-base">{holding.symbol}</h3>
+                                    <p className="text-xs text-muted-foreground">{holding.fullName}</p>
                                   </div>
-
-                                  {/* Second Row - Name and P&L */}
-                                  <div className="flex items-start justify-between">
-                                    <h3 className="font-semibold text-lg">{holding.name}</h3>
-                                    <div className="text-right">
-                                      <p className={`font-bold text-lg ${holding.pnl >= 0 ? 'text-success' : 'text-destructive'}`}>
-                                        {holding.pnl >= 0 ? '+' : ''}{holding.pnl.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                      </p>
-                                    </div>
-                                  </div>
-
-                                  {/* Third Row - Invested and LTP */}
-                                  <div className="flex items-center justify-between text-sm">
-                                    <span className="text-muted-foreground">
-                                      Invested {holding.invested.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                    </span>
-                                    <span className="text-muted-foreground">
-                                      LTP {holding.ltp.toFixed(2)} <span className={holding.ltpChange >= 0 ? 'text-success' : 'text-destructive'}>({holding.ltpChange >= 0 ? '+' : ''}{holding.ltpChange}%)</span>
-                                    </span>
+                                  <div className="text-right">
+                                    <p className="font-bold text-base">₹{(holding.quantity * holding.ltp).toFixed(2)}</p>
+                                    <p className={cn("text-xs font-semibold",
+                                      pnl >= 0 ? "text-green-600" : "text-red-600"
+                                    )}>
+                                      {pnl >= 0 ? "+" : ""}₹{pnl.toFixed(2)} ({pnl >= 0 ? "+" : ""}{pnlPercent.toFixed(2)}%)
+                                    </p>
                                   </div>
                                 </div>
-                              </CardContent>
-                            </Card>
-                          ))}
+                                <div className="flex items-center gap-2 mb-2">
+                                  <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">B</Badge>
+                                  <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-600">Normal</Badge>
+                                  <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">W</Badge>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <p className="text-xs text-muted-foreground">Qty. {holding.quantity} x ₹{holding.avgPrice.toFixed(2)} {holding.exchange}</p>
+                                  <Avatar className={cn("h-6 w-6 rounded-md", avatarBg)}>
+                                    <AvatarFallback className={cn("rounded-md text-[10px] font-semibold", avatarText)}>{avatarInitial}</AvatarFallback>
+                                  </Avatar>
+                                </div>
+                              </Card>
+                            );
+                          })}
                         </div>
 
                         {/* Actions Row */}
@@ -1317,56 +1367,42 @@ const CopyTrading = () => {
                           </Table>
                         </div>
 
-                        {/* Mobile Cards */}
+                        {/* Mobile Card View */}
                         <div className="md:hidden space-y-3">
-                          {executedOrders.map((order) => (
-                            <Card key={order.id} className="bg-card border">
-                              <CardContent className="p-4">
-                                <div className="space-y-3">
-                                  {/* First Row - Time and Type */}
-                                  <div className="flex items-center justify-between text-sm">
-                                    <div className="flex items-center gap-2">
-                                      <Badge 
-                                        className={order.type === "B" 
-                                          ? "bg-success hover:bg-success" 
-                                          : "bg-destructive hover:bg-destructive"
-                                        }
-                                      >
-                                        {order.type}
-                                      </Badge>
-                                      <span className="text-muted-foreground">{order.time}</span>
-                                    </div>
-                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20 text-xs">
-                                      {order.status}
+                          {executedOrders.map((order, i) => {
+                            const borderColor = order.type === "BUY" ? "border-l-green-500" : "border-l-red-500";
+                            const avatarBg = i % 3 === 0 ? "bg-blue-100" : i % 3 === 1 ? "bg-orange-100" : "bg-green-100";
+                            const avatarText = i % 3 === 0 ? "text-blue-700" : i % 3 === 1 ? "text-orange-700" : "text-green-700";
+                            const avatarInitial = i % 3 === 0 ? "Z" : i % 3 === 1 ? "AO" : "D";
+                            
+                            return (
+                              <Card key={order.id} className={cn("p-3 border-l-4", borderColor)}>
+                                <div className="flex items-start justify-between mb-2">
+                                  <div>
+                                    <h3 className="font-bold text-base">{order.symbol}</h3>
+                                    <p className="text-xs text-muted-foreground">{order.exchange} • {order.time}</p>
+                                  </div>
+                                  <div className="text-right">
+                                    <p className="font-bold text-base">₹{(order.quantity * order.price).toFixed(2)}</p>
+                                    <Badge variant={order.type === "BUY" ? "success" : "destructive"} className="text-xs mt-1">
+                                      {order.type}
                                     </Badge>
                                   </div>
-
-                                  {/* Second Row - Name */}
-                                  <div>
-                                    <h3 className="font-semibold text-base">{order.name}</h3>
-                                    <p className="text-xs text-muted-foreground mt-0.5">
-                                      <Badge variant="outline" className="text-xs mr-1">W</Badge>
-                                      {order.exchange}
-                                    </p>
-                                  </div>
-
-                                  {/* Third Row - Details */}
-                                  <div className="flex items-center justify-between text-sm">
-                                    <div className="flex items-center gap-3 text-muted-foreground">
-                                      <Badge variant="outline" className="bg-success/10 text-success border-success/20 text-xs">
-                                        {order.product}
-                                      </Badge>
-                                      <span>Qty: {order.qty}</span>
-                                    </div>
-                                    <div className="text-right text-muted-foreground">
-                                      <div>{order.orderType}: ₹{order.price.toFixed(2)}</div>
-                                      <div className="text-xs">LTP: ₹{order.ltp.toFixed(2)}</div>
-                                    </div>
-                                  </div>
                                 </div>
-                              </CardContent>
-                            </Card>
-                          ))}
+                                <div className="flex items-center gap-2 mb-2">
+                                  <Badge variant="outline" className="text-xs">{order.product}</Badge>
+                                  <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-600">{order.status}</Badge>
+                                  <Badge variant="outline" className="text-xs">{order.orderType}</Badge>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <p className="text-xs text-muted-foreground">Qty. {order.quantity} x ₹{order.price.toFixed(2)} • LTP ₹{order.ltp.toFixed(2)}</p>
+                                  <Avatar className={cn("h-6 w-6 rounded-md", avatarBg)}>
+                                    <AvatarFallback className={cn("rounded-md text-[10px] font-semibold", avatarText)}>{avatarInitial}</AvatarFallback>
+                                  </Avatar>
+                                </div>
+                              </Card>
+                            );
+                          })}
                         </div>
 
                         {/* Actions Row */}
