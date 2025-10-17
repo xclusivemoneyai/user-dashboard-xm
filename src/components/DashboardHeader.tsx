@@ -4,10 +4,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
 import { NotificationsPanel } from "./NotificationsPanel";
+import { NewAutomationModal, SettingsModal, ProfileModal } from "./ActionModals";
 import { useTheme } from "next-themes";
+import { useState } from "react";
 
 export const DashboardHeader = () => {
   const { theme, setTheme } = useTheme();
+  const [showAutomationModal, setShowAutomationModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -29,11 +34,18 @@ export const DashboardHeader = () => {
         </div>
 
         <div className="flex items-center gap-1 sm:gap-2">
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 hidden sm:flex">
+          <Button 
+            onClick={() => setShowAutomationModal(true)}
+            className="bg-primary text-primary-foreground hover:bg-primary/90 hidden sm:flex"
+          >
             <span className="text-lg mr-2">+</span>
             New Automation
           </Button>
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 sm:hidden" size="icon">
+          <Button 
+            onClick={() => setShowAutomationModal(true)}
+            className="bg-primary text-primary-foreground hover:bg-primary/90 sm:hidden" 
+            size="icon"
+          >
             <span className="text-lg">+</span>
           </Button>
           <Popover>
@@ -55,15 +67,27 @@ export const DashboardHeader = () => {
           <Button variant="ghost" size="icon" onClick={toggleTheme}>
             {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
-          <Button variant="ghost" size="icon" className="hidden sm:flex">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="hidden sm:flex"
+            onClick={() => setShowSettingsModal(true)}
+          >
             <Settings className="h-5 w-5" />
           </Button>
-          <Avatar className="h-8 w-8 sm:h-9 sm:w-9">
-            <AvatarImage src="" />
-            <AvatarFallback className="bg-primary text-primary-foreground">U</AvatarFallback>
-          </Avatar>
+          <button onClick={() => setShowProfileModal(true)}>
+            <Avatar className="h-8 w-8 sm:h-9 sm:w-9 cursor-pointer hover:ring-2 hover:ring-primary transition-all">
+              <AvatarImage src="" />
+              <AvatarFallback className="bg-primary text-primary-foreground">U</AvatarFallback>
+            </Avatar>
+          </button>
         </div>
       </div>
+
+      {/* Modals */}
+      <NewAutomationModal open={showAutomationModal} onOpenChange={setShowAutomationModal} />
+      <SettingsModal open={showSettingsModal} onOpenChange={setShowSettingsModal} />
+      <ProfileModal open={showProfileModal} onOpenChange={setShowProfileModal} />
     </header>
   );
 };

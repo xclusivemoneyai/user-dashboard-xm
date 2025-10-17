@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Users, Plus, AlertCircle, Lock, Info, Trash2, Eye, Download, X, TrendingUp, Search, FileText, ChevronDown, ChevronRight, ArrowRight } from "lucide-react";
+import { AnalyseModal, PnLExitModal, TopUpModal } from "@/components/ActionModals";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -36,6 +37,9 @@ const CopyTrading = () => {
   const [expandedMasterAccounts, setExpandedMasterAccounts] = useState<string[]>([]);
   const [expandedChildAccounts, setExpandedChildAccounts] = useState<string[]>([]);
   const [childAccountTabs, setChildAccountTabs] = useState<{[key: string]: string}>({});
+  const [showAnalyseModal, setShowAnalyseModal] = useState(false);
+  const [showPnLExitModal, setShowPnLExitModal] = useState(false);
+  const [showTopUpModal, setShowTopUpModal] = useState(false);
 
   const toggleMasterExpand = (id: string) => {
     setExpandedMasterAccounts(prev => 
@@ -662,7 +666,11 @@ const CopyTrading = () => {
                             <Button size="icon" variant="ghost">
                               <Eye className="h-5 w-5" />
                             </Button>
-                            <Button size="sm" className="bg-success hover:bg-success/90">
+                            <Button 
+                              size="sm" 
+                              className="bg-success hover:bg-success/90"
+                              onClick={() => setShowTopUpModal(true)}
+                            >
                               + Top up
                             </Button>
                           </div>
@@ -684,7 +692,12 @@ const CopyTrading = () => {
                               </SelectContent>
                             </Select>
                           </div>
-                          <Button variant="outline" size="sm" className="border-warning text-warning hover:bg-warning/10">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="border-warning text-warning hover:bg-warning/10"
+                            onClick={() => setShowAnalyseModal(true)}
+                          >
                             <TrendingUp className="h-4 w-4 mr-2" />
                             Analyse
                           </Button>
@@ -827,7 +840,7 @@ const CopyTrading = () => {
                             <span className="text-sm font-semibold">
                               Total P&L: <span className="text-destructive">-187.50</span>
                             </span>
-                            <Button variant="outline" size="sm">
+                            <Button variant="outline" size="sm" onClick={() => setShowPnLExitModal(true)}>
                               Set P&L Exit
                             </Button>
                           </div>
@@ -1027,7 +1040,11 @@ const CopyTrading = () => {
                             <Button size="icon" variant="ghost">
                               <Eye className="h-5 w-5" />
                             </Button>
-                            <Button size="sm" className="bg-success hover:bg-success/90">
+                            <Button 
+                              size="sm" 
+                              className="bg-success hover:bg-success/90"
+                              onClick={() => setShowTopUpModal(true)}
+                            >
                               + Top up
                             </Button>
                           </div>
@@ -1049,7 +1066,12 @@ const CopyTrading = () => {
                               </SelectContent>
                             </Select>
                           </div>
-                          <Button variant="outline" size="sm" className="border-warning text-warning hover:bg-warning/10">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="border-warning text-warning hover:bg-warning/10"
+                            onClick={() => setShowAnalyseModal(true)}
+                          >
                             <TrendingUp className="h-4 w-4 mr-2" />
                             Analyse
                           </Button>
@@ -1199,7 +1221,7 @@ const CopyTrading = () => {
                             <span className="text-sm font-semibold">
                               Total P&L: <span className="text-destructive">-187.50</span>
                             </span>
-                            <Button variant="outline" size="sm">
+                            <Button variant="outline" size="sm" onClick={() => setShowPnLExitModal(true)}>
                               Set P&L Exit
                             </Button>
                           </div>
@@ -1745,6 +1767,11 @@ const CopyTrading = () => {
           </Card>
         </div>
       </main>
+
+      {/* Modals */}
+      <AnalyseModal open={showAnalyseModal} onOpenChange={setShowAnalyseModal} />
+      <PnLExitModal open={showPnLExitModal} onOpenChange={setShowPnLExitModal} />
+      <TopUpModal open={showTopUpModal} onOpenChange={setShowTopUpModal} />
     </div>
   );
 };
