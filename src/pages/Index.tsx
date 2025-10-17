@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { LayoutDashboard, TrendingUp, Users, Bell, ArrowUpRight, ArrowDownRight, Wallet, IndianRupee, TrendingDown, Activity, Filter, Search, ArrowUpDown, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -366,163 +367,250 @@ const Index = () => {
 
             {/* Desktop Table View */}
             <div className="hidden lg:block overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-xs">
                 <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-3 px-2 font-medium text-muted-foreground">
-                      <div className="flex items-center gap-1 cursor-pointer">
-                        Symbol <ArrowUpDown className="h-3 w-3" />
-                      </div>
-                    </th>
-                    <th className="text-left py-3 px-2 font-medium text-muted-foreground">Name</th>
-                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">
-                      <div className="flex items-center justify-end gap-1 cursor-pointer">
-                        Qty <ArrowUpDown className="h-3 w-3" />
-                      </div>
-                    </th>
-                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">Avg Price</th>
-                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">LTP</th>
-                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">Invested</th>
-                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">
-                      <div className="flex items-center justify-end gap-1 cursor-pointer">
-                        Current Value <ArrowUpDown className="h-3 w-3" />
-                      </div>
-                    </th>
-                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">
-                      <div className="flex items-center justify-end gap-1 cursor-pointer">
-                        Gain/Loss <ArrowUpDown className="h-3 w-3" />
-                      </div>
-                    </th>
-                    <th className="text-right py-3 px-2 font-medium text-muted-foreground">Account</th>
+                  <tr className="border-b text-muted-foreground">
+                    <th className="text-left py-2 px-2 font-medium">Name</th>
+                    <th className="text-center py-2 px-2 font-medium">Product</th>
+                    <th className="text-center py-2 px-2 font-medium">Qty</th>
+                    <th className="text-right py-2 px-2 font-medium">Buy Avg Price</th>
+                    <th className="text-right py-2 px-2 font-medium">Sell Avg Price</th>
+                    <th className="text-right py-2 px-2 font-medium">LTP</th>
+                    <th className="text-right py-2 px-2 font-medium">P&L</th>
+                    <th className="text-center py-2 px-2 font-medium"></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-xs">
                   <tr className="border-b hover:bg-muted/30">
-                    <td className="py-3 px-2 font-semibold">AXISBANK</td>
-                    <td className="py-3 px-2 text-muted-foreground">Axis Bank Ltd.</td>
-                    <td className="py-3 px-2 text-right">75</td>
-                    <td className="py-3 px-2 text-right">₹990.00</td>
-                    <td className="py-3 px-2 text-right">₹1,045.00</td>
-                    <td className="py-3 px-2 text-right">₹74,250.00</td>
-                    <td className="py-3 px-2 text-right font-semibold">₹78,375.00</td>
-                    <td className="py-3 px-2 text-right">
-                      <div className="text-green-600 font-semibold">+₹4,125.00</div>
-                      <div className="text-xs text-green-600">(+5.56%)</div>
+                    <td className="py-2.5 px-2">
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-7 w-7 rounded-md bg-muted">
+                          <AvatarFallback className="rounded-md text-[10px] font-semibold">A</AvatarFallback>
+                        </Avatar>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-medium">AXISBANK</span>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 border-muted-foreground/30">NSE</Badge>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 bg-amber-50 border-amber-200 text-amber-700">W</Badge>
+                        </div>
+                      </div>
                     </td>
-                    <td className="py-3 px-2 text-right">
-                      <Badge variant="outline" className="border-blue-500 text-blue-600 text-xs">Zerodha</Badge>
+                    <td className="py-2.5 px-2 text-center">
+                      <Badge variant="outline" className="text-[10px] border-emerald-500 text-emerald-600 bg-emerald-50">Normal</Badge>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">75</td>
+                    <td className="py-2.5 px-2 text-right">990.00</td>
+                    <td className="py-2.5 px-2 text-right">1,045.00</td>
+                    <td className="py-2.5 px-2 text-right">1,045.00</td>
+                    <td className="py-2.5 px-2 text-right">
+                      <span className="text-green-600 font-semibold">4,125.00</span>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">
+                      <Avatar className="h-7 w-7 rounded-md bg-blue-100 mx-auto">
+                        <AvatarFallback className="rounded-md text-[10px] font-semibold text-blue-700">Z</AvatarFallback>
+                      </Avatar>
                     </td>
                   </tr>
                   <tr className="border-b hover:bg-muted/30">
-                    <td className="py-3 px-2 font-semibold">BHARTIARTL</td>
-                    <td className="py-3 px-2 text-muted-foreground">Bharti Airtel Ltd.</td>
-                    <td className="py-3 px-2 text-right">90</td>
-                    <td className="py-3 px-2 text-right">₹850.00</td>
-                    <td className="py-3 px-2 text-right">₹920.00</td>
-                    <td className="py-3 px-2 text-right">₹76,500.00</td>
-                    <td className="py-3 px-2 text-right font-semibold">₹82,800.00</td>
-                    <td className="py-3 px-2 text-right">
-                      <div className="text-green-600 font-semibold">+₹6,300.00</div>
-                      <div className="text-xs text-green-600">(+8.24%)</div>
+                    <td className="py-2.5 px-2">
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-7 w-7 rounded-md bg-muted">
+                          <AvatarFallback className="rounded-md text-[10px] font-semibold">B</AvatarFallback>
+                        </Avatar>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-medium">BHARTIARTL</span>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 border-muted-foreground/30">NSE</Badge>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 bg-amber-50 border-amber-200 text-amber-700">W</Badge>
+                        </div>
+                      </div>
                     </td>
-                    <td className="py-3 px-2 text-right">
-                      <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">Angel One</Badge>
+                    <td className="py-2.5 px-2 text-center">
+                      <Badge variant="outline" className="text-[10px] border-emerald-500 text-emerald-600 bg-emerald-50">Normal</Badge>
                     </td>
-                  </tr>
-                  <tr className="border-b hover:bg-muted/30">
-                    <td className="py-3 px-2 font-semibold">HDFCBANK</td>
-                    <td className="py-3 px-2 text-muted-foreground">HDFC Bank Ltd.</td>
-                    <td className="py-3 px-2 text-right">100</td>
-                    <td className="py-3 px-2 text-right">₹1,580.00</td>
-                    <td className="py-3 px-2 text-right">₹1,650.00</td>
-                    <td className="py-3 px-2 text-right">₹1,58,000.00</td>
-                    <td className="py-3 px-2 text-right font-semibold">₹1,65,000.00</td>
-                    <td className="py-3 px-2 text-right">
-                      <div className="text-green-600 font-semibold">+₹7,000.00</div>
-                      <div className="text-xs text-green-600">(+4.43%)</div>
+                    <td className="py-2.5 px-2 text-center">90</td>
+                    <td className="py-2.5 px-2 text-right">850.00</td>
+                    <td className="py-2.5 px-2 text-right">920.00</td>
+                    <td className="py-2.5 px-2 text-right">920.00</td>
+                    <td className="py-2.5 px-2 text-right">
+                      <span className="text-green-600 font-semibold">6,300.00</span>
                     </td>
-                    <td className="py-3 px-2 text-right">
-                      <Badge variant="outline" className="border-emerald-500 text-emerald-600 text-xs">Dhan</Badge>
+                    <td className="py-2.5 px-2 text-center">
+                      <Avatar className="h-7 w-7 rounded-md bg-orange-100 mx-auto">
+                        <AvatarFallback className="rounded-md text-[10px] font-semibold text-orange-700">AO</AvatarFallback>
+                      </Avatar>
                     </td>
                   </tr>
                   <tr className="border-b hover:bg-muted/30">
-                    <td className="py-3 px-2 font-semibold">ICICIBANK</td>
-                    <td className="py-3 px-2 text-muted-foreground">ICICI Bank Ltd.</td>
-                    <td className="py-3 px-2 text-right">120</td>
-                    <td className="py-3 px-2 text-right">₹920.00</td>
-                    <td className="py-3 px-2 text-right">₹985.00</td>
-                    <td className="py-3 px-2 text-right">₹1,10,400.00</td>
-                    <td className="py-3 px-2 text-right font-semibold">₹1,18,200.00</td>
-                    <td className="py-3 px-2 text-right">
-                      <div className="text-green-600 font-semibold">+₹7,800.00</div>
-                      <div className="text-xs text-green-600">(+7.07%)</div>
+                    <td className="py-2.5 px-2">
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-7 w-7 rounded-md bg-muted">
+                          <AvatarFallback className="rounded-md text-[10px] font-semibold">H</AvatarFallback>
+                        </Avatar>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-medium">HDFCBANK</span>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 border-muted-foreground/30">NSE</Badge>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 bg-amber-50 border-amber-200 text-amber-700">W</Badge>
+                        </div>
+                      </div>
                     </td>
-                    <td className="py-3 px-2 text-right">
-                      <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">Angel One</Badge>
+                    <td className="py-2.5 px-2 text-center">
+                      <Badge variant="outline" className="text-[10px] border-emerald-500 text-emerald-600 bg-emerald-50">Normal</Badge>
                     </td>
-                  </tr>
-                  <tr className="border-b hover:bg-muted/30">
-                    <td className="py-3 px-2 font-semibold">INFY</td>
-                    <td className="py-3 px-2 text-muted-foreground">Infosys Ltd.</td>
-                    <td className="py-3 px-2 text-right">80</td>
-                    <td className="py-3 px-2 text-right">₹1,420.00</td>
-                    <td className="py-3 px-2 text-right">₹1,385.00</td>
-                    <td className="py-3 px-2 text-right">₹1,13,600.00</td>
-                    <td className="py-3 px-2 text-right font-semibold">₹1,10,800.00</td>
-                    <td className="py-3 px-2 text-right">
-                      <div className="text-red-600 font-semibold">-₹2,800.00</div>
-                      <div className="text-xs text-red-600">(-2.46%)</div>
+                    <td className="py-2.5 px-2 text-center">100</td>
+                    <td className="py-2.5 px-2 text-right">1,580.00</td>
+                    <td className="py-2.5 px-2 text-right">1,650.00</td>
+                    <td className="py-2.5 px-2 text-right">1,650.00</td>
+                    <td className="py-2.5 px-2 text-right">
+                      <span className="text-green-600 font-semibold">7,000.00</span>
                     </td>
-                    <td className="py-3 px-2 text-right">
-                      <Badge variant="outline" className="border-emerald-500 text-emerald-600 text-xs">Dhan</Badge>
+                    <td className="py-2.5 px-2 text-center">
+                      <Avatar className="h-7 w-7 rounded-md bg-emerald-100 mx-auto">
+                        <AvatarFallback className="rounded-md text-[10px] font-semibold text-emerald-700">D</AvatarFallback>
+                      </Avatar>
                     </td>
                   </tr>
                   <tr className="border-b hover:bg-muted/30">
-                    <td className="py-3 px-2 font-semibold">RELIANCE</td>
-                    <td className="py-3 px-2 text-muted-foreground">Reliance Industries Ltd.</td>
-                    <td className="py-3 px-2 text-right">50</td>
-                    <td className="py-3 px-2 text-right">₹2,450.00</td>
-                    <td className="py-3 px-2 text-right">₹2,680.00</td>
-                    <td className="py-3 px-2 text-right">₹1,22,500.00</td>
-                    <td className="py-3 px-2 text-right font-semibold">₹1,34,000.00</td>
-                    <td className="py-3 px-2 text-right">
-                      <div className="text-green-600 font-semibold">+₹11,500.00</div>
-                      <div className="text-xs text-green-600">(+9.39%)</div>
+                    <td className="py-2.5 px-2">
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-7 w-7 rounded-md bg-muted">
+                          <AvatarFallback className="rounded-md text-[10px] font-semibold">I</AvatarFallback>
+                        </Avatar>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-medium">ICICIBANK</span>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 border-muted-foreground/30">NSE</Badge>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 bg-amber-50 border-amber-200 text-amber-700">W</Badge>
+                        </div>
+                      </div>
                     </td>
-                    <td className="py-3 px-2 text-right">
-                      <Badge variant="outline" className="border-blue-500 text-blue-600 text-xs">Zerodha</Badge>
+                    <td className="py-2.5 px-2 text-center">
+                      <Badge variant="outline" className="text-[10px] border-emerald-500 text-emerald-600 bg-emerald-50">Normal</Badge>
                     </td>
-                  </tr>
-                  <tr className="border-b hover:bg-muted/30">
-                    <td className="py-3 px-2 font-semibold">TCS</td>
-                    <td className="py-3 px-2 text-muted-foreground">Tata Consultancy Services</td>
-                    <td className="py-3 px-2 text-right">30</td>
-                    <td className="py-3 px-2 text-right">₹3,520.00</td>
-                    <td className="py-3 px-2 text-right">₹3,780.00</td>
-                    <td className="py-3 px-2 text-right">₹1,05,600.00</td>
-                    <td className="py-3 px-2 text-right font-semibold">₹1,13,400.00</td>
-                    <td className="py-3 px-2 text-right">
-                      <div className="text-green-600 font-semibold">+₹7,800.00</div>
-                      <div className="text-xs text-green-600">(+7.39%)</div>
+                    <td className="py-2.5 px-2 text-center">120</td>
+                    <td className="py-2.5 px-2 text-right">920.00</td>
+                    <td className="py-2.5 px-2 text-right">985.00</td>
+                    <td className="py-2.5 px-2 text-right">985.00</td>
+                    <td className="py-2.5 px-2 text-right">
+                      <span className="text-green-600 font-semibold">7,800.00</span>
                     </td>
-                    <td className="py-3 px-2 text-right">
-                      <Badge variant="outline" className="border-blue-500 text-blue-600 text-xs">Zerodha</Badge>
+                    <td className="py-2.5 px-2 text-center">
+                      <Avatar className="h-7 w-7 rounded-md bg-orange-100 mx-auto">
+                        <AvatarFallback className="rounded-md text-[10px] font-semibold text-orange-700">AO</AvatarFallback>
+                      </Avatar>
                     </td>
                   </tr>
                   <tr className="border-b hover:bg-muted/30">
-                    <td className="py-3 px-2 font-semibold">WIPRO</td>
-                    <td className="py-3 px-2 text-muted-foreground">Wipro Ltd.</td>
-                    <td className="py-3 px-2 text-right">110</td>
-                    <td className="py-3 px-2 text-right">₹410.00</td>
-                    <td className="py-3 px-2 text-right">₹395.00</td>
-                    <td className="py-3 px-2 text-right">₹45,100.00</td>
-                    <td className="py-3 px-2 text-right font-semibold">₹43,450.00</td>
-                    <td className="py-3 px-2 text-right">
-                      <div className="text-red-600 font-semibold">-₹1,650.00</div>
-                      <div className="text-xs text-red-600">(-3.66%)</div>
+                    <td className="py-2.5 px-2">
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-7 w-7 rounded-md bg-muted">
+                          <AvatarFallback className="rounded-md text-[10px] font-semibold">I</AvatarFallback>
+                        </Avatar>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-medium">INFY</span>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 border-muted-foreground/30">NSE</Badge>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 bg-amber-50 border-amber-200 text-amber-700">W</Badge>
+                        </div>
+                      </div>
                     </td>
-                    <td className="py-3 px-2 text-right">
-                      <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">Angel One</Badge>
+                    <td className="py-2.5 px-2 text-center">
+                      <Badge variant="outline" className="text-[10px] border-emerald-500 text-emerald-600 bg-emerald-50">Normal</Badge>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">80</td>
+                    <td className="py-2.5 px-2 text-right">1,420.00</td>
+                    <td className="py-2.5 px-2 text-right">1,385.00</td>
+                    <td className="py-2.5 px-2 text-right">1,385.00</td>
+                    <td className="py-2.5 px-2 text-right">
+                      <span className="text-red-600 font-semibold">-2,800.00</span>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">
+                      <Avatar className="h-7 w-7 rounded-md bg-emerald-100 mx-auto">
+                        <AvatarFallback className="rounded-md text-[10px] font-semibold text-emerald-700">D</AvatarFallback>
+                      </Avatar>
+                    </td>
+                  </tr>
+                  <tr className="border-b hover:bg-muted/30">
+                    <td className="py-2.5 px-2">
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-7 w-7 rounded-md bg-muted">
+                          <AvatarFallback className="rounded-md text-[10px] font-semibold">R</AvatarFallback>
+                        </Avatar>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-medium">RELIANCE</span>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 border-muted-foreground/30">NSE</Badge>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 bg-amber-50 border-amber-200 text-amber-700">W</Badge>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">
+                      <Badge variant="outline" className="text-[10px] border-emerald-500 text-emerald-600 bg-emerald-50">Normal</Badge>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">50</td>
+                    <td className="py-2.5 px-2 text-right">2,450.00</td>
+                    <td className="py-2.5 px-2 text-right">2,680.00</td>
+                    <td className="py-2.5 px-2 text-right">2,680.00</td>
+                    <td className="py-2.5 px-2 text-right">
+                      <span className="text-green-600 font-semibold">11,500.00</span>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">
+                      <Avatar className="h-7 w-7 rounded-md bg-blue-100 mx-auto">
+                        <AvatarFallback className="rounded-md text-[10px] font-semibold text-blue-700">Z</AvatarFallback>
+                      </Avatar>
+                    </td>
+                  </tr>
+                  <tr className="border-b hover:bg-muted/30">
+                    <td className="py-2.5 px-2">
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-7 w-7 rounded-md bg-muted">
+                          <AvatarFallback className="rounded-md text-[10px] font-semibold">T</AvatarFallback>
+                        </Avatar>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-medium">TCS</span>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 border-muted-foreground/30">NSE</Badge>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 bg-amber-50 border-amber-200 text-amber-700">W</Badge>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">
+                      <Badge variant="outline" className="text-[10px] border-emerald-500 text-emerald-600 bg-emerald-50">Normal</Badge>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">30</td>
+                    <td className="py-2.5 px-2 text-right">3,520.00</td>
+                    <td className="py-2.5 px-2 text-right">3,780.00</td>
+                    <td className="py-2.5 px-2 text-right">3,780.00</td>
+                    <td className="py-2.5 px-2 text-right">
+                      <span className="text-green-600 font-semibold">7,800.00</span>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">
+                      <Avatar className="h-7 w-7 rounded-md bg-blue-100 mx-auto">
+                        <AvatarFallback className="rounded-md text-[10px] font-semibold text-blue-700">Z</AvatarFallback>
+                      </Avatar>
+                    </td>
+                  </tr>
+                  <tr className="border-b hover:bg-muted/30">
+                    <td className="py-2.5 px-2">
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-7 w-7 rounded-md bg-muted">
+                          <AvatarFallback className="rounded-md text-[10px] font-semibold">W</AvatarFallback>
+                        </Avatar>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-medium">WIPRO</span>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 border-muted-foreground/30">NSE</Badge>
+                          <Badge variant="outline" className="text-[9px] px-1 py-0 h-4 bg-amber-50 border-amber-200 text-amber-700">W</Badge>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">
+                      <Badge variant="outline" className="text-[10px] border-emerald-500 text-emerald-600 bg-emerald-50">Normal</Badge>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">110</td>
+                    <td className="py-2.5 px-2 text-right">410.00</td>
+                    <td className="py-2.5 px-2 text-right">395.00</td>
+                    <td className="py-2.5 px-2 text-right">395.00</td>
+                    <td className="py-2.5 px-2 text-right">
+                      <span className="text-red-600 font-semibold">-1,650.00</span>
+                    </td>
+                    <td className="py-2.5 px-2 text-center">
+                      <Avatar className="h-7 w-7 rounded-md bg-orange-100 mx-auto">
+                        <AvatarFallback className="rounded-md text-[10px] font-semibold text-orange-700">AO</AvatarFallback>
+                      </Avatar>
                     </td>
                   </tr>
                 </tbody>
@@ -549,7 +637,9 @@ const Index = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-muted-foreground">Qty. 75 x ₹1,045.00 NSE</p>
-                  <Badge variant="outline" className="border-blue-500 text-blue-600 text-xs">Zerodha</Badge>
+                  <Avatar className="h-6 w-6 rounded-md bg-blue-100">
+                    <AvatarFallback className="rounded-md text-[10px] font-semibold text-blue-700">Z</AvatarFallback>
+                  </Avatar>
                 </div>
               </Card>
 
@@ -571,7 +661,9 @@ const Index = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-muted-foreground">Qty. 90 x ₹920.00 NSE</p>
-                  <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">Angel One</Badge>
+                  <Avatar className="h-6 w-6 rounded-md bg-orange-100">
+                    <AvatarFallback className="rounded-md text-[10px] font-semibold text-orange-700">AO</AvatarFallback>
+                  </Avatar>
                 </div>
               </Card>
 
@@ -593,7 +685,9 @@ const Index = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-muted-foreground">Qty. 100 x ₹1,650.00 NSE</p>
-                  <Badge variant="outline" className="border-emerald-500 text-emerald-600 text-xs">Dhan</Badge>
+                  <Avatar className="h-6 w-6 rounded-md bg-emerald-100">
+                    <AvatarFallback className="rounded-md text-[10px] font-semibold text-emerald-700">D</AvatarFallback>
+                  </Avatar>
                 </div>
               </Card>
 
@@ -615,7 +709,9 @@ const Index = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-muted-foreground">Qty. 80 x ₹1,385.00 NSE</p>
-                  <Badge variant="outline" className="border-emerald-500 text-emerald-600 text-xs">Dhan</Badge>
+                  <Avatar className="h-6 w-6 rounded-md bg-emerald-100">
+                    <AvatarFallback className="rounded-md text-[10px] font-semibold text-emerald-700">D</AvatarFallback>
+                  </Avatar>
                 </div>
               </Card>
 
@@ -637,7 +733,9 @@ const Index = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-xs text-muted-foreground">Qty. 50 x ₹2,680.00 NSE</p>
-                  <Badge variant="outline" className="border-blue-500 text-blue-600 text-xs">Zerodha</Badge>
+                  <Avatar className="h-6 w-6 rounded-md bg-blue-100">
+                    <AvatarFallback className="rounded-md text-[10px] font-semibold text-blue-700">Z</AvatarFallback>
+                  </Avatar>
                 </div>
               </Card>
             </div>
