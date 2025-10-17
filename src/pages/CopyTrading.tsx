@@ -89,6 +89,67 @@ const CopyTrading = () => {
     }
   ];
 
+  // Holdings mock data
+  const holdings = [
+    {
+      id: "1",
+      name: "ANANTRAJ",
+      qty: 200,
+      avgPrice: 508.15,
+      invested: 101630.00,
+      ltp: 621.00,
+      ltpChange: -1.95,
+      pnl: 22570.00,
+      pnlPercent: 22.21
+    },
+    {
+      id: "2",
+      name: "APARINDS",
+      qty: 12,
+      avgPrice: 8060.87,
+      invested: 96730.50,
+      ltp: 8666.00,
+      ltpChange: -1.42,
+      pnl: 7261.50,
+      pnlPercent: 7.51
+    },
+    {
+      id: "3",
+      name: "BDL",
+      qty: 0,
+      margin: 200,
+      avgPrice: 1354.93,
+      invested: 270987.60,
+      ltp: 1540.00,
+      ltpChange: 2.33,
+      pnl: 37012.40,
+      pnlPercent: 13.66
+    },
+    {
+      id: "4",
+      name: "BSE",
+      qty: 75,
+      avgPrice: 1464.26,
+      invested: 109820.00,
+      ltp: 2485.60,
+      ltpChange: -0.94,
+      pnl: 76600.00,
+      pnlPercent: 69.75
+    },
+    {
+      id: "5",
+      name: "CDSL",
+      qty: 0,
+      margin: 300,
+      avgPrice: 1238.60,
+      invested: 371580.00,
+      ltp: 1611.30,
+      ltpChange: -0.56,
+      pnl: 111810.00,
+      pnlPercent: 30.09
+    }
+  ];
+
   const closedPositions = [
     {
       id: "1",
@@ -575,8 +636,8 @@ const CopyTrading = () => {
                           </Button>
                         </div>
 
-                        {/* Open Positions Table */}
-                        <div className="overflow-x-auto bg-card rounded-lg border border-border">
+                        {/* Desktop Table */}
+                        <div className="hidden md:block overflow-x-auto bg-card rounded-lg border border-border">
                           <Table>
                             <TableHeader>
                               <TableRow>
@@ -629,6 +690,49 @@ const CopyTrading = () => {
                           </Table>
                         </div>
 
+                        {/* Mobile Cards */}
+                        <div className="md:hidden space-y-3">
+                          {filteredOpenPositions.map((pos) => (
+                            <Card key={pos.id} className="bg-card border">
+                              <CardContent className="p-4">
+                                <div className="space-y-3">
+                                  {/* First Row - Qty and Avg Price */}
+                                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                                    <div className="flex items-center gap-2">
+                                      <span>Qty. {pos.qty}</span>
+                                      <span>•</span>
+                                      <span>Avg. {pos.avgPrice.toFixed(2)}</span>
+                                    </div>
+                                    <span className={`font-semibold ${pos.changePercent >= 0 ? 'text-success' : 'text-destructive'}`}>
+                                      {pos.changePercent >= 0 ? '+' : ''}{pos.changePercent.toFixed(2)}%
+                                    </span>
+                                  </div>
+
+                                  {/* Second Row - Name and P&L */}
+                                  <div className="flex items-start justify-between">
+                                    <h3 className="font-semibold text-lg">{pos.name}</h3>
+                                    <div className="text-right">
+                                      <p className={`font-bold text-lg ${pos.pnl >= 0 ? 'text-success' : 'text-destructive'}`}>
+                                        {pos.pnl >= 0 ? '+' : ''}{pos.pnl.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  {/* Third Row - Product and LTP */}
+                                  <div className="flex items-center justify-between text-sm">
+                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
+                                      {pos.product}
+                                    </Badge>
+                                    <span className={`text-muted-foreground`}>
+                                      LTP {pos.ltp.toFixed(2)}
+                                    </span>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+
                         {/* Actions Row */}
                         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
                           <Button variant="ghost" size="sm" className="gap-2">
@@ -677,8 +781,8 @@ const CopyTrading = () => {
                           </Button>
                         </div>
 
-                        {/* Closed Positions Table */}
-                        <div className="overflow-x-auto bg-card rounded-lg border border-border">
+                        {/* Desktop Table */}
+                        <div className="hidden md:block overflow-x-auto bg-card rounded-lg border border-border">
                           <Table>
                             <TableHeader>
                               <TableRow>
@@ -723,6 +827,52 @@ const CopyTrading = () => {
                               ))}
                             </TableBody>
                           </Table>
+                        </div>
+
+                        {/* Mobile Cards */}
+                        <div className="md:hidden space-y-3">
+                          {filteredClosedPositions.map((pos) => (
+                            <Card key={pos.id} className="bg-card border">
+                              <CardContent className="p-4">
+                                <div className="space-y-3">
+                                  {/* First Row - Qty and Avg Prices */}
+                                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                                    <div className="flex items-center gap-2">
+                                      <span>Qty. {pos.qty}</span>
+                                      <span>•</span>
+                                      <span>Buy {pos.buyAvgPrice.toFixed(2)}</span>
+                                    </div>
+                                  </div>
+
+                                  {/* Second Row - Name and P&L */}
+                                  <div className="flex items-start justify-between">
+                                    <div>
+                                      <h3 className="font-semibold text-lg">{pos.name}</h3>
+                                      <p className="text-xs text-muted-foreground mt-0.5">
+                                        {pos.exchange} <Badge variant="outline" className="ml-1 text-xs">W</Badge>
+                                      </p>
+                                    </div>
+                                    <div className="text-right">
+                                      <p className={`font-bold text-lg ${pos.pnl >= 0 ? 'text-success' : 'text-destructive'}`}>
+                                        {pos.pnl >= 0 ? '+' : ''}{pos.pnl.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  {/* Third Row - Product and LTP */}
+                                  <div className="flex items-center justify-between text-sm">
+                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
+                                      {pos.product}
+                                    </Badge>
+                                    <div className="text-right text-muted-foreground">
+                                      <div>Sell {pos.sellAvgPrice.toFixed(2)}</div>
+                                      <div>LTP {pos.ltp.toFixed(2)}</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
                         </div>
 
                         {/* Actions Row */}
@@ -815,48 +965,48 @@ const CopyTrading = () => {
                           </Button>
                         </div>
 
-                        {/* Open Holdings Table */}
-                        <div className="overflow-x-auto bg-card rounded-lg border border-border">
+                        {/* Desktop Table */}
+                        <div className="hidden md:block overflow-x-auto bg-card rounded-lg border border-border">
                           <Table>
                             <TableHeader>
                               <TableRow>
                                 <TableHead className="w-12">
                                   <Checkbox />
                                 </TableHead>
-                                <TableHead>B/S</TableHead>
                                 <TableHead>Name</TableHead>
-                                <TableHead>Product</TableHead>
                                 <TableHead className="text-right">Qty</TableHead>
                                 <TableHead className="text-right">Avg Price</TableHead>
                                 <TableHead className="text-right">LTP</TableHead>
+                                <TableHead className="text-right">Invested</TableHead>
                                 <TableHead className="text-right">P&L</TableHead>
-                                <TableHead className="text-right">Change %</TableHead>
                                 <TableHead className="text-center">Action</TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {filteredOpenPositions.map((pos) => (
-                                <TableRow key={pos.id}>
+                              {holdings.map((holding) => (
+                                <TableRow key={holding.id}>
                                   <TableCell>
                                     <Checkbox />
                                   </TableCell>
-                                  <TableCell>
-                                    <Badge className="bg-success hover:bg-success">{pos.type}</Badge>
+                                  <TableCell className="font-medium">{holding.name}</TableCell>
+                                  <TableCell className="text-right">
+                                    {holding.margin ? (
+                                      <span className="text-muted-foreground">M: {holding.margin}</span>
+                                    ) : (
+                                      holding.qty
+                                    )}
                                   </TableCell>
-                                  <TableCell className="font-medium">{pos.name}</TableCell>
-                                  <TableCell>
-                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
-                                      {pos.product}
-                                    </Badge>
+                                  <TableCell className="text-right">{holding.avgPrice.toFixed(2)}</TableCell>
+                                  <TableCell className="text-right">
+                                    <div>{holding.ltp.toFixed(2)}</div>
+                                    <div className={`text-xs ${holding.ltpChange >= 0 ? 'text-success' : 'text-destructive'}`}>
+                                      ({holding.ltpChange >= 0 ? '+' : ''}{holding.ltpChange}%)
+                                    </div>
                                   </TableCell>
-                                  <TableCell className="text-right text-success">+{pos.qty}</TableCell>
-                                  <TableCell className="text-right">{pos.avgPrice.toFixed(2)}</TableCell>
-                                  <TableCell className="text-right">{pos.ltp.toFixed(2)}</TableCell>
-                                  <TableCell className={`text-right font-semibold ${pos.pnl < 0 ? 'text-destructive' : 'text-success'}`}>
-                                    {pos.pnl.toFixed(2)}
-                                  </TableCell>
-                                  <TableCell className={`text-right ${pos.changePercent < 0 ? 'text-destructive' : 'text-success'}`}>
-                                    {pos.changePercent.toFixed(2)}%
+                                  <TableCell className="text-right">{holding.invested.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</TableCell>
+                                  <TableCell className={`text-right font-semibold ${holding.pnl >= 0 ? 'text-success' : 'text-destructive'}`}>
+                                    <div>{holding.pnl >= 0 ? '+' : ''}{holding.pnl.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
+                                    <div className="text-xs">({holding.pnlPercent >= 0 ? '+' : ''}{holding.pnlPercent}%)</div>
                                   </TableCell>
                                   <TableCell className="text-center">
                                     <Button size="icon" variant="ghost" className="h-8 w-8">
@@ -867,6 +1017,54 @@ const CopyTrading = () => {
                               ))}
                             </TableBody>
                           </Table>
+                        </div>
+
+                        {/* Mobile Cards */}
+                        <div className="md:hidden space-y-3">
+                          {holdings.map((holding) => (
+                            <Card key={holding.id} className="bg-card border">
+                              <CardContent className="p-4">
+                                <div className="space-y-3">
+                                  {/* First Row - Qty and Avg Price */}
+                                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                                    <div className="flex items-center gap-2">
+                                      <span>Qty. {holding.qty || 0}</span>
+                                      {holding.margin && (
+                                        <>
+                                          <span>M: {holding.margin}</span>
+                                        </>
+                                      )}
+                                      <span>•</span>
+                                      <span>Avg. {holding.avgPrice.toFixed(2)}</span>
+                                    </div>
+                                    <span className={`font-semibold ${holding.pnlPercent >= 0 ? 'text-success' : 'text-destructive'}`}>
+                                      {holding.pnlPercent >= 0 ? '+' : ''}{holding.pnlPercent}%
+                                    </span>
+                                  </div>
+
+                                  {/* Second Row - Name and P&L */}
+                                  <div className="flex items-start justify-between">
+                                    <h3 className="font-semibold text-lg">{holding.name}</h3>
+                                    <div className="text-right">
+                                      <p className={`font-bold text-lg ${holding.pnl >= 0 ? 'text-success' : 'text-destructive'}`}>
+                                        {holding.pnl >= 0 ? '+' : ''}{holding.pnl.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  {/* Third Row - Invested and LTP */}
+                                  <div className="flex items-center justify-between text-sm">
+                                    <span className="text-muted-foreground">
+                                      Invested {holding.invested.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                    </span>
+                                    <span className="text-muted-foreground">
+                                      LTP {holding.ltp.toFixed(2)} <span className={holding.ltpChange >= 0 ? 'text-success' : 'text-destructive'}>({holding.ltpChange >= 0 ? '+' : ''}{holding.ltpChange}%)</span>
+                                    </span>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
                         </div>
 
                         {/* Actions Row */}
@@ -917,8 +1115,8 @@ const CopyTrading = () => {
                           </Button>
                         </div>
 
-                        {/* Closed Holdings Table */}
-                        <div className="overflow-x-auto bg-card rounded-lg border border-border">
+                        {/* Desktop Table */}
+                        <div className="hidden md:block overflow-x-auto bg-card rounded-lg border border-border">
                           <Table>
                             <TableHeader>
                               <TableRow>
@@ -963,6 +1161,52 @@ const CopyTrading = () => {
                               ))}
                             </TableBody>
                           </Table>
+                        </div>
+
+                        {/* Mobile Cards */}
+                        <div className="md:hidden space-y-3">
+                          {filteredClosedPositions.map((pos) => (
+                            <Card key={pos.id} className="bg-card border">
+                              <CardContent className="p-4">
+                                <div className="space-y-3">
+                                  {/* First Row */}
+                                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                                    <div className="flex items-center gap-2">
+                                      <span>Qty. {pos.qty}</span>
+                                      <span>•</span>
+                                      <span>Buy {pos.buyAvgPrice.toFixed(2)}</span>
+                                    </div>
+                                  </div>
+
+                                  {/* Second Row */}
+                                  <div className="flex items-start justify-between">
+                                    <div>
+                                      <h3 className="font-semibold text-lg">{pos.name}</h3>
+                                      <p className="text-xs text-muted-foreground mt-0.5">
+                                        {pos.exchange} <Badge variant="outline" className="ml-1 text-xs">W</Badge>
+                                      </p>
+                                    </div>
+                                    <div className="text-right">
+                                      <p className={`font-bold text-lg ${pos.pnl >= 0 ? 'text-success' : 'text-destructive'}`}>
+                                        {pos.pnl >= 0 ? '+' : ''}{pos.pnl.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  {/* Third Row */}
+                                  <div className="flex items-center justify-between text-sm">
+                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20">
+                                      {pos.product}
+                                    </Badge>
+                                    <div className="text-right text-muted-foreground">
+                                      <div>Sell {pos.sellAvgPrice.toFixed(2)}</div>
+                                      <div>LTP {pos.ltp.toFixed(2)}</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
                         </div>
 
                         {/* Actions Row */}
@@ -1015,8 +1259,8 @@ const CopyTrading = () => {
                           </div>
                         </div>
 
-                        {/* Executed Orders Table */}
-                        <div className="overflow-x-auto bg-card rounded-lg border border-border">
+                        {/* Desktop Table */}
+                        <div className="hidden md:block overflow-x-auto bg-card rounded-lg border border-border">
                           <Table>
                             <TableHeader>
                               <TableRow>
@@ -1071,6 +1315,58 @@ const CopyTrading = () => {
                               ))}
                             </TableBody>
                           </Table>
+                        </div>
+
+                        {/* Mobile Cards */}
+                        <div className="md:hidden space-y-3">
+                          {executedOrders.map((order) => (
+                            <Card key={order.id} className="bg-card border">
+                              <CardContent className="p-4">
+                                <div className="space-y-3">
+                                  {/* First Row - Time and Type */}
+                                  <div className="flex items-center justify-between text-sm">
+                                    <div className="flex items-center gap-2">
+                                      <Badge 
+                                        className={order.type === "B" 
+                                          ? "bg-success hover:bg-success" 
+                                          : "bg-destructive hover:bg-destructive"
+                                        }
+                                      >
+                                        {order.type}
+                                      </Badge>
+                                      <span className="text-muted-foreground">{order.time}</span>
+                                    </div>
+                                    <Badge variant="outline" className="bg-success/10 text-success border-success/20 text-xs">
+                                      {order.status}
+                                    </Badge>
+                                  </div>
+
+                                  {/* Second Row - Name */}
+                                  <div>
+                                    <h3 className="font-semibold text-base">{order.name}</h3>
+                                    <p className="text-xs text-muted-foreground mt-0.5">
+                                      <Badge variant="outline" className="text-xs mr-1">W</Badge>
+                                      {order.exchange}
+                                    </p>
+                                  </div>
+
+                                  {/* Third Row - Details */}
+                                  <div className="flex items-center justify-between text-sm">
+                                    <div className="flex items-center gap-3 text-muted-foreground">
+                                      <Badge variant="outline" className="bg-success/10 text-success border-success/20 text-xs">
+                                        {order.product}
+                                      </Badge>
+                                      <span>Qty: {order.qty}</span>
+                                    </div>
+                                    <div className="text-right text-muted-foreground">
+                                      <div>{order.orderType}: ₹{order.price.toFixed(2)}</div>
+                                      <div className="text-xs">LTP: ₹{order.ltp.toFixed(2)}</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
                         </div>
 
                         {/* Actions Row */}
