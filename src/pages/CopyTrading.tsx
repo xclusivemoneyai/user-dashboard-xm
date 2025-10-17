@@ -558,49 +558,51 @@ const CopyTrading = () => {
                   </div>
 
                   {/* Tabs */}
-                  <div className="border-b border-border">
-                    <div className="flex gap-6 overflow-x-auto">
-                      <button 
-                        onClick={() => setActiveTab("children")}
-                        className={`pb-3 px-1 font-medium whitespace-nowrap ${
-                          activeTab === "children" 
-                            ? "text-foreground border-b-2 border-primary" 
-                            : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        View Children
-                      </button>
-                      <button 
-                        onClick={() => setActiveTab("positions")}
-                        className={`pb-3 px-1 font-medium whitespace-nowrap ${
-                          activeTab === "positions" 
-                            ? "text-foreground border-b-2 border-primary" 
-                            : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        Positions
-                      </button>
-                      <button 
-                        onClick={() => setActiveTab("holdings")}
-                        className={`pb-3 px-1 font-medium whitespace-nowrap ${
-                          activeTab === "holdings" 
-                            ? "text-foreground border-b-2 border-primary" 
-                            : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        Holdings
-                      </button>
-                      <button 
-                        onClick={() => setActiveTab("orders")}
-                        className={`pb-3 px-1 font-medium whitespace-nowrap ${
-                          activeTab === "orders" 
-                            ? "text-foreground border-b-2 border-primary" 
-                            : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        Order Book
-                      </button>
-                    </div>
+                  <div className="bg-muted/30 rounded-lg p-1.5 inline-flex gap-1">
+                    <button 
+                      onClick={() => setActiveTab("children")}
+                      className={cn(
+                        "px-4 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap",
+                        activeTab === "children" 
+                          ? "bg-background text-foreground shadow-sm" 
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      View Children
+                    </button>
+                    <button 
+                      onClick={() => setActiveTab("positions")}
+                      className={cn(
+                        "px-4 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap",
+                        activeTab === "positions" 
+                          ? "bg-background text-foreground shadow-sm" 
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      Positions
+                    </button>
+                    <button 
+                      onClick={() => setActiveTab("holdings")}
+                      className={cn(
+                        "px-4 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap",
+                        activeTab === "holdings" 
+                          ? "bg-background text-foreground shadow-sm" 
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      Holdings
+                    </button>
+                    <button 
+                      onClick={() => setActiveTab("orders")}
+                      className={cn(
+                        "px-4 py-2 rounded-md font-medium text-sm transition-all whitespace-nowrap",
+                        activeTab === "orders" 
+                          ? "bg-background text-foreground shadow-sm" 
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      Order Book
+                    </button>
                   </div>
 
                   {/* Tab Content */}
@@ -689,21 +691,41 @@ const CopyTrading = () => {
                         </div>
 
                         {/* Filters */}
-                        <div className="flex gap-2 mb-4">
-                          <Button
-                            size="sm"
-                            variant={openPosFilter === "all" ? "default" : "outline"}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          <button
                             onClick={() => setOpenPosFilter("all")}
+                            className={cn(
+                              "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                              openPosFilter === "all"
+                                ? "bg-primary text-primary-foreground shadow-sm"
+                                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            )}
                           >
-                            All <Badge variant="secondary" className="ml-2">1</Badge>
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={openPosFilter === "loss" ? "default" : "outline"}
+                            All 
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-full text-xs font-semibold",
+                              openPosFilter === "all" ? "bg-primary-foreground/20 text-primary-foreground" : "bg-background text-foreground"
+                            )}>
+                              1
+                            </span>
+                          </button>
+                          <button
                             onClick={() => setOpenPosFilter("loss")}
+                            className={cn(
+                              "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                              openPosFilter === "loss"
+                                ? "bg-primary text-primary-foreground shadow-sm"
+                                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            )}
                           >
-                            In Loss <Badge variant="secondary" className="ml-2">1</Badge>
-                          </Button>
+                            In Loss
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-full text-xs font-semibold",
+                              openPosFilter === "loss" ? "bg-primary-foreground/20 text-primary-foreground" : "bg-background text-foreground"
+                            )}>
+                              1
+                            </span>
+                          </button>
                         </div>
 
                         {/* Desktop Table */}
@@ -819,28 +841,58 @@ const CopyTrading = () => {
                         </div>
 
                         {/* Filters */}
-                        <div className="flex gap-2 mb-4">
-                          <Button
-                            size="sm"
-                            variant={closedPosFilter === "all" ? "default" : "outline"}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          <button
                             onClick={() => setClosedPosFilter("all")}
+                            className={cn(
+                              "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                              closedPosFilter === "all"
+                                ? "bg-primary text-primary-foreground shadow-sm"
+                                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            )}
                           >
-                            All <Badge variant="secondary" className="ml-2">4</Badge>
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={closedPosFilter === "profit" ? "default" : "outline"}
+                            All
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-full text-xs font-semibold",
+                              closedPosFilter === "all" ? "bg-primary-foreground/20 text-primary-foreground" : "bg-background text-foreground"
+                            )}>
+                              4
+                            </span>
+                          </button>
+                          <button
                             onClick={() => setClosedPosFilter("profit")}
+                            className={cn(
+                              "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                              closedPosFilter === "profit"
+                                ? "bg-primary text-primary-foreground shadow-sm"
+                                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            )}
                           >
-                            In Profit <Badge variant="secondary" className="ml-2">3</Badge>
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={closedPosFilter === "loss" ? "default" : "outline"}
+                            In Profit
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-full text-xs font-semibold",
+                              closedPosFilter === "profit" ? "bg-primary-foreground/20 text-primary-foreground" : "bg-background text-foreground"
+                            )}>
+                              3
+                            </span>
+                          </button>
+                          <button
                             onClick={() => setClosedPosFilter("loss")}
+                            className={cn(
+                              "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                              closedPosFilter === "loss"
+                                ? "bg-primary text-primary-foreground shadow-sm"
+                                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            )}
                           >
-                            In Loss <Badge variant="secondary" className="ml-2">1</Badge>
-                          </Button>
+                            In Loss
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-full text-xs font-semibold",
+                              closedPosFilter === "loss" ? "bg-primary-foreground/20 text-primary-foreground" : "bg-background text-foreground"
+                            )}>
+                              1
+                            </span>
+                          </button>
                         </div>
 
                         {/* Desktop Table */}
@@ -1004,21 +1056,41 @@ const CopyTrading = () => {
                         </div>
 
                         {/* Filters */}
-                        <div className="flex gap-2 mb-4">
-                          <Button
-                            size="sm"
-                            variant={openPosFilter === "all" ? "default" : "outline"}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          <button
                             onClick={() => setOpenPosFilter("all")}
+                            className={cn(
+                              "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                              openPosFilter === "all"
+                                ? "bg-primary text-primary-foreground shadow-sm"
+                                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            )}
                           >
-                            All <Badge variant="secondary" className="ml-2">1</Badge>
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={openPosFilter === "loss" ? "default" : "outline"}
+                            All
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-full text-xs font-semibold",
+                              openPosFilter === "all" ? "bg-primary-foreground/20 text-primary-foreground" : "bg-background text-foreground"
+                            )}>
+                              5
+                            </span>
+                          </button>
+                          <button
                             onClick={() => setOpenPosFilter("loss")}
+                            className={cn(
+                              "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                              openPosFilter === "loss"
+                                ? "bg-primary text-primary-foreground shadow-sm"
+                                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            )}
                           >
-                            In Loss <Badge variant="secondary" className="ml-2">1</Badge>
-                          </Button>
+                            In Loss
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-full text-xs font-semibold",
+                              openPosFilter === "loss" ? "bg-primary-foreground/20 text-primary-foreground" : "bg-background text-foreground"
+                            )}>
+                              0
+                            </span>
+                          </button>
                         </div>
 
                         {/* Desktop Table */}
@@ -1141,28 +1213,58 @@ const CopyTrading = () => {
                         </div>
 
                         {/* Filters */}
-                        <div className="flex gap-2 mb-4">
-                          <Button
-                            size="sm"
-                            variant={closedPosFilter === "all" ? "default" : "outline"}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          <button
                             onClick={() => setClosedPosFilter("all")}
+                            className={cn(
+                              "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                              closedPosFilter === "all"
+                                ? "bg-primary text-primary-foreground shadow-sm"
+                                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            )}
                           >
-                            All <Badge variant="secondary" className="ml-2">4</Badge>
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={closedPosFilter === "profit" ? "default" : "outline"}
+                            All
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-full text-xs font-semibold",
+                              closedPosFilter === "all" ? "bg-primary-foreground/20 text-primary-foreground" : "bg-background text-foreground"
+                            )}>
+                              0
+                            </span>
+                          </button>
+                          <button
                             onClick={() => setClosedPosFilter("profit")}
+                            className={cn(
+                              "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                              closedPosFilter === "profit"
+                                ? "bg-primary text-primary-foreground shadow-sm"
+                                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            )}
                           >
-                            In Profit <Badge variant="secondary" className="ml-2">3</Badge>
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant={closedPosFilter === "loss" ? "default" : "outline"}
+                            In Profit
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-full text-xs font-semibold",
+                              closedPosFilter === "profit" ? "bg-primary-foreground/20 text-primary-foreground" : "bg-background text-foreground"
+                            )}>
+                              0
+                            </span>
+                          </button>
+                          <button
                             onClick={() => setClosedPosFilter("loss")}
+                            className={cn(
+                              "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                              closedPosFilter === "loss"
+                                ? "bg-primary text-primary-foreground shadow-sm"
+                                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                            )}
                           >
-                            In Loss <Badge variant="secondary" className="ml-2">1</Badge>
-                          </Button>
+                            In Loss
+                            <span className={cn(
+                              "px-2 py-0.5 rounded-full text-xs font-semibold",
+                              closedPosFilter === "loss" ? "bg-primary-foreground/20 text-primary-foreground" : "bg-background text-foreground"
+                            )}>
+                              0
+                            </span>
+                          </button>
                         </div>
 
                         {/* Desktop Table */}
@@ -1286,18 +1388,34 @@ const CopyTrading = () => {
 
                       {/* Executed Orders */}
                       <div className="bg-muted/30 rounded-lg p-4">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                          <div className="flex items-center gap-4">
-                            <h4 className="text-lg font-bold">Executed</h4>
-                            <div className="flex gap-2">
-                              <Button size="sm" variant="default">
-                                All
-                              </Button>
-                              <Button size="sm" variant="outline">
-                                Success <Badge variant="secondary" className="ml-2">8</Badge>
-                              </Button>
+                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                            <div className="flex items-center gap-4">
+                              <h4 className="text-lg font-bold">Executed</h4>
+                              <div className="flex flex-wrap gap-2">
+                                <button
+                                  className={cn(
+                                    "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                                    "bg-primary text-primary-foreground shadow-sm"
+                                  )}
+                                >
+                                  All
+                                  <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-primary-foreground/20 text-primary-foreground">
+                                    8
+                                  </span>
+                                </button>
+                                <button
+                                  className={cn(
+                                    "px-4 py-2 rounded-full font-medium text-sm transition-all inline-flex items-center gap-2",
+                                    "bg-muted text-muted-foreground hover:bg-muted/80"
+                                  )}
+                                >
+                                  Success
+                                  <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-background text-foreground">
+                                    8
+                                  </span>
+                                </button>
+                              </div>
                             </div>
-                          </div>
                           <div className="relative flex-1 max-w-md">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input
