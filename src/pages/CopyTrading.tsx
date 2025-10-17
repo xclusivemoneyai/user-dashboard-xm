@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Users, Plus, AlertCircle, Lock, Info, Trash2, Eye, Download, X, TrendingUp, Search, FileText, ChevronDown, ChevronRight, ArrowRight } from "lucide-react";
 import { AnalyseModal, PnLExitModal, TopUpModal } from "@/components/ActionModals";
+import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -29,6 +30,7 @@ import { cn } from "@/lib/utils";
 
 const CopyTrading = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState("children");
   const [openPosFilter, setOpenPosFilter] = useState("all");
@@ -455,8 +457,31 @@ const CopyTrading = () => {
                           <Badge variant="secondary" className="text-xs">Not Assigned</Badge>
                         </div>
                         <div className="flex gap-2">
-                          <Button size="sm" className="flex-1">Set as Master</Button>
-                          <Button size="sm" variant="outline" className="flex-1">
+                          <Button 
+                            size="sm" 
+                            className="flex-1"
+                            onClick={() => {
+                              toast({
+                                variant: "success",
+                                title: "Success",
+                                description: `Account ${account.id} set as Master successfully`,
+                              });
+                            }}
+                          >
+                            Set as Master
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="flex-1"
+                            onClick={() => {
+                              toast({
+                                variant: "success",
+                                title: "Success",
+                                description: `Account ${account.id} set as Child successfully`,
+                              });
+                            }}
+                          >
                             Set as Child
                           </Button>
                         </div>
@@ -544,19 +569,71 @@ const CopyTrading = () => {
 
                   {/* Master Actions */}
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    <Button size="sm" variant="outline" className="border-success text-success hover:bg-success/10 text-xs">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="border-success text-success hover:bg-success/10 text-xs"
+                      onClick={() => {
+                        toast({
+                          variant: "success",
+                          title: "Success",
+                          description: "All child accounts copying enabled successfully",
+                        });
+                      }}
+                    >
                       Turn On All Child Copying
                     </Button>
-                    <Button size="sm" variant="outline" className="text-xs">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="text-xs"
+                      onClick={() => {
+                        toast({
+                          title: "Success",
+                          description: "All child accounts copying disabled",
+                        });
+                      }}
+                    >
                       Turn Off All Child Copying
                     </Button>
-                    <Button size="sm" variant="outline" className="border-accent text-accent hover:bg-accent/10 text-xs">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="border-accent text-accent hover:bg-accent/10 text-xs"
+                      onClick={() => {
+                        toast({
+                          title: "Success",
+                          description: "Master positions exited successfully",
+                        });
+                      }}
+                    >
                       Exit Master Positions
                     </Button>
-                    <Button size="sm" variant="outline" className="text-xs">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="text-xs"
+                      onClick={() => {
+                        toast({
+                          title: "Success",
+                          description: "All child positions exited successfully",
+                        });
+                      }}
+                    >
                       Exit All Child Positions
                     </Button>
-                    <Button size="sm" variant="outline" className="border-destructive text-destructive hover:bg-destructive/10 text-xs">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="border-destructive text-destructive hover:bg-destructive/10 text-xs"
+                      onClick={() => {
+                        toast({
+                          variant: "destructive",
+                          title: "Master Removed",
+                          description: "Master account has been removed successfully",
+                        });
+                      }}
+                    >
                       Remove Master
                     </Button>
                   </div>
@@ -628,7 +705,19 @@ const CopyTrading = () => {
                                 {child.copyEnabled ? "On" : "Off"}
                               </Badge>
                               <span className="text-sm">Qty: {child.quantity}</span>
-                              <Button variant="destructive" size="sm">Remove</Button>
+                              <Button 
+                                variant="destructive" 
+                                size="sm"
+                                onClick={() => {
+                                  toast({
+                                    variant: "destructive",
+                                    title: "Child Removed",
+                                    description: `${child.name} removed from master account`,
+                                  });
+                                }}
+                              >
+                                Remove
+                              </Button>
                             </div>
                           </div>
                         ))}
@@ -832,7 +921,17 @@ const CopyTrading = () => {
 
                         {/* Actions Row */}
                         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
-                          <Button variant="ghost" size="sm" className="gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="gap-2"
+                            onClick={() => {
+                              toast({
+                                title: "Success",
+                                description: "CSV file downloaded successfully",
+                              });
+                            }}
+                          >
                             <Download className="h-4 w-4" />
                             Download as CSV
                           </Button>
@@ -998,7 +1097,17 @@ const CopyTrading = () => {
 
                         {/* Actions Row */}
                         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
-                          <Button variant="ghost" size="sm" className="gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="gap-2"
+                            onClick={() => {
+                              toast({
+                                title: "Success",
+                                description: "CSV file downloaded successfully",
+                              });
+                            }}
+                          >
                             <Download className="h-4 w-4" />
                             Download as CSV
                           </Button>
@@ -1213,7 +1322,17 @@ const CopyTrading = () => {
 
                         {/* Actions Row */}
                         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
-                          <Button variant="ghost" size="sm" className="gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="gap-2"
+                            onClick={() => {
+                              toast({
+                                title: "Success",
+                                description: "CSV file downloaded successfully",
+                              });
+                            }}
+                          >
                             <Download className="h-4 w-4" />
                             Download as CSV
                           </Button>
@@ -1385,7 +1504,17 @@ const CopyTrading = () => {
 
                         {/* Actions Row */}
                         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
-                          <Button variant="ghost" size="sm" className="gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="gap-2"
+                            onClick={() => {
+                              toast({
+                                title: "Success",
+                                description: "CSV file downloaded successfully",
+                              });
+                            }}
+                          >
                             <Download className="h-4 w-4" />
                             Download as CSV
                           </Button>
@@ -1547,7 +1676,17 @@ const CopyTrading = () => {
 
                         {/* Actions Row */}
                         <div className="mt-4">
-                          <Button variant="ghost" size="sm" className="gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="gap-2"
+                            onClick={() => {
+                              toast({
+                                title: "Success",
+                                description: "CSV file downloaded successfully",
+                              });
+                            }}
+                          >
                             <Download className="h-4 w-4" />
                             Download as CSV
                           </Button>
@@ -1747,14 +1886,43 @@ const CopyTrading = () => {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex gap-2 flex-wrap">
-                  <Button variant="destructive" size="sm">
+                  <Button 
+                    variant="destructive" 
+                    size="sm"
+                    onClick={() => {
+                      toast({
+                        variant: "destructive",
+                        title: "Orders Cancelled",
+                        description: "Selected orders have been cancelled successfully",
+                      });
+                    }}
+                  >
                     Cancel Selected
                   </Button>
-                  <Button variant="outline" size="sm" className="bg-warning/20 border-warning hover:bg-warning/30 text-warning-foreground">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="bg-warning/20 border-warning hover:bg-warning/30 text-warning-foreground"
+                    onClick={() => {
+                      toast({
+                        title: "Success",
+                        description: "Selected positions squared off successfully",
+                      });
+                    }}
+                  >
                     Square Off Selected
                   </Button>
                 </div>
-                <Button variant="outline" size="sm">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {
+                    toast({
+                      title: "All Orders Selected",
+                      description: "All orders have been selected",
+                    });
+                  }}
+                >
                   Select All
                 </Button>
               </div>
