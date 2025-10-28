@@ -2,12 +2,35 @@ import { DashboardHeader } from "@/components/DashboardHeader";
 import { DashboardSidebar } from "@/components/DashboardSidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Lightbulb, Building2, FileText, Network, MessageSquare, ChevronDown, Crown, AlertTriangle } from "lucide-react";
+import { Search, Lightbulb, Building2, FileText, Network, MessageSquare, ChevronDown, Crown, AlertTriangle, MoreVertical, Plus, ChevronLeft, Edit2, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const XmGpt = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMode, setSelectedMode] = useState("Balanced");
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const modes = ["Balanced", "Concise", "Descriptive"];
+  
+  const chatHistory = [
+    { id: 1, title: "Q1 FY26 Sales Volume Growth...", timestamp: "22:53 | October 28, 2025" },
+    { id: 2, title: "Q1 FY26 Summary Insights", timestamp: "22:51 | October 28, 2025" },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -24,7 +47,12 @@ const XmGpt = () => {
                 You have exhausted your daily limit of AI prompts.
               </p>
             </div>
-            <Button variant="outline" size="sm" className="gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2"
+              onClick={() => navigate("/pricing")}
+            >
               <Crown className="h-4 w-4" />
               Upgrade
             </Button>
@@ -54,18 +82,102 @@ const XmGpt = () => {
 
               {/* Options Bar */}
               <div className="flex flex-wrap items-center gap-2 justify-center">
-                {/* Mode Selector */}
-                <Button variant="outline" size="sm" className="gap-2 rounded-full">
-                  <Network className="h-4 w-4" />
-                  {selectedMode}
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
+                {/* Mode Selector with Dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                      <Network className="h-4 w-4" />
+                      {selectedMode}
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="center" className="w-48">
+                    {modes.map((mode) => (
+                      <DropdownMenuItem
+                        key={mode}
+                        onClick={() => setSelectedMode(mode)}
+                        className={selectedMode === mode ? "bg-muted" : ""}
+                      >
+                        {mode}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
 
-                {/* Chat History */}
-                <Button variant="outline" size="sm" className="gap-2 rounded-full">
-                  <MessageSquare className="h-4 w-4" />
-                  Chat history
-                </Button>
+                {/* Chat History with Sidebar */}
+                <Sheet open={isHistoryOpen} onOpenChange={setIsHistoryOpen}>
+                  <SheetTrigger asChild>
+                    <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                      <MessageSquare className="h-4 w-4" />
+                      Chat history
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="left" className="w-full sm:w-96 p-0">
+                    <div className="flex flex-col h-full">
+                      <SheetHeader className="px-6 py-4 border-b">
+                        <div className="flex items-center gap-3">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() => setIsHistoryOpen(false)}
+                          >
+                            <ChevronLeft className="h-5 w-5" />
+                          </Button>
+                          <SheetTitle className="text-xl">Chat history</SheetTitle>
+                        </div>
+                      </SheetHeader>
+                      
+                      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+                        {chatHistory.map((chat) => (
+                          <div
+                            key={chat.id}
+                            className="group py-3 border-b border-border hover:bg-muted/50 transition-colors"
+                          >
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex-1 min-w-0">
+                                <h3 className="font-medium text-foreground truncate">
+                                  {chat.title}
+                                </h3>
+                                <p className="text-sm text-muted-foreground mt-1">
+                                  {chat.timestamp}
+                                </p>
+                              </div>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                                  >
+                                    <MoreVertical className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem className="gap-2">
+                                    <Edit2 className="h-4 w-4" />
+                                    Rename
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem className="gap-2 text-destructive">
+                                    <Trash2 className="h-4 w-4" />
+                                    Delete
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="px-6 py-4 border-t">
+                        <Button className="w-full gap-2" variant="outline">
+                          <Plus className="h-4 w-4" />
+                          New Chat
+                        </Button>
+                      </div>
+                    </div>
+                  </SheetContent>
+                </Sheet>
               </div>
 
               {/* Disclaimer */}
