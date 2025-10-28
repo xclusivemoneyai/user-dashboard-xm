@@ -1,11 +1,15 @@
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { DashboardSidebar } from "@/components/DashboardSidebar";
 import { Input } from "@/components/ui/input";
-import { Search, Lightbulb, Building2, FileText, Network } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Search, Lightbulb, Building2, FileText, Network, Cpu, Globe, MessageSquare, ChevronDown, Crown, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 
 const XmGpt = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedModel, setSelectedModel] = useState("GPT-4o");
+  const [selectedSource, setSelectedSource] = useState<"docs" | "web">("web");
+  const [selectedMode, setSelectedMode] = useState("Balanced");
 
   return (
     <div className="min-h-screen bg-background">
@@ -14,30 +18,95 @@ const XmGpt = () => {
       
       <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
+          {/* Warning Banner */}
+          <div className="mb-6 bg-warning/10 border border-warning/20 rounded-lg p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <AlertTriangle className="h-5 w-5 text-warning" />
+              <p className="text-sm md:text-base text-foreground">
+                You have exhausted your daily limit of AI prompts.
+              </p>
+            </div>
+            <Button variant="outline" size="sm" className="gap-2">
+              <Crown className="h-4 w-4" />
+              Upgrade
+            </Button>
+          </div>
+
           {/* Hero Section */}
-          <div className="text-center space-y-8 py-12">
-            <h1 className="text-4xl md:text-5xl font-bold">
+          <div className="text-center space-y-8 py-8 md:py-12">
+            <h1 className="text-3xl md:text-5xl font-bold">
               New Standard of{" "}
               <span className="text-primary">Trading Research</span>
             </h1>
 
             {/* Search Bar */}
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-3xl mx-auto space-y-4">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="Search..."
+                  placeholder="Ask anything..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 pr-24 py-6 text-lg bg-card border-border rounded-xl"
+                  className="pl-4 pr-12 py-6 text-base md:text-lg bg-card border-border rounded-xl"
                 />
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1 text-xs text-muted-foreground">
-                  <kbd className="px-2 py-1 bg-muted rounded border border-border">Ctrl</kbd>
-                  <span>+</span>
-                  <kbd className="px-2 py-1 bg-muted rounded border border-border">K</kbd>
-                </div>
+                <button className="absolute right-3 top-1/2 -translate-y-1/2 p-2 hover:bg-muted rounded-lg transition-colors">
+                  <Search className="h-5 w-5 text-muted-foreground" />
+                </button>
               </div>
+
+              {/* Options Bar */}
+              <div className="flex flex-wrap items-center gap-2 justify-center">
+                {/* Model Selector */}
+                <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                  <Cpu className="h-4 w-4" />
+                  {selectedModel}
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+
+                {/* Docs/Web Toggle */}
+                <div className="flex items-center gap-1 bg-muted/50 rounded-full p-1">
+                  <button
+                    onClick={() => setSelectedSource("docs")}
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm transition-colors ${
+                      selectedSource === "docs"
+                        ? "bg-background text-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <FileText className="h-4 w-4" />
+                    Docs
+                  </button>
+                  <button
+                    onClick={() => setSelectedSource("web")}
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm transition-colors ${
+                      selectedSource === "web"
+                        ? "bg-background text-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Globe className="h-4 w-4" />
+                    Web
+                  </button>
+                </div>
+
+                {/* Mode Selector */}
+                <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                  <Network className="h-4 w-4" />
+                  {selectedMode}
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+
+                {/* Chat History */}
+                <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                  <MessageSquare className="h-4 w-4" />
+                  Chat history
+                </Button>
+              </div>
+
+              {/* Disclaimer */}
+              <p className="text-xs md:text-sm text-muted-foreground">
+                AI can make mistakes. Check important information.
+              </p>
             </div>
 
             {/* Lightbulb Icon */}
