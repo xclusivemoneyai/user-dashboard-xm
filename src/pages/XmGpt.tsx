@@ -112,7 +112,7 @@ const XmGpt = () => {
                       Chat history
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="left" className="w-full sm:w-96 p-0">
+                  <SheetContent side="right" className="w-full sm:w-96 p-0">
                     <div className="flex flex-col h-full">
                       <SheetHeader className="px-6 py-4 border-b">
                         <div className="flex items-center gap-3">
@@ -209,6 +209,42 @@ const XmGpt = () => {
                 </button>{" "}
                 to get started
               </p>
+            </div>
+
+            {/* Curious Minds Section */}
+            <div className="mt-16 space-y-6">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 2L4 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-8-4z" />
+                </svg>
+                <h2 className="text-lg font-medium">Curious minds on fuzz are asking...</h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button className="text-left p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-all group">
+                  <p className="text-foreground group-hover:text-primary transition-colors">
+                    Earnings alert! Which stocks could grab headlines this week (Oct 27-31)?
+                  </p>
+                </button>
+                
+                <button className="text-left p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-all group">
+                  <p className="text-foreground group-hover:text-primary transition-colors">
+                    Gold's sharp October 2025 fall: What's really driving the decline?
+                  </p>
+                </button>
+
+                <button className="text-left p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-all group">
+                  <p className="text-foreground group-hover:text-primary transition-colors">
+                    India–US trade deal: Which stocks could turn into the next big winners?
+                  </p>
+                </button>
+
+                <button className="text-left p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-muted/50 transition-all group">
+                  <p className="text-foreground group-hover:text-primary transition-colors">
+                    LIC & Adani: What investors should know about the bond news?
+                  </p>
+                </button>
+              </div>
             </div>
           </div>
 
