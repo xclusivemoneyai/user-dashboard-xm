@@ -2,13 +2,11 @@ import { DashboardHeader } from "@/components/DashboardHeader";
 import { DashboardSidebar } from "@/components/DashboardSidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Lightbulb, Building2, FileText, Network, Cpu, Globe, MessageSquare, ChevronDown, Crown, AlertTriangle } from "lucide-react";
+import { Search, Lightbulb, Building2, FileText, Network, MessageSquare, ChevronDown, Crown, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 
 const XmGpt = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedModel, setSelectedModel] = useState("GPT-4o");
-  const [selectedSource, setSelectedSource] = useState<"docs" | "web">("web");
   const [selectedMode, setSelectedMode] = useState("Balanced");
 
   return (
@@ -56,39 +54,6 @@ const XmGpt = () => {
 
               {/* Options Bar */}
               <div className="flex flex-wrap items-center gap-2 justify-center">
-                {/* Model Selector */}
-                <Button variant="outline" size="sm" className="gap-2 rounded-full">
-                  <Cpu className="h-4 w-4" />
-                  {selectedModel}
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-
-                {/* Docs/Web Toggle */}
-                <div className="flex items-center gap-1 bg-muted/50 rounded-full p-1">
-                  <button
-                    onClick={() => setSelectedSource("docs")}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm transition-colors ${
-                      selectedSource === "docs"
-                        ? "bg-background text-foreground shadow-sm"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    <FileText className="h-4 w-4" />
-                    Docs
-                  </button>
-                  <button
-                    onClick={() => setSelectedSource("web")}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm transition-colors ${
-                      selectedSource === "web"
-                        ? "bg-background text-foreground shadow-sm"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    <Globe className="h-4 w-4" />
-                    Web
-                  </button>
-                </div>
-
                 {/* Mode Selector */}
                 <Button variant="outline" size="sm" className="gap-2 rounded-full">
                   <Network className="h-4 w-4" />
