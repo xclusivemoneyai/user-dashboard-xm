@@ -1,5 +1,5 @@
 import { Bell, Moon, Sun, Settings, Menu } from "lucide-react";
-import xmLogo from "@/assets/xclusive-money-logo.png";
+import xmLogo from "@/assets/xclusive-money-logo.svg";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
