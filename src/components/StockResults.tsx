@@ -13,8 +13,18 @@ import {
   TrendingUpDown,
   DollarSign,
   Activity,
-  Shield
+  Shield,
+  ChevronDown,
+  Info
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
 
 interface StockResultsProps {
   stockName: string;
@@ -22,6 +32,14 @@ interface StockResultsProps {
 }
 
 export const StockResults = ({ stockName, ticker }: StockResultsProps) => {
+  const [newsDateFilter, setNewsDateFilter] = useState("Last 7 days");
+  const [newsSortFilter, setNewsSortFilter] = useState("Newest");
+  const [sentimentFilters, setSentimentFilters] = useState({
+    positive: true,
+    negative: true,
+    neutral: true,
+  });
+
   const stockData = {
     price: "₹1119.50",
     change: "+114.95",
@@ -337,9 +355,276 @@ export const StockResults = ({ stockName, ticker }: StockResultsProps) => {
         </TabsContent>
 
         <TabsContent value="news">
-          <Card className="p-6">
-            <p className="text-muted-foreground">Latest news and updates will be displayed here.</p>
-          </Card>
+          <div className="space-y-6">
+            {/* News Header with Filters */}
+            <div className="flex items-center gap-3 flex-wrap">
+              <div className="flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-bold">News</h2>
+                <div className="p-1.5 rounded-full bg-muted">
+                  <Info className="h-4 w-4 text-muted-foreground" />
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2 ml-auto flex-wrap">
+                {/* Date Filter */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                      {newsDateFilter}
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem
+                      onClick={() => setNewsDateFilter("Last 7 days")}
+                      className={newsDateFilter === "Last 7 days" ? "bg-primary/10 text-primary" : ""}
+                    >
+                      Last 7 days
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="flex items-center justify-between">
+                      <span className="text-muted-foreground">Last 30 days</span>
+                      <Badge variant="secondary" className="text-xs">Pro</Badge>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="flex items-center justify-between">
+                      <span className="text-muted-foreground">Last 90 days</span>
+                      <Badge variant="secondary" className="text-xs">Pro</Badge>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* Sort Filter */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                      {newsSortFilter}
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem className="flex items-center justify-between">
+                      <span className="text-muted-foreground">Relevance</span>
+                      <Badge variant="secondary" className="text-xs">Pro</Badge>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setNewsSortFilter("Newest")}
+                      className={newsSortFilter === "Newest" ? "bg-primary/10 text-primary" : ""}
+                    >
+                      Newest
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {/* Sentiment Filter */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                      Sentiment
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48 p-3">
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <Checkbox
+                          id="positive"
+                          checked={sentimentFilters.positive}
+                          onCheckedChange={(checked) =>
+                            setSentimentFilters({ ...sentimentFilters, positive: checked as boolean })
+                          }
+                        />
+                        <label htmlFor="positive" className="text-sm cursor-pointer flex-1">
+                          Positive
+                        </label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Checkbox
+                          id="negative"
+                          checked={sentimentFilters.negative}
+                          onCheckedChange={(checked) =>
+                            setSentimentFilters({ ...sentimentFilters, negative: checked as boolean })
+                          }
+                        />
+                        <label htmlFor="negative" className="text-sm cursor-pointer flex-1">
+                          Negative
+                        </label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Checkbox
+                          id="neutral"
+                          checked={sentimentFilters.neutral}
+                          onCheckedChange={(checked) =>
+                            setSentimentFilters({ ...sentimentFilters, neutral: checked as boolean })
+                          }
+                        />
+                        <label htmlFor="neutral" className="text-sm cursor-pointer flex-1">
+                          Neutral
+                        </label>
+                      </div>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+
+            {/* News Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* News Card 1 - Positive */}
+              <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-red-600 flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">N</span>
+                      </div>
+                      <div className="text-sm">
+                        <p className="font-medium">NDTV Profit</p>
+                        <p className="text-xs text-muted-foreground">2 hours ago</p>
+                      </div>
+                    </div>
+                    <div className="h-2 w-2 rounded-full bg-green-500" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-semibold text-sm leading-snug line-clamp-2">
+                      Adani Green Shares Surge Over 14%; Adani Total Up Nearly 9% As Group Stocks Rally
+                    </h3>
+                    <p className="text-xs text-muted-foreground line-clamp-3">
+                      Adani Green shares surged over 14% and Adani Total rose nearly 9% during Wednesday's trading as all Adani Group stocks experienced a rally, indicating strong market performance for the group.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
+              {/* News Card 2 - Positive */}
+              <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-red-500 flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">R</span>
+                      </div>
+                      <div className="text-sm">
+                        <p className="font-medium">Rediff Money</p>
+                        <p className="text-xs text-muted-foreground">20 hours ago</p>
+                      </div>
+                    </div>
+                    <div className="h-2 w-2 rounded-full bg-green-500" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-semibold text-sm leading-snug line-clamp-2">
+                      Adani Green Energy Q2 Profit Up 28% to Rs 644 Cr
+                    </h3>
+                    <p className="text-xs text-muted-foreground line-clamp-3">
+                      Adani Green Energy reported a 28% increase in Q2 net profit to Rs 644 crore on October 28, 2025, driven by its renewable energy business. Revenue from power supply rose to Rs 2,776 crore, while operational capacity expanded to 16.7 GW, on track for a 50 GW target by 2029.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
+              {/* News Card 3 - Positive */}
+              <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-red-700 flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">ET</span>
+                      </div>
+                      <div className="text-sm">
+                        <p className="font-medium">ET Now</p>
+                        <p className="text-xs text-muted-foreground">21 hours ago</p>
+                      </div>
+                    </div>
+                    <div className="h-2 w-2 rounded-full bg-green-500" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-semibold text-sm leading-snug line-clamp-2">
+                      Adani Green Q2 Results FY2026: Net profit rises 25% - Check company's quarterly results, revenue and other key DETAILS
+                    </h3>
+                    <p className="text-xs text-muted-foreground line-clamp-3">
+                      Adani Green Energy Ltd reported a 25% increase in net profit for Q2 FY26, highlighting strong revenue growth and operational performance. This positive result reflects the company's robust position in the renewable energy sector.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
+              {/* News Card 4 - Neutral */}
+              <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-red-600 flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">N</span>
+                      </div>
+                      <div className="text-sm">
+                        <p className="font-medium">NDTV Profit</p>
+                        <p className="text-xs text-muted-foreground">1 day ago</p>
+                      </div>
+                    </div>
+                    <div className="h-2 w-2 rounded-full bg-gray-400" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-semibold text-sm leading-snug line-clamp-2">
+                      Q2 Results Today: Tata Capital, Adani Green, TVS Motor, Premier Energies Among 60+ Firms To Declare Earnings
+                    </h3>
+                    <p className="text-xs text-muted-foreground line-clamp-3">
+                      Over 60 companies, including Adani Green Energy Ltd, are set to announce their Q2 earnings today. This could provide insights into the company's financial performance and market outlook.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
+              {/* News Card 5 - Negative */}
+              <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-teal-600 flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">M</span>
+                      </div>
+                      <div className="text-sm">
+                        <p className="font-medium">Moneycontrol</p>
+                        <p className="text-xs text-muted-foreground">1 day ago</p>
+                      </div>
+                    </div>
+                    <div className="h-2 w-2 rounded-full bg-red-500" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-semibold text-sm leading-snug line-clamp-2">
+                      Adani Energy Solutions Q2 results: Net profit falls 21% to Rs 534 crore
+                    </h3>
+                    <p className="text-xs text-muted-foreground line-clamp-3">
+                      Adani Energy Solutions reported a 21% decline in net profit for Q2, amounting to Rs 534 crore. This drop may influence investor sentiment and stock performance in the upcoming trading sessions.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
+              {/* News Card 6 - Positive */}
+              <Card className="p-4 hover:shadow-lg transition-shadow cursor-pointer">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">B</span>
+                      </div>
+                      <div className="text-sm">
+                        <p className="font-medium">Bloomberg</p>
+                        <p className="text-xs text-muted-foreground">2 days ago</p>
+                      </div>
+                    </div>
+                    <div className="h-2 w-2 rounded-full bg-green-500" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-semibold text-sm leading-snug line-clamp-2">
+                      Adani Green Expands Solar Capacity With New 500 MW Project
+                    </h3>
+                    <p className="text-xs text-muted-foreground line-clamp-3">
+                      Adani Green Energy announced a new 500 MW solar project, further expanding its renewable energy portfolio and reinforcing its commitment to clean energy targets.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
