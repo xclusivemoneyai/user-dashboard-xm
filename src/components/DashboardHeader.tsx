@@ -25,8 +25,8 @@ export const DashboardHeader = ({ isSidebarOpen, onSidebarToggle }: DashboardHea
   };
 
   return (
-    <header className="dark sticky top-0 z-50 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-      <div className="flex h-16 items-center justify-between px-6">
+    <header className="dark sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/95 backdrop-blur supports-[backdrop-filter]:bg-slate-950/60">
+      <div className="flex h-16 items-center justify-between px-6 text-white">
         <div className="flex items-center gap-3">
           <Button 
             variant="ghost" 
