@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
 import { useState } from "react";
+import { PricingCalculator } from "@/components/PricingCalculator";
 
 const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState("monthly");
@@ -221,6 +222,9 @@ const Pricing = () => {
             ))}
           </div>
           </div>
+
+          {/* Pricing Calculator Section */}
+          <PricingCalculator />
         </div>
       </main>
       </div>
