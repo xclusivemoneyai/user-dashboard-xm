@@ -20,10 +20,12 @@ import {
   X,
   Plus,
   Send,
-  Brain,
-  FileText,
-  Globe,
-  MessageSquare
+  Network,
+  MessageSquare,
+  ChevronLeft,
+  Edit2,
+  Trash2,
+  MoreVertical
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -31,6 +33,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 
@@ -42,11 +51,20 @@ interface StockResultsProps {
 export const StockResults = ({ stockName, ticker }: StockResultsProps) => {
   const [newsDateFilter, setNewsDateFilter] = useState("Last 7 days");
   const [newsSortFilter, setNewsSortFilter] = useState("Newest");
+  const [selectedMode, setSelectedMode] = useState("Balanced");
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [sentimentFilters, setSentimentFilters] = useState({
     positive: true,
     negative: true,
     neutral: true,
   });
+
+  const chatHistory = [
+    { id: 1, title: "Q1 FY26 Sales Volume Growth...", timestamp: "22:53 | October 28, 2025" },
+    { id: 2, title: "Q1 FY26 Summary Insights", timestamp: "22:51 | October 28, 2025" },
+  ];
+
+  const modes = ["Balanced", "Concise", "Descriptive"];
 
   const stockData = {
     price: "₹1119.50",
@@ -697,7 +715,7 @@ export const StockResults = ({ stockName, ticker }: StockResultsProps) => {
       {/* Sticky Search Bar */}
       <div className="fixed bottom-0 left-0 md:left-64 right-0 bg-background/95 backdrop-blur-sm border-t border-border z-50">
         <div className="max-w-6xl mx-auto p-4">
-          <div className="relative">
+          <div className="relative mb-3">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M12 2L4 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-8-4z" />
@@ -711,6 +729,106 @@ export const StockResults = ({ stockName, ticker }: StockResultsProps) => {
             <button className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transition-colors">
               <Send className="h-5 w-5" />
             </button>
+          </div>
+
+          {/* Options Bar */}
+          <div className="flex items-center gap-2 justify-center flex-wrap">
+            {/* Mode Selector */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                  <Network className="h-4 w-4" />
+                  {selectedMode}
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center" className="w-48">
+                {modes.map((mode) => (
+                  <DropdownMenuItem
+                    key={mode}
+                    onClick={() => setSelectedMode(mode)}
+                    className={selectedMode === mode ? "bg-muted" : ""}
+                  >
+                    {mode}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Chat History with Sidebar */}
+            <Sheet open={isHistoryOpen} onOpenChange={setIsHistoryOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                  <MessageSquare className="h-4 w-4" />
+                  Chat history
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-full sm:w-96 p-0">
+                <div className="flex flex-col h-full">
+                  <SheetHeader className="px-6 py-4 border-b">
+                    <div className="flex items-center gap-3">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
+                        onClick={() => setIsHistoryOpen(false)}
+                      >
+                        <ChevronLeft className="h-5 w-5" />
+                      </Button>
+                      <SheetTitle className="text-xl">Chat history</SheetTitle>
+                    </div>
+                  </SheetHeader>
+                  
+                  <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+                    {chatHistory.map((chat) => (
+                      <div
+                        key={chat.id}
+                        className="group py-3 border-b border-border hover:bg-muted/50 transition-colors"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-medium text-foreground truncate">
+                              {chat.title}
+                            </h3>
+                            <p className="text-sm text-muted-foreground mt-1">
+                              {chat.timestamp}
+                            </p>
+                          </div>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                              >
+                                <MoreVertical className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem className="gap-2">
+                                <Edit2 className="h-4 w-4" />
+                                Rename
+                              </DropdownMenuItem>
+                              <DropdownMenuItem className="gap-2 text-destructive">
+                                <Trash2 className="h-4 w-4" />
+                                Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="px-6 py-4 border-t">
+                    <Button className="w-full gap-2" variant="outline">
+                      <Plus className="h-4 w-4" />
+                      New Chat
+                    </Button>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>

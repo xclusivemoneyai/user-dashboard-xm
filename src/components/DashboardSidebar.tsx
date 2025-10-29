@@ -62,13 +62,6 @@ export const DashboardSidebar = ({ isOpen = false, onClose }: DashboardSidebarPr
   const [isAlertToTradeOpen, setIsAlertToTradeOpen] = useState(
     location.pathname === "/alert-to-trade" || location.pathname === "/create-alerts"
   );
-  const [isXmGptOpen, setIsXmGptOpen] = useState(location.pathname === "/xm-gpt");
-
-  const chatHistory = [
-    { id: 1, title: "Q1 FY26 Sales Volume Growth...", timestamp: "22:53 | Oct 28" },
-    { id: 2, title: "Q1 FY26 Summary Insights", timestamp: "22:51 | Oct 28" },
-    { id: 3, title: "Adani Green Analysis", timestamp: "20:15 | Oct 27" },
-  ];
 
   return (
     <>
@@ -89,40 +82,7 @@ export const DashboardSidebar = ({ isOpen = false, onClose }: DashboardSidebarPr
         <div className="flex flex-col gap-0.5 p-3 py-2">
         <SidebarItem label="Dashboard" isHeader />
         <SidebarItem icon={<LayoutDashboard className="h-4 w-4" />} label="Summary" path="/" active={location.pathname === "/"} />
-        
-        {/* XM GPT Collapsible with History */}
-        <Collapsible open={isXmGptOpen} onOpenChange={setIsXmGptOpen}>
-          <CollapsibleTrigger asChild>
-            <button
-              className={cn(
-                "flex w-full items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
-                location.pathname === "/xm-gpt"
-                  ? "bg-primary/10 text-primary border-l-4 border-primary -ml-4 pl-[12px]"
-                  : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-              )}
-            >
-              <div className="flex h-4 w-4 items-center justify-center flex-shrink-0">
-                <Bot className="h-4 w-4" />
-              </div>
-              <span className="text-sm leading-tight flex-1 text-left">XM GPT</span>
-              <ChevronDown className={cn("h-4 w-4 transition-transform", isXmGptOpen && "rotate-180")} />
-            </button>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-0.5 mt-0.5">
-            {chatHistory.map((chat) => (
-              <button
-                key={chat.id}
-                className="flex w-full items-start gap-2 rounded-lg px-3 py-2 ml-6 text-xs transition-colors text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-              >
-                <div className="flex flex-col items-start flex-1 min-w-0">
-                  <span className="text-xs leading-tight truncate w-full text-left">{chat.title}</span>
-                  <span className="text-[10px] text-muted-foreground leading-tight">{chat.timestamp}</span>
-                </div>
-              </button>
-            ))}
-          </CollapsibleContent>
-        </Collapsible>
-
+        <SidebarItem icon={<Bot className="h-4 w-4" />} label="XM GPT" path="/xm-gpt" active={location.pathname === "/xm-gpt"} />
         <SidebarItem icon={<TrendingUp className="h-4 w-4" />} label="Account Config" path="/account-config" active={location.pathname === "/account-config"} />
         <SidebarItem icon={<Users className="h-4 w-4" />} label="Copy Trading" path="/copy-trading" active={location.pathname === "/copy-trading"} />
         
