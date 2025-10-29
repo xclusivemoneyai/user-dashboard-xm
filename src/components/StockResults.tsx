@@ -695,78 +695,23 @@ export const StockResults = ({ stockName, ticker }: StockResultsProps) => {
       </div>
 
       {/* Sticky Search Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border z-50">
-        <div className="max-w-6xl mx-auto p-4 space-y-3">
+      <div className="fixed bottom-0 left-0 md:left-64 right-0 bg-background/95 backdrop-blur-sm border-t border-border z-50">
+        <div className="max-w-6xl mx-auto p-4">
           <div className="relative">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 2L4 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-8-4z" />
+              </svg>
+            </div>
             <Input
               type="text"
-              placeholder="Ask anything..."
-              className="pl-4 pr-12 py-6 text-base bg-card border-border rounded-xl"
+              placeholder="Ask me anything..."
+              className="pl-12 pr-16 py-6 text-base bg-card border-border rounded-xl"
             />
-            <button className="absolute right-3 top-1/2 -translate-y-1/2 p-2 hover:bg-primary/10 rounded-lg transition-colors">
-              <Send className="h-5 w-5 text-muted-foreground hover:text-primary" />
+            <button className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transition-colors">
+              <Send className="h-5 w-5" />
             </button>
           </div>
-
-          {/* Options Bar */}
-          <div className="flex flex-wrap items-center gap-2 justify-between">
-            <div className="flex items-center gap-2 flex-wrap">
-              {/* Model Selector */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="gap-2 rounded-full">
-                    <Brain className="h-4 w-4" />
-                    GPT-4o
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-48">
-                  <DropdownMenuItem>GPT-4o</DropdownMenuItem>
-                  <DropdownMenuItem>GPT-4</DropdownMenuItem>
-                  <DropdownMenuItem>Claude 3.5</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              {/* Docs Button */}
-              <Button variant="ghost" size="sm" className="gap-2 text-primary">
-                <FileText className="h-4 w-4" />
-                Docs
-              </Button>
-
-              {/* Web Button */}
-              <Button variant="ghost" size="sm" className="gap-2">
-                <Globe className="h-4 w-4" />
-                Web
-              </Button>
-
-              {/* Mode Selector */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="gap-2 rounded-full">
-                    <Activity className="h-4 w-4" />
-                    Balanced
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-48">
-                  <DropdownMenuItem>Balanced</DropdownMenuItem>
-                  <DropdownMenuItem>Concise</DropdownMenuItem>
-                  <DropdownMenuItem>Descriptive</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              {/* Chat History Button */}
-              <Button variant="ghost" size="sm" className="gap-2">
-                <MessageSquare className="h-4 w-4" />
-                Chat history
-              </Button>
-            </div>
-          </div>
-
-          {/* Disclaimer */}
-          <p className="text-xs text-center text-muted-foreground">
-            AI can make mistakes. Check important information.
-          </p>
         </div>
       </div>
     </div>
