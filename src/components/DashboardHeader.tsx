@@ -1,4 +1,5 @@
-import { Bell, Moon, Sun, Settings } from "lucide-react";
+import { Bell, Moon, Sun, Settings, Menu } from "lucide-react";
+import xmLogo from "@/assets/xclusive-money-logo.png";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -21,15 +22,12 @@ export const DashboardHeader = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
       <div className="flex h-16 items-center justify-between px-6">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-              <span className="text-lg font-bold text-primary">TC</span>
-            </div>
-            <div>
-              <h1 className="text-lg font-semibold">Control Center</h1>
-              <p className="text-xs text-muted-foreground">Updated moments ago</p>
-            </div>
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" className="shrink-0">
+            <Menu className="h-5 w-5" />
+          </Button>
+          <div className="flex items-center gap-2">
+            <img src={xmLogo} alt="Xclusive Money" className="h-8 w-auto" />
           </div>
         </div>
 
