@@ -14,6 +14,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const Index = () => {
   const navigate = useNavigate();
   const [selectedPeriod, setSelectedPeriod] = useState("1D");
+  const [selectedBenchmark, setSelectedBenchmark] = useState("NIFTY 50");
 
   const performanceData = {
     "1D": [
@@ -249,12 +250,26 @@ const Index = () => {
             </div>
             
             <div className="mb-4 sm:mb-6">
-              <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2 mb-1">
+              <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 mb-1">
                 <p className="text-2xl sm:text-3xl font-bold">{performanceMetrics[selectedPeriod as keyof typeof performanceMetrics].return}</p>
-                <span className="text-xs sm:text-sm text-green-600 flex items-center gap-1">
-                  <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" />
-                  {performanceMetrics[selectedPeriod as keyof typeof performanceMetrics].comparison}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs sm:text-sm text-green-600 flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" />
+                    vs
+                  </span>
+                  <Select value={selectedBenchmark} onValueChange={setSelectedBenchmark}>
+                    <SelectTrigger className="h-7 w-auto min-w-[120px] text-xs sm:text-sm border-green-600/50 text-green-600">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="NIFTY 50">NIFTY 50</SelectItem>
+                      <SelectItem value="SENSEX">SENSEX</SelectItem>
+                      <SelectItem value="S&P 500">S&P 500</SelectItem>
+                      <SelectItem value="NASDAQ">NASDAQ</SelectItem>
+                      <SelectItem value="DOW JONES">DOW JONES</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <p className="text-xs sm:text-sm text-muted-foreground">Portfolio return for {selectedPeriod}</p>
             </div>
