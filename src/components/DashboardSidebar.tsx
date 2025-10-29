@@ -75,7 +75,7 @@ export const DashboardSidebar = ({ isOpen = false, onClose }: DashboardSidebarPr
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 border-r border-border bg-sidebar shadow-sm overflow-y-auto z-40 transition-transform duration-300",
+        "fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 border-r border-border bg-sidebar shadow-sm overflow-y-auto z-50 transition-transform duration-300",
         "md:translate-x-0",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
