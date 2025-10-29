@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Search, Lightbulb, Building2, FileText, Network, MessageSquare, ChevronDown, Crown, AlertTriangle, MoreVertical, Plus, ChevronLeft, Edit2, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { StockResults } from "@/components/StockResults";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,7 +23,27 @@ const XmGpt = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMode, setSelectedMode] = useState("Balanced");
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [searchedStock, setSearchedStock] = useState({ name: "", ticker: "" });
   const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      // Parse stock name and ticker from query
+      const query = searchQuery.trim().toUpperCase();
+      setSearchedStock({
+        name: query.includes("@") ? query.split("@")[1] : query,
+        ticker: query.includes("@") ? query.split("@")[1] : query
+      });
+      setShowResults(true);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   const modes = ["Balanced", "Concise", "Descriptive"];
   
@@ -55,7 +76,26 @@ const XmGpt = () => {
             </Button>
           </div>
 
-          {/* Hero Section */}
+          {/* Show stock results or hero section */}
+          {showResults ? (
+            <div className="py-8">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setShowResults(false);
+                  setSearchQuery("");
+                }}
+                className="mb-6"
+              >
+                ← Back to search
+              </Button>
+              <StockResults 
+                stockName={searchedStock.name || "Adani Green Energy Ltd"}
+                ticker={searchedStock.ticker || "ADANIGREEN"}
+              />
+            </div>
+          ) : (
           <div className="text-center space-y-8 py-8 md:py-12">
             <h1 className="text-3xl md:text-5xl font-bold">
               New Standard of{" "}
@@ -67,13 +107,17 @@ const XmGpt = () => {
               <div className="relative">
                 <Input
                   type="text"
-                  placeholder="Ask anything..."
+                  placeholder="Ask anything or enter stock name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleKeyPress}
                   className="pl-4 pr-12 py-6 text-base md:text-lg bg-card border-border rounded-xl"
                 />
-                <button className="absolute right-3 top-1/2 -translate-y-1/2 p-2 hover:bg-muted rounded-lg transition-colors">
-                  <Search className="h-5 w-5 text-muted-foreground" />
+                <button 
+                  onClick={handleSearch}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-2 hover:bg-primary/10 rounded-lg transition-colors"
+                >
+                  <Search className="h-5 w-5 text-primary hover:text-primary/80" />
                 </button>
               </div>
 
@@ -243,7 +287,6 @@ const XmGpt = () => {
                 </button>
               </div>
             </div>
-          </div>
 
           {/* Stats Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 pt-16 border-t border-border">
@@ -292,6 +335,8 @@ const XmGpt = () => {
               </div>
             </div>
           </div>
+          </div>
+          )}
         </div>
       </main>
       </div>
