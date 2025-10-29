@@ -3,8 +3,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState } from "react";
-import { Calculator, ChevronDown } from "lucide-react";
+import { Calculator, ChevronDown, Shield, Lock, CreditCard, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const PricingCalculator = () => {
@@ -56,6 +58,22 @@ export const PricingCalculator = () => {
       default: return "month";
     }
   };
+
+  const comparisonFeatures = [
+    { feature: "Trading Accounts", basic: "5", pro: "20", enterprise: "Unlimited" },
+    { feature: "Real-time Alerts", basic: true, pro: true, enterprise: true },
+    { feature: "Copy Trading", basic: "Basic", pro: "Advanced", enterprise: "Advanced + Custom" },
+    { feature: "AI Analysis", basic: false, pro: true, enterprise: true },
+    { feature: "API Access", basic: false, pro: true, enterprise: true },
+    { feature: "Custom Automation", basic: false, pro: true, enterprise: true },
+    { feature: "Advanced Analytics", basic: false, pro: true, enterprise: true },
+    { feature: "Priority Support", basic: false, pro: true, enterprise: true },
+    { feature: "24/7 Dedicated Support", basic: false, pro: false, enterprise: true },
+    { feature: "White-label Solution", basic: false, pro: false, enterprise: true },
+    { feature: "Custom Integrations", basic: false, pro: false, enterprise: true },
+    { feature: "Team Management", basic: false, pro: false, enterprise: true },
+    { feature: "SLA Guarantee", basic: false, pro: false, enterprise: true },
+  ];
 
   return (
     <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-background">
@@ -146,23 +164,123 @@ export const PricingCalculator = () => {
         </div>
 
         <div className="bg-primary/10 rounded-xl p-6 border border-primary/20">
-          <div className="text-center">
-            <p className="text-sm text-muted-foreground mb-2">Your Total</p>
-            <div className="flex items-baseline justify-center gap-2">
-              <span className="text-5xl font-bold text-foreground">${calculatePrice()}</span>
-              <span className="text-lg text-muted-foreground">/ {getCyclePeriod()}</span>
-            </div>
-            <p className="text-sm text-muted-foreground mt-4">
-              {selectedProducts.length > 0 
-                ? selectedProducts.map(id => products.find(p => p.id === id)?.name).join(" + ")
-                : "No products selected"
-              } • {tiers.find(t => t.id === selectedTier)?.name} • {cycles.find(c => c.id === selectedCycle)?.name}
-            </p>
-            {selectedProducts.length > 1 && (
-              <p className="text-xs text-muted-foreground mt-2">
-                ${Math.round(calculatePrice() / selectedProducts.length)} per product
+          <div className="text-center space-y-6">
+            <div>
+              <p className="text-sm text-muted-foreground mb-2">Your Total</p>
+              <div className="flex items-baseline justify-center gap-2">
+                <span className="text-5xl font-bold text-foreground">${calculatePrice()}</span>
+                <span className="text-lg text-muted-foreground">/ {getCyclePeriod()}</span>
+              </div>
+              <p className="text-sm text-muted-foreground mt-4">
+                {selectedProducts.length > 0 
+                  ? selectedProducts.map(id => products.find(p => p.id === id)?.name).join(" + ")
+                  : "No products selected"
+                } • {tiers.find(t => t.id === selectedTier)?.name} • {cycles.find(c => c.id === selectedCycle)?.name}
               </p>
-            )}
+              {selectedProducts.length > 1 && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  ${Math.round(calculatePrice() / selectedProducts.length)} per product
+                </p>
+              )}
+            </div>
+
+            <Button 
+              size="lg" 
+              className="w-full max-w-md bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-bold text-lg py-6"
+              disabled={selectedProducts.length === 0}
+            >
+              Pay Now
+            </Button>
+
+            <div className="space-y-4 pt-4">
+              <Badge variant="secondary" className="bg-purple-500/20 text-purple-700 dark:text-purple-300 px-6 py-2 text-sm font-semibold">
+                No questions asked 30 days refund
+              </Badge>
+
+              <Card className="bg-card border-2">
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-bold mb-4 text-center">Safe and Secure Checkout</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-center gap-2 text-sm">
+                      <span className="text-muted-foreground">Payments are processed securely</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-6 flex-wrap">
+                      <div className="flex items-center gap-2">
+                        <div className="p-2 bg-primary/10 rounded">
+                          <Lock className="h-5 w-5 text-primary" />
+                        </div>
+                        <div className="text-left">
+                          <p className="text-xs font-semibold">SECURE</p>
+                          <p className="text-xs text-muted-foreground">SSL Encryption</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Shield className="h-6 w-6 text-primary" />
+                        <CreditCard className="h-6 w-6 text-muted-foreground" />
+                        <CreditCard className="h-6 w-6 text-muted-foreground" />
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+
+        {/* Comparison Table */}
+        <div className="mt-8">
+          <h3 className="text-2xl font-bold mb-6 text-center">Compare Plan Features</h3>
+          <div className="border rounded-lg overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50">
+                  <TableHead className="font-bold text-foreground">Features</TableHead>
+                  <TableHead className="text-center font-bold text-foreground">Basic</TableHead>
+                  <TableHead className="text-center font-bold text-foreground">Pro</TableHead>
+                  <TableHead className="text-center font-bold text-foreground">Enterprise</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {comparisonFeatures.map((item, index) => (
+                  <TableRow key={index} className="hover:bg-muted/30">
+                    <TableCell className="font-medium">{item.feature}</TableCell>
+                    <TableCell className="text-center">
+                      {typeof item.basic === 'boolean' ? (
+                        item.basic ? (
+                          <Check className="h-5 w-5 text-green-500 mx-auto" />
+                        ) : (
+                          <X className="h-5 w-5 text-muted-foreground mx-auto" />
+                        )
+                      ) : (
+                        <span className="text-sm">{item.basic}</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {typeof item.pro === 'boolean' ? (
+                        item.pro ? (
+                          <Check className="h-5 w-5 text-green-500 mx-auto" />
+                        ) : (
+                          <X className="h-5 w-5 text-muted-foreground mx-auto" />
+                        )
+                      ) : (
+                        <span className="text-sm">{item.pro}</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {typeof item.enterprise === 'boolean' ? (
+                        item.enterprise ? (
+                          <Check className="h-5 w-5 text-green-500 mx-auto" />
+                        ) : (
+                          <X className="h-5 w-5 text-muted-foreground mx-auto" />
+                        )
+                      ) : (
+                        <span className="text-sm">{item.enterprise}</span>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </div>
       </CardContent>
