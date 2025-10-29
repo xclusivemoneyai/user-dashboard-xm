@@ -1,5 +1,4 @@
-import { DashboardHeader } from "@/components/DashboardHeader";
-import { DashboardSidebar } from "@/components/DashboardSidebar";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Lightbulb, Building2, FileText, Network, MessageSquare, ChevronDown, Crown, AlertTriangle, MoreVertical, Plus, ChevronLeft, Edit2, Trash2 } from "lucide-react";
@@ -33,11 +32,9 @@ const XmGpt = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <DashboardHeader />
-      <DashboardSidebar />
-      
-      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
+    <DashboardLayout>
+      <div className="min-h-screen bg-background">
+        <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
           {/* Warning Banner */}
           <div className="mb-6 bg-warning/10 border border-warning/20 rounded-lg p-4 flex items-center justify-between">
@@ -297,7 +294,8 @@ const XmGpt = () => {
           </div>
         </div>
       </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 };
 

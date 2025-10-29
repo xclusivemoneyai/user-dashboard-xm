@@ -1,5 +1,4 @@
-import { DashboardHeader } from "@/components/DashboardHeader";
-import { DashboardSidebar } from "@/components/DashboardSidebar";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -26,11 +25,9 @@ const Groups = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <DashboardHeader />
-      <DashboardSidebar />
-      
-      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
+    <DashboardLayout>
+      <div className="min-h-screen bg-background">
+        <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="max-w-7xl mx-auto space-y-4 md:space-y-6">
           {/* Header */}
           <div className="mb-4 md:mb-6">
@@ -350,7 +347,8 @@ const Groups = () => {
           </Card>
         </div>
       </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 };
 

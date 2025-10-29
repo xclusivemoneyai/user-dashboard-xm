@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DashboardHeader } from "@/components/DashboardHeader";
-import { DashboardSidebar } from "@/components/DashboardSidebar";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { StrategyCard } from "@/components/StrategyCard";
@@ -22,11 +21,9 @@ const AlertToTrade = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <DashboardHeader />
-      <DashboardSidebar />
-      
-      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
+    <DashboardLayout>
+      <div className="min-h-screen bg-background">
+        <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="max-w-7xl mx-auto space-y-4 md:space-y-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
@@ -173,7 +170,8 @@ const AlertToTrade = () => {
           </div>
         </div>
       </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 };
 

@@ -1,5 +1,4 @@
-import { DashboardHeader } from "@/components/DashboardHeader";
-import { DashboardSidebar } from "@/components/DashboardSidebar";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -131,11 +130,9 @@ const Marketplace = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <DashboardHeader />
-      <DashboardSidebar />
-      
-      <main className="ml-0 md:ml-64 pt-16">
+    <DashboardLayout>
+      <div className="min-h-screen bg-background">
+        <main className="ml-0 md:ml-64 pt-16">
         <div className="p-4 md:p-8">
           {/* Subscribed Section */}
           <Collapsible open={isSubscribedOpen} onOpenChange={setIsSubscribedOpen} className="mb-8">
@@ -375,7 +372,8 @@ const Marketplace = () => {
           </div>
         </div>
       </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 };
 

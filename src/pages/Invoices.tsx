@@ -1,5 +1,4 @@
-import { DashboardHeader } from "@/components/DashboardHeader";
-import { DashboardSidebar } from "@/components/DashboardSidebar";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
@@ -61,11 +60,9 @@ const invoiceData = [
 
 const Invoices = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <DashboardHeader />
-      <DashboardSidebar />
-      
-      <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
+    <DashboardLayout>
+      <div className="min-h-screen bg-background">
+        <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">Invoice</h1>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -149,7 +146,8 @@ const Invoices = () => {
           </CardContent>
         </Card>
       </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 };
 

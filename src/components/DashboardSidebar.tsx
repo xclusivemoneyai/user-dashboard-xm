@@ -1,4 +1,4 @@
-import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, Phone, MessageCircle, Video, UserPlus, Menu, X, Bot, ChevronDown } from "lucide-react";
+import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, Phone, MessageCircle, Video, UserPlus, ChevronDown, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -52,28 +52,24 @@ const SidebarItem = ({ icon, label, active, isHeader, path, subtitle, nested }: 
   );
 };
 
-export const DashboardSidebar = () => {
+interface DashboardSidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export const DashboardSidebar = ({ isOpen = false, onClose }: DashboardSidebarProps) => {
   const location = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAlertToTradeOpen, setIsAlertToTradeOpen] = useState(
     location.pathname === "/alert-to-trade" || location.pathname === "/create-alerts"
   );
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="fixed left-4 top-20 z-50 md:hidden bg-primary text-primary-foreground p-2 rounded-lg shadow-lg"
-      >
-        {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-      </button>
-
       {/* Overlay for mobile */}
-      {isMobileMenuOpen && (
+      {isOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
+          onClick={onClose}
         />
       )}
 
@@ -81,7 +77,7 @@ export const DashboardSidebar = () => {
       <aside className={cn(
         "fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 border-r border-border bg-sidebar shadow-sm overflow-y-auto z-40 transition-transform duration-300",
         "md:translate-x-0",
-        isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="flex flex-col gap-0.5 p-3 py-2">
         <SidebarItem label="Dashboard" isHeader />

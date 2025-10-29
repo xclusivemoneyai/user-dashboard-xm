@@ -1,5 +1,4 @@
-import { DashboardHeader } from "@/components/DashboardHeader";
-import { DashboardSidebar } from "@/components/DashboardSidebar";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -82,11 +81,9 @@ const Index = () => {
   const periods = ["1D", "1W", "1M", "3M", "6M", "1Y", "All"];
 
   return (
-    <div className="min-h-screen bg-background">
-      <DashboardHeader />
-      <DashboardSidebar />
-      
-      <main className="ml-0 md:ml-64 pt-16">
+    <DashboardLayout>
+      <div className="min-h-screen bg-background">
+        <main className="ml-0 md:ml-64 pt-16">
         <div className="p-4 md:p-8">
           {/* Page Header */}
           <div className="bg-card rounded-xl p-4 sm:p-6 md:p-8 mb-6 md:mb-8 border border-border">
@@ -888,7 +885,8 @@ const Index = () => {
           </Card>
         </div>
       </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 };
 

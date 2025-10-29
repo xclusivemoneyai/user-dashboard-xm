@@ -1,5 +1,4 @@
-import { DashboardHeader } from "@/components/DashboardHeader";
-import { DashboardSidebar } from "@/components/DashboardSidebar";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -397,11 +396,9 @@ const CopyTrading = () => {
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      <DashboardHeader />
-      <DashboardSidebar />
-      
-      <main className="ml-0 md:ml-64 mt-16 p-3 sm:p-4 md:p-6">
+    <DashboardLayout>
+      <div className="min-h-screen bg-background">
+        <main className="ml-0 md:ml-64 mt-16 p-3 sm:p-4 md:p-6">
         <div className="max-w-7xl mx-auto space-y-3 sm:space-y-4">
           {/* Header */}
           <Card>
@@ -1941,6 +1938,7 @@ const CopyTrading = () => {
       <PnLExitModal open={showPnLExitModal} onOpenChange={setShowPnLExitModal} />
       <TopUpModal open={showTopUpModal} onOpenChange={setShowTopUpModal} />
     </div>
+    </DashboardLayout>
   );
 };
 
