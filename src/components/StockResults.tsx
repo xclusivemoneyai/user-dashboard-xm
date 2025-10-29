@@ -25,7 +25,9 @@ import {
   ChevronLeft,
   Edit2,
   Trash2,
-  MoreVertical
+  MoreVertical,
+  Crown,
+  AlertTriangle
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -712,10 +714,29 @@ export const StockResults = ({ stockName, ticker }: StockResultsProps) => {
         </div>
       </div>
 
-      {/* Sticky Search Bar */}
+      {/* Sticky Search Bar with Upgrade Banner */}
       <div className="fixed bottom-0 left-0 md:left-64 right-0 bg-background/95 backdrop-blur-sm border-t border-border z-50">
-        <div className="max-w-6xl mx-auto p-4">
-          <div className="relative mb-3">
+        <div className="max-w-6xl mx-auto p-4 space-y-3">
+          {/* Upgrade Banner */}
+          <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 rounded-xl p-3 md:p-4 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 md:gap-3">
+              <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-amber-600 dark:text-amber-500 flex-shrink-0" />
+              <p className="text-xs md:text-sm font-medium text-amber-900 dark:text-amber-100">
+                You have 3 free messages left today.
+              </p>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2 bg-white dark:bg-slate-900 border-amber-200 dark:border-amber-800 hover:bg-amber-50 dark:hover:bg-amber-950/30 flex-shrink-0"
+            >
+              <Crown className="h-4 w-4 text-amber-600 dark:text-amber-500" />
+              <span className="hidden sm:inline">Upgrade</span>
+            </Button>
+          </div>
+
+          {/* Search Input */}
+          <div className="relative">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M12 2L4 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-8-4z" />
