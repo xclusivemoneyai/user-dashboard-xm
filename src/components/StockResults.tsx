@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -372,15 +373,505 @@ export const StockResults = ({ stockName, ticker }: StockResultsProps) => {
         </TabsContent>
 
         <TabsContent value="financials">
-          <Card className="p-6">
-            <p className="text-muted-foreground">Financial statements will be displayed here.</p>
-          </Card>
+          <div className="space-y-8">
+            {/* AI Powered Summary */}
+            <Card className="p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-3 flex-1">
+                  <h2 className="text-xl font-semibold flex items-center gap-2">
+                    AI Powered Summary
+                    <div className="p-1 rounded-full bg-muted">
+                      <Info className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    Discover detailed, AI-driven financial summaries that break down key metrics, trends, and insights—empowering you to make smarter investment decisions.
+                  </p>
+                  <Button className="gap-2">
+                    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2L4 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-8-4z" />
+                    </svg>
+                    AI Mode
+                  </Button>
+                </div>
+                <div className="bg-muted rounded-xl p-6 min-w-[300px]">
+                  <h3 className="font-semibold mb-4">Profitability</h3>
+                  <div className="space-y-2">
+                    <div className="text-sm font-medium mb-1">Revenue</div>
+                    <div className="space-y-1">
+                      <div className="h-2 bg-blue-400 rounded w-3/4"></div>
+                      <div className="h-2 bg-blue-300 rounded w-full"></div>
+                      <div className="h-2 bg-blue-200 rounded w-1/2"></div>
+                      <div className="h-2 bg-blue-500 rounded w-full"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* Consolidated Quarterly Results */}
+            <Card className="p-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">
+                    Consolidated Quarterly Results <span className="text-muted-foreground">(in ₹ Crores)</span>{" "}
+                    <a href="#" className="text-sm text-blue-500 hover:underline">View Standalone</a>
+                  </h2>
+                  <div className="flex gap-2">
+                    <Button variant="default" size="sm" className="gap-1">
+                      <BarChart3 className="h-4 w-4" />
+                      Total Figures
+                    </Button>
+                    <Button variant="ghost" size="sm" className="gap-1">
+                      <TrendingUpDown className="h-4 w-4" />
+                      QoQ Changes
+                    </Button>
+                  </div>
+                </div>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="min-w-[150px]"></TableHead>
+                        <TableHead className="text-right">Jun 2023</TableHead>
+                        <TableHead className="text-right">Sep 2023</TableHead>
+                        <TableHead className="text-right">Dec 2023</TableHead>
+                        <TableHead className="text-right">Mar 2024</TableHead>
+                        <TableHead className="text-right">Jun 2024</TableHead>
+                        <TableHead className="text-right">Sep 2024</TableHead>
+                        <TableHead className="text-right">Dec 2024</TableHead>
+                        <TableHead className="text-right">Mar 2025</TableHead>
+                        <TableHead className="text-right">Jun 2025</TableHead>
+                        <TableHead className="text-right">Sep 2025</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">Sales</TableCell>
+                        <TableCell className="text-right">2,162</TableCell>
+                        <TableCell className="text-right">2,220</TableCell>
+                        <TableCell className="text-right">2,311</TableCell>
+                        <TableCell className="text-right">2,527</TableCell>
+                        <TableCell className="text-right">2,835</TableCell>
+                        <TableCell className="text-right">3,055</TableCell>
+                        <TableCell className="text-right">2,365</TableCell>
+                        <TableCell className="text-right">3,073</TableCell>
+                        <TableCell className="text-right">3,800</TableCell>
+                        <TableCell className="text-right">3,008</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Expenses</TableCell>
+                        <TableCell className="text-right">81</TableCell>
+                        <TableCell className="text-right">521</TableCell>
+                        <TableCell className="text-right">645</TableCell>
+                        <TableCell className="text-right">676</TableCell>
+                        <TableCell className="text-right">392</TableCell>
+                        <TableCell className="text-right">850</TableCell>
+                        <TableCell className="text-right">764</TableCell>
+                        <TableCell className="text-right">671</TableCell>
+                        <TableCell className="text-right">758</TableCell>
+                        <TableCell className="text-right">405</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Operating Profit</TableCell>
+                        <TableCell className="text-right">2,081</TableCell>
+                        <TableCell className="text-right">1,699</TableCell>
+                        <TableCell className="text-right">1,666</TableCell>
+                        <TableCell className="text-right">1,851</TableCell>
+                        <TableCell className="text-right">2,443</TableCell>
+                        <TableCell className="text-right">2,205</TableCell>
+                        <TableCell className="text-right">1,601</TableCell>
+                        <TableCell className="text-right">2,402</TableCell>
+                        <TableCell className="text-right">3,042</TableCell>
+                        <TableCell className="text-right">2,603</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">OPM %</TableCell>
+                        <TableCell className="text-right">96.25</TableCell>
+                        <TableCell className="text-right">76.53</TableCell>
+                        <TableCell className="text-right">72.09</TableCell>
+                        <TableCell className="text-right">73.25</TableCell>
+                        <TableCell className="text-right">86.17</TableCell>
+                        <TableCell className="text-right">72.18</TableCell>
+                        <TableCell className="text-right">67.70</TableCell>
+                        <TableCell className="text-right">78.16</TableCell>
+                        <TableCell className="text-right">80.05</TableCell>
+                        <TableCell className="text-right">86.54</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+            </Card>
+
+            {/* Consolidated Profit Loss */}
+            <Card className="p-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">
+                    Consolidated Profit Loss <span className="text-muted-foreground">(in ₹ Crores)</span>{" "}
+                    <a href="#" className="text-sm text-blue-500 hover:underline">View Standalone</a>
+                  </h2>
+                  <div className="flex gap-2">
+                    <Button variant="default" size="sm" className="gap-1">
+                      <BarChart3 className="h-4 w-4" />
+                      Total Figures
+                    </Button>
+                    <Button variant="ghost" size="sm" className="gap-1">
+                      <TrendingUpDown className="h-4 w-4" />
+                      YoY Changes
+                    </Button>
+                  </div>
+                </div>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="min-w-[150px]"></TableHead>
+                        <TableHead className="text-right">Dec 2017</TableHead>
+                        <TableHead className="text-right">Mar 2018</TableHead>
+                        <TableHead className="text-right">Mar 2019</TableHead>
+                        <TableHead className="text-right">Mar 2020</TableHead>
+                        <TableHead className="text-right">Mar 2021</TableHead>
+                        <TableHead className="text-right">Mar 2022</TableHead>
+                        <TableHead className="text-right">Mar 2023</TableHead>
+                        <TableHead className="text-right">Mar 2024</TableHead>
+                        <TableHead className="text-right">Mar 2025</TableHead>
+                        <TableHead className="text-right">TTM</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">Sales</TableCell>
+                        <TableCell className="text-right">502</TableCell>
+                        <TableCell className="text-right">1,480</TableCell>
+                        <TableCell className="text-right">2,058</TableCell>
+                        <TableCell className="text-right">2,549</TableCell>
+                        <TableCell className="text-right">3,124</TableCell>
+                        <TableCell className="text-right">5,133</TableCell>
+                        <TableCell className="text-right">7,776</TableCell>
+                        <TableCell className="text-right">9,220</TableCell>
+                        <TableCell className="text-right">11,212</TableCell>
+                        <TableCell className="text-right">12,293</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Net Profit</TableCell>
+                        <TableCell className="text-right">-46</TableCell>
+                        <TableCell className="text-right">-137</TableCell>
+                        <TableCell className="text-right">-471</TableCell>
+                        <TableCell className="text-right">-61</TableCell>
+                        <TableCell className="text-right">182</TableCell>
+                        <TableCell className="text-right">489</TableCell>
+                        <TableCell className="text-right">973</TableCell>
+                        <TableCell className="text-right">1,260</TableCell>
+                        <TableCell className="text-right">2,001</TableCell>
+                        <TableCell className="text-right">1,815</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">EPS in Rs</TableCell>
+                        <TableCell className="text-right">—</TableCell>
+                        <TableCell className="text-right">-0.69</TableCell>
+                        <TableCell className="text-right">-3.38</TableCell>
+                        <TableCell className="text-right">-0.70</TableCell>
+                        <TableCell className="text-right">0.65</TableCell>
+                        <TableCell className="text-right">2.30</TableCell>
+                        <TableCell className="text-right">5.20</TableCell>
+                        <TableCell className="text-right">5.96</TableCell>
+                        <TableCell className="text-right">8.03</TableCell>
+                        <TableCell className="text-right">9.70</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+            </Card>
+
+            {/* Consolidated Balance Sheet */}
+            <Card className="p-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">
+                    Consolidated Balance Sheet <span className="text-muted-foreground">(in ₹ Crores)</span>{" "}
+                    <a href="#" className="text-sm text-blue-500 hover:underline">View Standalone</a>
+                  </h2>
+                  <div className="flex gap-2">
+                    <Button variant="default" size="sm" className="gap-1">
+                      <BarChart3 className="h-4 w-4" />
+                      Total Figures
+                    </Button>
+                    <Button variant="ghost" size="sm" className="gap-1">
+                      <TrendingUpDown className="h-4 w-4" />
+                      YoY Changes
+                    </Button>
+                  </div>
+                </div>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="min-w-[150px]"></TableHead>
+                        <TableHead className="text-right">Mar 2017</TableHead>
+                        <TableHead className="text-right">Dec 2017</TableHead>
+                        <TableHead className="text-right">Mar 2018</TableHead>
+                        <TableHead className="text-right">Mar 2019</TableHead>
+                        <TableHead className="text-right">Mar 2020</TableHead>
+                        <TableHead className="text-right">Mar 2021</TableHead>
+                        <TableHead className="text-right">Mar 2022</TableHead>
+                        <TableHead className="text-right">Mar 2023</TableHead>
+                        <TableHead className="text-right">Mar 2024</TableHead>
+                        <TableHead className="text-right">Mar 2025</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">Equity Capital</TableCell>
+                        <TableCell className="text-right">1,274</TableCell>
+                        <TableCell className="text-right">1,274</TableCell>
+                        <TableCell className="text-right">1,564</TableCell>
+                        <TableCell className="text-right">1,564</TableCell>
+                        <TableCell className="text-right">1,564</TableCell>
+                        <TableCell className="text-right">1,564</TableCell>
+                        <TableCell className="text-right">1,564</TableCell>
+                        <TableCell className="text-right">1,584</TableCell>
+                        <TableCell className="text-right">1,584</TableCell>
+                        <TableCell className="text-right">1,584</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Borrowings</TableCell>
+                        <TableCell className="text-right">4,298</TableCell>
+                        <TableCell className="text-right">4,298</TableCell>
+                        <TableCell className="text-right">9,724</TableCell>
+                        <TableCell className="text-right">10,690</TableCell>
+                        <TableCell className="text-right">14,080</TableCell>
+                        <TableCell className="text-right">24,209</TableCell>
+                        <TableCell className="text-right">52,832</TableCell>
+                        <TableCell className="text-right">54,223</TableCell>
+                        <TableCell className="text-right">64,858</TableCell>
+                        <TableCell className="text-right">80,040</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Total Assets</TableCell>
+                        <TableCell className="text-right">6,160</TableCell>
+                        <TableCell className="text-right">6,160</TableCell>
+                        <TableCell className="text-right">15,709</TableCell>
+                        <TableCell className="text-right">14,658</TableCell>
+                        <TableCell className="text-right">18,425</TableCell>
+                        <TableCell className="text-right">28,721</TableCell>
+                        <TableCell className="text-right">59,167</TableCell>
+                        <TableCell className="text-right">67,361</TableCell>
+                        <TableCell className="text-right">88,538</TableCell>
+                        <TableCell className="text-right">1,11,398</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+            </Card>
+
+            {/* Consolidated Cash Flows */}
+            <Card className="p-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">
+                    Consolidated Cash Flows <span className="text-muted-foreground">(in ₹ Crores)</span>{" "}
+                    <a href="#" className="text-sm text-blue-500 hover:underline">View Standalone</a>
+                  </h2>
+                  <div className="flex gap-2">
+                    <Button variant="default" size="sm" className="gap-1">
+                      <BarChart3 className="h-4 w-4" />
+                      Total Figures
+                    </Button>
+                    <Button variant="ghost" size="sm" className="gap-1">
+                      <TrendingUpDown className="h-4 w-4" />
+                      YoY Changes
+                    </Button>
+                  </div>
+                </div>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="min-w-[200px]"></TableHead>
+                        <TableHead className="text-right">Mar 2017</TableHead>
+                        <TableHead className="text-right">Dec 2017</TableHead>
+                        <TableHead className="text-right">Mar 2018</TableHead>
+                        <TableHead className="text-right">Mar 2019</TableHead>
+                        <TableHead className="text-right">Mar 2020</TableHead>
+                        <TableHead className="text-right">Mar 2021</TableHead>
+                        <TableHead className="text-right">Mar 2022</TableHead>
+                        <TableHead className="text-right">Mar 2023</TableHead>
+                        <TableHead className="text-right">Mar 2024</TableHead>
+                        <TableHead className="text-right">Mar 2025</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">Cash from Operating Activity</TableCell>
+                        <TableCell className="text-right">28</TableCell>
+                        <TableCell className="text-right">28</TableCell>
+                        <TableCell className="text-right">649</TableCell>
+                        <TableCell className="text-right">1,625</TableCell>
+                        <TableCell className="text-right">1,965</TableCell>
+                        <TableCell className="text-right">—</TableCell>
+                        <TableCell className="text-right">—</TableCell>
+                        <TableCell className="text-right">7,265</TableCell>
+                        <TableCell className="text-right">7,713</TableCell>
+                        <TableCell className="text-right">8,364</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Cash from Investing Activity</TableCell>
+                        <TableCell className="text-right">-1,511</TableCell>
+                        <TableCell className="text-right">-1,511</TableCell>
+                        <TableCell className="text-right">-4,428</TableCell>
+                        <TableCell className="text-right">-2,666</TableCell>
+                        <TableCell className="text-right">-3,743</TableCell>
+                        <TableCell className="text-right">0.00</TableCell>
+                        <TableCell className="text-right">0.00</TableCell>
+                        <TableCell className="text-right">-3,857</TableCell>
+                        <TableCell className="text-right">-21,060</TableCell>
+                        <TableCell className="text-right">-19,828</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Cash from Financing Activity</TableCell>
+                        <TableCell className="text-right">1,559</TableCell>
+                        <TableCell className="text-right">1,559</TableCell>
+                        <TableCell className="text-right">3,942</TableCell>
+                        <TableCell className="text-right">1,045</TableCell>
+                        <TableCell className="text-right">2,161</TableCell>
+                        <TableCell className="text-right">—</TableCell>
+                        <TableCell className="text-right">—</TableCell>
+                        <TableCell className="text-right">-2,973</TableCell>
+                        <TableCell className="text-right">13,953</TableCell>
+                        <TableCell className="text-right">12,068</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Net Cash Flow</TableCell>
+                        <TableCell className="text-right">76</TableCell>
+                        <TableCell className="text-right">76</TableCell>
+                        <TableCell className="text-right">162</TableCell>
+                        <TableCell className="text-right">3.48</TableCell>
+                        <TableCell className="text-right">383</TableCell>
+                        <TableCell className="text-right">0.00</TableCell>
+                        <TableCell className="text-right">0.00</TableCell>
+                        <TableCell className="text-right">435</TableCell>
+                        <TableCell className="text-right">606</TableCell>
+                        <TableCell className="text-right">604</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="shareholdings">
-          <Card className="p-6">
-            <p className="text-muted-foreground">Shareholding pattern will be displayed here.</p>
-          </Card>
+          <div className="space-y-8">
+            {/* Shareholding History */}
+            <Card className="p-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">Shareholding History</h2>
+                  <div className="flex gap-2">
+                    <Button variant="default" size="sm">Quarterly</Button>
+                    <Button variant="ghost" size="sm">Yearly</Button>
+                  </div>
+                </div>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="min-w-[150px]"></TableHead>
+                        <TableHead className="text-right">Mar 2023</TableHead>
+                        <TableHead className="text-right">Jun 2023</TableHead>
+                        <TableHead className="text-right">Sep 2023</TableHead>
+                        <TableHead className="text-right">Dec 2023</TableHead>
+                        <TableHead className="text-right">Mar 2024</TableHead>
+                        <TableHead className="text-right">Jun 2024</TableHead>
+                        <TableHead className="text-right">Sep 2024</TableHead>
+                        <TableHead className="text-right">Dec 2024</TableHead>
+                        <TableHead className="text-right">Mar 2025</TableHead>
+                        <TableHead className="text-right">Jun 2025</TableHead>
+                        <TableHead className="text-right">Sep 2025</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">Promoters</TableCell>
+                        <TableCell className="text-right">57.26%</TableCell>
+                        <TableCell className="text-right">56.27%</TableCell>
+                        <TableCell className="text-right">56.26%</TableCell>
+                        <TableCell className="text-right">56.37%</TableCell>
+                        <TableCell className="text-right">56.37%</TableCell>
+                        <TableCell className="text-right">57.52%</TableCell>
+                        <TableCell className="text-right">60.94%</TableCell>
+                        <TableCell className="text-right">60.94%</TableCell>
+                        <TableCell className="text-right">60.94%</TableCell>
+                        <TableCell className="text-right">61.91%</TableCell>
+                        <TableCell className="text-right">62.43%</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">FIIs</TableCell>
+                        <TableCell className="text-right">17.13%</TableCell>
+                        <TableCell className="text-right">18.26%</TableCell>
+                        <TableCell className="text-right">18.16%</TableCell>
+                        <TableCell className="text-right">18.03%</TableCell>
+                        <TableCell className="text-right">18.15%</TableCell>
+                        <TableCell className="text-right">16.91%</TableCell>
+                        <TableCell className="text-right">15.15%</TableCell>
+                        <TableCell className="text-right">13.68%</TableCell>
+                        <TableCell className="text-right">12.45%</TableCell>
+                        <TableCell className="text-right">11.58%</TableCell>
+                        <TableCell className="text-right">11.29%</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">DIIs</TableCell>
+                        <TableCell className="text-right">1.44%</TableCell>
+                        <TableCell className="text-right">1.47%</TableCell>
+                        <TableCell className="text-right">1.49%</TableCell>
+                        <TableCell className="text-right">1.50%</TableCell>
+                        <TableCell className="text-right">1.55%</TableCell>
+                        <TableCell className="text-right">1.47%</TableCell>
+                        <TableCell className="text-right">1.45%</TableCell>
+                        <TableCell className="text-right">1.72%</TableCell>
+                        <TableCell className="text-right">2.40%</TableCell>
+                        <TableCell className="text-right">2.86%</TableCell>
+                        <TableCell className="text-right">2.98%</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Public</TableCell>
+                        <TableCell className="text-right">24.16%</TableCell>
+                        <TableCell className="text-right">24.00%</TableCell>
+                        <TableCell className="text-right">24.08%</TableCell>
+                        <TableCell className="text-right">24.10%</TableCell>
+                        <TableCell className="text-right">23.93%</TableCell>
+                        <TableCell className="text-right">24.11%</TableCell>
+                        <TableCell className="text-right">22.46%</TableCell>
+                        <TableCell className="text-right">23.66%</TableCell>
+                        <TableCell className="text-right">24.22%</TableCell>
+                        <TableCell className="text-right">23.64%</TableCell>
+                        <TableCell className="text-right">23.30%</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Total Shareholders</TableCell>
+                        <TableCell className="text-right">7,46,294</TableCell>
+                        <TableCell className="text-right">6,92,340</TableCell>
+                        <TableCell className="text-right">6,76,271</TableCell>
+                        <TableCell className="text-right">6,93,064</TableCell>
+                        <TableCell className="text-right">6,68,586</TableCell>
+                        <TableCell className="text-right">7,42,579</TableCell>
+                        <TableCell className="text-right">6,28,425</TableCell>
+                        <TableCell className="text-right">9,00,770</TableCell>
+                        <TableCell className="text-right">9,95,700</TableCell>
+                        <TableCell className="text-right">9,89,821</TableCell>
+                        <TableCell className="text-right">9,77,483</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="projection">
