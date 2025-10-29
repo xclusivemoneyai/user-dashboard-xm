@@ -8,6 +8,7 @@ import { useState } from "react";
 
 const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState("monthly");
+  const [selectedProduct, setSelectedProduct] = useState("copy-trading");
 
   const getDiscount = (cycle: string) => {
     switch(cycle) {
@@ -65,11 +66,30 @@ const Pricing = () => {
     }
   ];
 
+  const products = [
+    { id: "xm-gpt", name: "XM GPT" },
+    { id: "copy-trading", name: "Copy Trading" },
+    { id: "alert2trade", name: "Alert2Trade" }
+  ];
+
   return (
     <DashboardLayout>
       <div className="min-h-screen bg-background">
         <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
+          {/* Hero Banner Section */}
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-background to-accent/10 border border-border p-8 md:p-12">
+            <div className="relative z-10">
+              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">PLANS & PACKAGES</p>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2">
+                Choose the Product
+              </h1>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">
+                That's Right for Your Business
+              </h2>
+            </div>
+          </div>
+
           {/* Current Subscription Section */}
           <Card className="bg-card border-border">
             <CardHeader className="pb-3">
@@ -93,11 +113,38 @@ const Pricing = () => {
             </CardContent>
           </Card>
 
-          {/* Choose Your Plan Section */}
-          <div className="text-center space-y-2 md:space-y-3 pt-2 md:pt-4">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">Choose Your Plan</h1>
-            <p className="text-sm sm:text-base md:text-lg text-muted-foreground px-4">Select the perfect subscription plan for your trading needs</p>
+          {/* Product Selection Section */}
+          <div className="space-y-4">
+            <div className="text-center">
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Choose Your Product</h2>
+              <p className="text-sm sm:text-base text-muted-foreground">Select the product that fits your needs</p>
+            </div>
+            
+            <div className="flex justify-center">
+              <div className="inline-flex flex-wrap justify-center gap-3 p-2 bg-muted rounded-2xl">
+                {products.map((product) => (
+                  <button
+                    key={product.id}
+                    onClick={() => setSelectedProduct(product.id)}
+                    className={`px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold transition-all ${
+                      selectedProduct === product.id
+                        ? "bg-primary text-primary-foreground shadow-md"
+                        : "bg-transparent text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {product.name}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
+
+          {/* Billing Cycle Selection Section */}
+          <div className="space-y-4">
+            <div className="text-center">
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Choose Your Billing Cycle</h2>
+              <p className="text-sm sm:text-base text-muted-foreground">Save more with quarterly or yearly plans</p>
+            </div>
 
           <div className="flex justify-center">
             <Tabs value={billingCycle} onValueChange={setBillingCycle} className="w-auto">
@@ -114,8 +161,16 @@ const Pricing = () => {
               </TabsList>
             </Tabs>
           </div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 pt-2 md:pt-4">
+          {/* Plan Selection Section */}
+          <div className="space-y-6">
+            <div className="text-center">
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Select Your Plan Tier</h2>
+              <p className="text-sm sm:text-base text-muted-foreground">Choose between Basic, Pro, or Enterprise options</p>
+            </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {plans.map((plan) => (
               <Card 
                 key={plan.name} 
@@ -164,6 +219,7 @@ const Pricing = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
           </div>
         </div>
       </main>
