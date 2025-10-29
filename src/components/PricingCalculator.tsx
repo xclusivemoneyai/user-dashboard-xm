@@ -1,10 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { Calculator } from "lucide-react";
 
 export const PricingCalculator = () => {
-  const [selectedProduct, setSelectedProduct] = useState("copy-trading");
+  const [selectedProducts, setSelectedProducts] = useState<string[]>(["copy-trading"]);
   const [selectedCycle, setSelectedCycle] = useState("monthly");
   const [selectedTier, setSelectedTier] = useState("pro");
 
@@ -26,13 +27,22 @@ export const PricingCalculator = () => {
     { id: "enterprise", name: "Enterprise", basePrice: 199 }
   ];
 
+  const toggleProduct = (productId: string) => {
+    setSelectedProducts(prev => 
+      prev.includes(productId)
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
   const calculatePrice = () => {
     const tier = tiers.find(t => t.id === selectedTier);
     const cycle = cycles.find(c => c.id === selectedCycle);
-    if (!tier || !cycle) return 0;
+    if (!tier || !cycle || selectedProducts.length === 0) return 0;
     
-    const discountedPrice = tier.basePrice * (1 - cycle.discount);
-    return Math.round(discountedPrice);
+    const pricePerProduct = tier.basePrice * (1 - cycle.discount);
+    const totalPrice = pricePerProduct * selectedProducts.length;
+    return Math.round(totalPrice);
   };
 
   const getCyclePeriod = () => {
@@ -60,19 +70,24 @@ export const PricingCalculator = () => {
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-foreground">Product</label>
-            <Select value={selectedProduct} onValueChange={setSelectedProduct}>
-              <SelectTrigger className="h-12 bg-background">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {products.map((product) => (
-                  <SelectItem key={product.id} value={product.id}>
+            <label className="text-sm font-semibold text-foreground">Products (Select Multiple)</label>
+            <div className="space-y-3 p-4 bg-background rounded-lg border border-border">
+              {products.map((product) => (
+                <div key={product.id} className="flex items-center space-x-3">
+                  <Checkbox
+                    id={product.id}
+                    checked={selectedProducts.includes(product.id)}
+                    onCheckedChange={() => toggleProduct(product.id)}
+                  />
+                  <label
+                    htmlFor={product.id}
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                  >
                     {product.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="space-y-2">
@@ -116,8 +131,16 @@ export const PricingCalculator = () => {
               <span className="text-lg text-muted-foreground">/ {getCyclePeriod()}</span>
             </div>
             <p className="text-sm text-muted-foreground mt-4">
-              {products.find(p => p.id === selectedProduct)?.name} • {tiers.find(t => t.id === selectedTier)?.name} • {cycles.find(c => c.id === selectedCycle)?.name}
+              {selectedProducts.length > 0 
+                ? selectedProducts.map(id => products.find(p => p.id === id)?.name).join(" + ")
+                : "No products selected"
+              } • {tiers.find(t => t.id === selectedTier)?.name} • {cycles.find(c => c.id === selectedCycle)?.name}
             </p>
+            {selectedProducts.length > 1 && (
+              <p className="text-xs text-muted-foreground mt-2">
+                ${Math.round(calculatePrice() / selectedProducts.length)} per product
+              </p>
+            )}
           </div>
         </div>
       </CardContent>
