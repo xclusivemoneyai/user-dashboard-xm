@@ -1,8 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Calculator } from "lucide-react";
+import { Calculator, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const PricingCalculator = () => {
   const [selectedProducts, setSelectedProducts] = useState<string[]>(["copy-trading"]);
@@ -71,23 +74,42 @@ export const PricingCalculator = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="space-y-2">
             <label className="text-sm font-semibold text-foreground">Products (Select Multiple)</label>
-            <div className="space-y-3 p-4 bg-background rounded-lg border border-border">
-              {products.map((product) => (
-                <div key={product.id} className="flex items-center space-x-3">
-                  <Checkbox
-                    id={product.id}
-                    checked={selectedProducts.includes(product.id)}
-                    onCheckedChange={() => toggleProduct(product.id)}
-                  />
-                  <label
-                    htmlFor={product.id}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                  >
-                    {product.name}
-                  </label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  className={cn(
+                    "h-12 w-full justify-between bg-background font-normal",
+                    selectedProducts.length === 0 && "text-muted-foreground"
+                  )}
+                >
+                  {selectedProducts.length === 0
+                    ? "Select products..."
+                    : `${selectedProducts.length} product${selectedProducts.length > 1 ? 's' : ''} selected`}
+                  <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0 bg-background" align="start">
+                <div className="p-4 space-y-3">
+                  {products.map((product) => (
+                    <div key={product.id} className="flex items-center space-x-3">
+                      <Checkbox
+                        id={`calc-${product.id}`}
+                        checked={selectedProducts.includes(product.id)}
+                        onCheckedChange={() => toggleProduct(product.id)}
+                      />
+                      <label
+                        htmlFor={`calc-${product.id}`}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1"
+                      >
+                        {product.name}
+                      </label>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div className="space-y-2">
