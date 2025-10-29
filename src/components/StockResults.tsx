@@ -355,9 +355,342 @@ export const StockResults = ({ stockName, ticker }: StockResultsProps) => {
         </TabsContent>
 
         <TabsContent value="technicals">
-          <Card className="p-6">
-            <p className="text-muted-foreground">Technical analysis data will be displayed here.</p>
-          </Card>
+          <div className="space-y-8">
+            {/* Time Period Selector */}
+            <div className="flex flex-wrap gap-2">
+              {['1 minute', '5 minutes', '15 minutes', '30 minutes', '1 hour', '2 hours', '4 hours', '1 day', '1 week', '1 month'].map((period) => (
+                <Button
+                  key={period}
+                  variant={period === '1 day' ? 'default' : 'outline'}
+                  size="sm"
+                  className="rounded-lg"
+                >
+                  {period}
+                </Button>
+              ))}
+            </div>
+
+            {/* Summary Section */}
+            <Card className="p-6">
+              <div className="space-y-6">
+                <h2 className="text-2xl font-semibold text-center">Summary</h2>
+                
+                {/* Gauge Chart */}
+                <div className="flex flex-col items-center">
+                  <div className="relative w-80 h-48">
+                    <svg viewBox="0 0 200 120" className="w-full h-full">
+                      {/* Gauge background arc */}
+                      <path
+                        d="M 20 100 A 80 80 0 0 1 180 100"
+                        fill="none"
+                        stroke="hsl(var(--muted))"
+                        strokeWidth="20"
+                        strokeLinecap="round"
+                      />
+                      {/* Red segment (Sell/Strong Sell) */}
+                      <path
+                        d="M 20 100 A 80 80 0 0 1 80 35"
+                        fill="none"
+                        stroke="#ef4444"
+                        strokeWidth="20"
+                        strokeLinecap="round"
+                      />
+                      {/* Needle pointing to Sell */}
+                      <line
+                        x1="100"
+                        y1="100"
+                        x2="70"
+                        y2="45"
+                        stroke="hsl(var(--foreground))"
+                        strokeWidth="2"
+                      />
+                      <circle cx="100" cy="100" r="5" fill="hsl(var(--foreground))" />
+                      
+                      {/* Labels */}
+                      <text x="30" y="110" className="text-xs fill-muted-foreground" fontSize="10">Strong sell</text>
+                      <text x="60" y="35" className="text-xs fill-red-500" fontSize="12" fontWeight="600">Sell</text>
+                      <text x="95" y="25" className="text-xs fill-muted-foreground" fontSize="10">Neutral</text>
+                      <text x="130" y="35" className="text-xs fill-muted-foreground" fontSize="12">Buy</text>
+                      <text x="150" y="110" className="text-xs fill-muted-foreground" fontSize="10">Strong buy</text>
+                    </svg>
+                  </div>
+                  
+                  {/* Center Sell Label */}
+                  <div className="text-3xl font-bold text-red-500 -mt-8">Sell</div>
+                  
+                  {/* Counts */}
+                  <div className="flex gap-12 mt-6">
+                    <div className="text-center">
+                      <div className="text-sm text-muted-foreground mb-1">Sell</div>
+                      <div className="text-2xl font-bold">10</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm text-muted-foreground mb-1">Neutral</div>
+                      <div className="text-2xl font-bold">10</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm text-muted-foreground mb-1">Buy</div>
+                      <div className="text-2xl font-bold">6</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* Oscillators and Moving Averages */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Oscillators */}
+              <Card className="p-6">
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-semibold">Oscillators</h2>
+                  
+                  {/* Oscillators Gauge */}
+                  <div className="flex flex-col items-center">
+                    <div className="relative w-64 h-40">
+                      <svg viewBox="0 0 200 120" className="w-full h-full">
+                        <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="hsl(var(--muted))" strokeWidth="20" strokeLinecap="round" />
+                        <path d="M 80 35 A 80 80 0 0 1 120 35" fill="none" stroke="#3b82f6" strokeWidth="20" strokeLinecap="round" />
+                        <line x1="100" y1="100" x2="110" y2="50" stroke="hsl(var(--foreground))" strokeWidth="2" />
+                        <circle cx="100" cy="100" r="4" fill="hsl(var(--foreground))" />
+                        <text x="30" y="110" className="text-xs fill-muted-foreground" fontSize="8">Strong sell</text>
+                        <text x="50" y="35" className="text-xs fill-muted-foreground" fontSize="10">Sell</text>
+                        <text x="85" y="20" className="text-xs fill-muted-foreground" fontSize="9">Neutral</text>
+                        <text x="115" y="35" className="text-xs fill-blue-500" fontSize="10" fontWeight="600">Buy</text>
+                        <text x="150" y="110" className="text-xs fill-muted-foreground" fontSize="8">Strong buy</text>
+                      </svg>
+                    </div>
+                    <div className="text-2xl font-bold text-blue-500 -mt-6">Buy</div>
+                    <div className="flex gap-8 mt-4 text-sm">
+                      <div className="text-center"><div className="text-muted-foreground">Sell</div><div className="font-semibold">0</div></div>
+                      <div className="text-center"><div className="text-muted-foreground">Neutral</div><div className="font-semibold">9</div></div>
+                      <div className="text-center"><div className="text-muted-foreground">Buy</div><div className="font-semibold">2</div></div>
+                    </div>
+                  </div>
+
+                  {/* Oscillators Table */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between border-b pb-2">
+                      <h3 className="font-semibold">Oscillators</h3>
+                      <ChevronDown className="h-4 w-4" />
+                    </div>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Name</TableHead>
+                          <TableHead className="text-right">Value</TableHead>
+                          <TableHead className="text-right">Action</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>Relative Strength Index (14)</TableCell>
+                          <TableCell className="text-right">42.40</TableCell>
+                          <TableCell className="text-right text-muted-foreground">Neutral</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Stochastic %K (14, 3, 3)</TableCell>
+                          <TableCell className="text-right">39.26</TableCell>
+                          <TableCell className="text-right text-muted-foreground">Neutral</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Commodity Channel Index (20)</TableCell>
+                          <TableCell className="text-right">38.13</TableCell>
+                          <TableCell className="text-right text-muted-foreground">Neutral</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Average Directional Index (14)</TableCell>
+                          <TableCell className="text-right">29.56</TableCell>
+                          <TableCell className="text-right text-muted-foreground">Neutral</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Awesome Oscillator</TableCell>
+                          <TableCell className="text-right">−15.56</TableCell>
+                          <TableCell className="text-right text-muted-foreground">Neutral</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Momentum (10)</TableCell>
+                          <TableCell className="text-right">5.95</TableCell>
+                          <TableCell className="text-right text-blue-500">Buy</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Moving Averages */}
+              <Card className="p-6">
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-semibold">Moving Averages</h2>
+                  
+                  {/* Moving Averages Gauge */}
+                  <div className="flex flex-col items-center">
+                    <div className="relative w-64 h-40">
+                      <svg viewBox="0 0 200 120" className="w-full h-full">
+                        <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="hsl(var(--muted))" strokeWidth="20" strokeLinecap="round" />
+                        <path d="M 20 100 A 80 80 0 0 1 80 35" fill="none" stroke="#ef4444" strokeWidth="20" strokeLinecap="round" />
+                        <line x1="100" y1="100" x2="70" y2="45" stroke="hsl(var(--foreground))" strokeWidth="2" />
+                        <circle cx="100" cy="100" r="4" fill="hsl(var(--foreground))" />
+                        <text x="30" y="110" className="text-xs fill-muted-foreground" fontSize="8">Strong sell</text>
+                        <text x="50" y="35" className="text-xs fill-red-500" fontSize="10" fontWeight="600">Sell</text>
+                        <text x="85" y="20" className="text-xs fill-muted-foreground" fontSize="9">Neutral</text>
+                        <text x="120" y="35" className="text-xs fill-muted-foreground" fontSize="10">Buy</text>
+                        <text x="150" y="110" className="text-xs fill-muted-foreground" fontSize="8">Strong buy</text>
+                      </svg>
+                    </div>
+                    <div className="text-2xl font-bold text-red-500 -mt-6">Sell</div>
+                    <div className="flex gap-8 mt-4 text-sm">
+                      <div className="text-center"><div className="text-muted-foreground">Sell</div><div className="font-semibold">10</div></div>
+                      <div className="text-center"><div className="text-muted-foreground">Neutral</div><div className="font-semibold">1</div></div>
+                      <div className="text-center"><div className="text-muted-foreground">Buy</div><div className="font-semibold">4</div></div>
+                    </div>
+                  </div>
+
+                  {/* Moving Averages Table */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between border-b pb-2">
+                      <h3 className="font-semibold">Moving Averages</h3>
+                      <ChevronDown className="h-4 w-4" />
+                    </div>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Name</TableHead>
+                          <TableHead className="text-right">Value</TableHead>
+                          <TableHead className="text-right">Action</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>Exponential Moving Average (10)</TableCell>
+                          <TableCell className="text-right">467.76</TableCell>
+                          <TableCell className="text-right text-blue-500">Buy</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Simple Moving Average (10)</TableCell>
+                          <TableCell className="text-right">466.51</TableCell>
+                          <TableCell className="text-right text-blue-500">Buy</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Exponential Moving Average (20)</TableCell>
+                          <TableCell className="text-right">473.12</TableCell>
+                          <TableCell className="text-right text-red-500">Sell</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Simple Moving Average (20)</TableCell>
+                          <TableCell className="text-right">468.63</TableCell>
+                          <TableCell className="text-right text-blue-500">Buy</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Exponential Moving Average (30)</TableCell>
+                          <TableCell className="text-right">481.91</TableCell>
+                          <TableCell className="text-right text-red-500">Sell</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Simple Moving Average (30)</TableCell>
+                          <TableCell className="text-right">475.98</TableCell>
+                          <TableCell className="text-right text-red-500">Sell</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
+            {/* Pivots Table */}
+            <Card className="p-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b pb-2">
+                  <h3 className="text-xl font-semibold">Pivots</h3>
+                  <ChevronDown className="h-4 w-4" />
+                </div>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Pivot</TableHead>
+                        <TableHead className="text-right">Classic</TableHead>
+                        <TableHead className="text-right">Fibonacci</TableHead>
+                        <TableHead className="text-right">Camarilla</TableHead>
+                        <TableHead className="text-right">Woodie</TableHead>
+                        <TableHead className="text-right">DM</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">R3</TableCell>
+                        <TableCell className="text-right">768.63</TableCell>
+                        <TableCell className="text-right">632.18</TableCell>
+                        <TableCell className="text-right">493.17</TableCell>
+                        <TableCell className="text-right">663.37</TableCell>
+                        <TableCell className="text-right">—</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">R2</TableCell>
+                        <TableCell className="text-right">632.18</TableCell>
+                        <TableCell className="text-right">580.06</TableCell>
+                        <TableCell className="text-right">480.67</TableCell>
+                        <TableCell className="text-right">623.69</TableCell>
+                        <TableCell className="text-right">—</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">R1</TableCell>
+                        <TableCell className="text-right">543.92</TableCell>
+                        <TableCell className="text-right">547.86</TableCell>
+                        <TableCell className="text-right">468.16</TableCell>
+                        <TableCell className="text-right">526.92</TableCell>
+                        <TableCell className="text-right">519.83</TableCell>
+                      </TableRow>
+                      <TableRow className="bg-muted/50">
+                        <TableCell className="font-medium">P</TableCell>
+                        <TableCell className="text-right">495.73</TableCell>
+                        <TableCell className="text-right">495.73</TableCell>
+                        <TableCell className="text-right">495.73</TableCell>
+                        <TableCell className="text-right">487.24</TableCell>
+                        <TableCell className="text-right">483.69</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">S1</TableCell>
+                        <TableCell className="text-right">407.47</TableCell>
+                        <TableCell className="text-right">443.61</TableCell>
+                        <TableCell className="text-right">443.14</TableCell>
+                        <TableCell className="text-right">390.47</TableCell>
+                        <TableCell className="text-right">383.38</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">S2</TableCell>
+                        <TableCell className="text-right">359.28</TableCell>
+                        <TableCell className="text-right">411.41</TableCell>
+                        <TableCell className="text-right">430.63</TableCell>
+                        <TableCell className="text-right">350.79</TableCell>
+                        <TableCell className="text-right">—</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">S3</TableCell>
+                        <TableCell className="text-right">222.83</TableCell>
+                        <TableCell className="text-right">359.28</TableCell>
+                        <TableCell className="text-right">418.13</TableCell>
+                        <TableCell className="text-right">254.02</TableCell>
+                        <TableCell className="text-right">—</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+            </Card>
+
+            {/* Warning */}
+            <Card className="p-6 bg-muted/50">
+              <div className="space-y-2">
+                <h3 className="font-semibold">Be warned</h3>
+                <p className="text-sm text-muted-foreground">
+                  This info isn't a recommendation for what you should personally do, so please don't take the data as investment advice. As with any trade, always look first, then leap. Read more in the{' '}
+                  <a href="#" className="text-blue-500 hover:underline">Terms of Use</a>.
+                </p>
+              </div>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="forecast">
