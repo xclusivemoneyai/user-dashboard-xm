@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   TrendingUp, 
@@ -15,7 +16,14 @@ import {
   Activity,
   Shield,
   ChevronDown,
-  Info
+  Info,
+  X,
+  Plus,
+  Send,
+  Brain,
+  FileText,
+  Globe,
+  MessageSquare
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -117,8 +125,15 @@ export const StockResults = ({ stockName, ticker }: StockResultsProps) => {
     }
   };
 
+  const aiQuestions = [
+    "What are the key drivers of AGEL's revenue growth?",
+    "How does AGEL plan to achieve its 50 GW target by 2030?",
+    "What are the new technological innovations adopted by AGEL?",
+    "What are AGEL's strategies to maintain high EBITDA margins?",
+  ];
+
   return (
-    <div className="w-full max-w-6xl mx-auto space-y-6 animate-in fade-in duration-500">
+    <div className="w-full max-w-6xl mx-auto space-y-6 animate-in fade-in duration-500 pb-32">
       {/* Stock Header */}
       <div className="space-y-4">
         <div className="flex items-start justify-between">
@@ -627,6 +642,133 @@ export const StockResults = ({ stockName, ticker }: StockResultsProps) => {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Ask AI Section */}
+      <div className="mt-16 space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" className="gap-2 px-3">
+              Ask AI
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+          <Button variant="outline" size="sm" className="gap-2">
+            <Plus className="h-4 w-4" />
+            New Chat
+          </Button>
+        </div>
+
+        {/* Company Logo and Title */}
+        <div className="text-center space-y-6 py-8">
+          <div className="flex justify-center">
+            <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 flex items-center justify-center shadow-lg">
+              <span className="text-3xl font-bold text-white lowercase">
+                {stockName.split(' ')[0].charAt(0) + stockName.split(' ')[0].slice(1, 5).toLowerCase()}
+              </span>
+            </div>
+          </div>
+          
+          <h2 className="text-2xl md:text-3xl font-medium">
+            Ask anything about{" "}
+            <span className="font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              {stockName.toUpperCase()}
+            </span>
+          </h2>
+
+          {/* Suggestion Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+            {aiQuestions.map((question, index) => (
+              <Card
+                key={index}
+                className="p-4 hover:border-primary/50 hover:bg-muted/50 transition-all cursor-pointer group"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <p className="text-sm text-left text-muted-foreground group-hover:text-foreground transition-colors">
+                    {question}
+                  </p>
+                  <Send className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-0.5" />
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Sticky Search Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border z-50">
+        <div className="max-w-6xl mx-auto p-4 space-y-3">
+          <div className="relative">
+            <Input
+              type="text"
+              placeholder="Ask anything..."
+              className="pl-4 pr-12 py-6 text-base bg-card border-border rounded-xl"
+            />
+            <button className="absolute right-3 top-1/2 -translate-y-1/2 p-2 hover:bg-primary/10 rounded-lg transition-colors">
+              <Send className="h-5 w-5 text-muted-foreground hover:text-primary" />
+            </button>
+          </div>
+
+          {/* Options Bar */}
+          <div className="flex flex-wrap items-center gap-2 justify-between">
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* Model Selector */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                    <Brain className="h-4 w-4" />
+                    GPT-4o
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48">
+                  <DropdownMenuItem>GPT-4o</DropdownMenuItem>
+                  <DropdownMenuItem>GPT-4</DropdownMenuItem>
+                  <DropdownMenuItem>Claude 3.5</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Docs Button */}
+              <Button variant="ghost" size="sm" className="gap-2 text-primary">
+                <FileText className="h-4 w-4" />
+                Docs
+              </Button>
+
+              {/* Web Button */}
+              <Button variant="ghost" size="sm" className="gap-2">
+                <Globe className="h-4 w-4" />
+                Web
+              </Button>
+
+              {/* Mode Selector */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="gap-2 rounded-full">
+                    <Activity className="h-4 w-4" />
+                    Balanced
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48">
+                  <DropdownMenuItem>Balanced</DropdownMenuItem>
+                  <DropdownMenuItem>Concise</DropdownMenuItem>
+                  <DropdownMenuItem>Descriptive</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Chat History Button */}
+              <Button variant="ghost" size="sm" className="gap-2">
+                <MessageSquare className="h-4 w-4" />
+                Chat history
+              </Button>
+            </div>
+          </div>
+
+          {/* Disclaimer */}
+          <p className="text-xs text-center text-muted-foreground">
+            AI can make mistakes. Check important information.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
