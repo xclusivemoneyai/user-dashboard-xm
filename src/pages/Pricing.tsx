@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
 import { useState } from "react";
 import { PricingCalculator } from "@/components/PricingCalculator";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState("monthly");
@@ -117,6 +118,47 @@ const Pricing = () => {
 
           {/* Pricing Calculator Section */}
           <PricingCalculator />
+
+          {/* FAQ Section */}
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-2xl sm:text-3xl font-bold text-center">Frequently Asked Questions</CardTitle>
+            </CardHeader>
+            <CardContent className="px-4 sm:px-6">
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="text-left text-sm sm:text-base">Does this work with my broker?</AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground">
+                    Yes! TradeEdge Pro integrates with Alert2Trade, which supports 100+ brokers including Zerodha, Interactive Brokers, TD Ameritrade, Binance, and more.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger className="text-left text-sm sm:text-base">What if I'm new to Pine Script?</AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground">
+                    No problem! Our platform is designed for traders of all experience levels. We provide comprehensive tutorials, documentation, and support to help you get started with automated trading strategies.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
+                  <AccordionTrigger className="text-left text-sm sm:text-base">How is this different from other TradingView strategies?</AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground">
+                    Our platform offers advanced automation, real-time alerts, copy trading capabilities, and seamless broker integration. We focus on making automated trading accessible and reliable for everyone.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-4">
+                  <AccordionTrigger className="text-left text-sm sm:text-base">Can I use this for crypto trading?</AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground">
+                    Absolutely! Our platform supports crypto trading through multiple exchanges including Binance, Coinbase, and other major platforms via Alert2Trade integration.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-5">
+                  <AccordionTrigger className="text-left text-sm sm:text-base">What about risk management?</AccordionTrigger>
+                  <AccordionContent className="text-sm text-muted-foreground">
+                    We provide built-in risk management tools including stop-loss, take-profit automation, position sizing calculators, and portfolio diversification features to help protect your capital.
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
         </div>
       </main>
       </div>
