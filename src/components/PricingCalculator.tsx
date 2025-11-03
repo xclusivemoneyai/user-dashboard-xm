@@ -24,7 +24,10 @@ export const PricingCalculator = () => {
   const productOptions = [
     { id: "xm-gpt", name: "XM GPT" },
     { id: "copy-trading", name: "Copy Trading" },
-    { id: "alert2trade", name: "Alert2Trade" }
+    { id: "alert2trade", name: "Alert2Trade" },
+    { id: "whatsapp", name: "WhatsApp Integration" },
+    { id: "marketplace", name: "Marketplace Access" },
+    { id: "tutorials", name: "Premium Tutorials" }
   ];
 
   const cycles = [
