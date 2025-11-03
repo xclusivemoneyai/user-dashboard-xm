@@ -60,19 +60,16 @@ export const PricingCalculator = () => {
   };
 
   const comparisonFeatures = [
-    { feature: "Trading Accounts", basic: "5", pro: "20", enterprise: "Unlimited" },
-    { feature: "Real-time Alerts", basic: true, pro: true, enterprise: true },
-    { feature: "Copy Trading", basic: "Basic", pro: "Advanced", enterprise: "Advanced + Custom" },
-    { feature: "AI Analysis", basic: false, pro: true, enterprise: true },
-    { feature: "API Access", basic: false, pro: true, enterprise: true },
-    { feature: "Custom Automation", basic: false, pro: true, enterprise: true },
-    { feature: "Advanced Analytics", basic: false, pro: true, enterprise: true },
-    { feature: "Priority Support", basic: false, pro: true, enterprise: true },
-    { feature: "24/7 Dedicated Support", basic: false, pro: false, enterprise: true },
-    { feature: "White-label Solution", basic: false, pro: false, enterprise: true },
-    { feature: "Custom Integrations", basic: false, pro: false, enterprise: true },
-    { feature: "Team Management", basic: false, pro: false, enterprise: true },
-    { feature: "SLA Guarantee", basic: false, pro: false, enterprise: true },
+    { feature: "Trading Accounts", xmGpt: { basic: "5", pro: "20", enterprise: "Unlimited" }, copyTrading: { basic: "5", pro: "20", enterprise: "Unlimited" }, alertToTrade: { basic: "5", pro: "20", enterprise: "Unlimited" } },
+    { feature: "Real-time Alerts", xmGpt: { basic: true, pro: true, enterprise: true }, copyTrading: { basic: true, pro: true, enterprise: true }, alertToTrade: { basic: true, pro: true, enterprise: true } },
+    { feature: "AI Analysis", xmGpt: { basic: false, pro: true, enterprise: true }, copyTrading: { basic: false, pro: true, enterprise: true }, alertToTrade: { basic: false, pro: true, enterprise: true } },
+    { feature: "API Access", xmGpt: { basic: false, pro: true, enterprise: true }, copyTrading: { basic: false, pro: true, enterprise: true }, alertToTrade: { basic: false, pro: true, enterprise: true } },
+    { feature: "Custom Automation", xmGpt: { basic: false, pro: true, enterprise: true }, copyTrading: { basic: false, pro: true, enterprise: true }, alertToTrade: { basic: false, pro: true, enterprise: true } },
+    { feature: "Advanced Analytics", xmGpt: { basic: false, pro: true, enterprise: true }, copyTrading: { basic: false, pro: true, enterprise: true }, alertToTrade: { basic: false, pro: true, enterprise: true } },
+    { feature: "Priority Support", xmGpt: { basic: false, pro: true, enterprise: true }, copyTrading: { basic: false, pro: true, enterprise: true }, alertToTrade: { basic: false, pro: true, enterprise: true } },
+    { feature: "24/7 Dedicated Support", xmGpt: { basic: false, pro: false, enterprise: true }, copyTrading: { basic: false, pro: false, enterprise: true }, alertToTrade: { basic: false, pro: false, enterprise: true } },
+    { feature: "White-label Solution", xmGpt: { basic: false, pro: false, enterprise: true }, copyTrading: { basic: false, pro: false, enterprise: true }, alertToTrade: { basic: false, pro: false, enterprise: true } },
+    { feature: "Custom Integrations", xmGpt: { basic: false, pro: false, enterprise: true }, copyTrading: { basic: false, pro: false, enterprise: true }, alertToTrade: { basic: false, pro: false, enterprise: true } },
   ];
 
   return (
@@ -234,51 +231,52 @@ export const PricingCalculator = () => {
             <Table>
               <TableHeader>
                 <TableRow className="bg-muted/50">
-                  <TableHead className="font-bold text-foreground text-xs md:text-sm px-2 md:px-4 min-w-[100px]">Features</TableHead>
-                  <TableHead className="text-center font-bold text-foreground text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Basic</TableHead>
-                  <TableHead className="text-center font-bold text-foreground text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Pro</TableHead>
-                  <TableHead className="text-center font-bold text-foreground text-xs md:text-sm px-2 md:px-4 min-w-[80px]">Enterprise</TableHead>
+                  <TableHead className="font-bold text-foreground text-xs md:text-sm px-2 md:px-4 min-w-[120px] sticky left-0 bg-muted/50 z-10">Features</TableHead>
+                  <TableHead colSpan={3} className="text-center font-bold text-foreground text-sm md:text-base px-2 md:px-4 border-l-2 border-border">XM GPT</TableHead>
+                  <TableHead colSpan={3} className="text-center font-bold text-foreground text-sm md:text-base px-2 md:px-4 border-l-2 border-border">Copy Trading</TableHead>
+                  <TableHead colSpan={3} className="text-center font-bold text-foreground text-sm md:text-base px-2 md:px-4 border-l-2 border-border">Alert to Trade</TableHead>
+                </TableRow>
+                <TableRow className="bg-muted/30">
+                  <TableHead className="sticky left-0 bg-muted/30 z-10"></TableHead>
+                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Basic</TableHead>
+                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Pro</TableHead>
+                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[90px] border-r-2 border-border">Enterprise</TableHead>
+                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Basic</TableHead>
+                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Pro</TableHead>
+                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[90px] border-r-2 border-border">Enterprise</TableHead>
+                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Basic</TableHead>
+                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Pro</TableHead>
+                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[90px]">Enterprise</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {comparisonFeatures.map((item, index) => (
-                  <TableRow key={index} className="hover:bg-muted/30">
-                    <TableCell className="font-medium text-xs md:text-sm px-2 md:px-4">{item.feature}</TableCell>
-                    <TableCell className="text-center px-2 md:px-4">
-                      {typeof item.basic === 'boolean' ? (
-                        item.basic ? (
-                          <Check className="h-4 w-4 md:h-5 md:w-5 text-green-500 mx-auto" />
-                        ) : (
-                          <X className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground mx-auto" />
-                        )
+                {comparisonFeatures.map((item, index) => {
+                  const renderCell = (value: boolean | string) => {
+                    if (typeof value === 'boolean') {
+                      return value ? (
+                        <Check className="h-4 w-4 md:h-5 md:w-5 text-green-500 mx-auto" />
                       ) : (
-                        <span className="text-xs md:text-sm">{item.basic}</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-center px-2 md:px-4">
-                      {typeof item.pro === 'boolean' ? (
-                        item.pro ? (
-                          <Check className="h-4 w-4 md:h-5 md:w-5 text-green-500 mx-auto" />
-                        ) : (
-                          <X className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground mx-auto" />
-                        )
-                      ) : (
-                        <span className="text-xs md:text-sm">{item.pro}</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-center px-2 md:px-4">
-                      {typeof item.enterprise === 'boolean' ? (
-                        item.enterprise ? (
-                          <Check className="h-4 w-4 md:h-5 md:w-5 text-green-500 mx-auto" />
-                        ) : (
-                          <X className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground mx-auto" />
-                        )
-                      ) : (
-                        <span className="text-xs md:text-sm">{item.enterprise}</span>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                        <X className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground mx-auto" />
+                      );
+                    }
+                    return <span className="text-xs md:text-sm">{value}</span>;
+                  };
+
+                  return (
+                    <TableRow key={index} className="hover:bg-muted/30">
+                      <TableCell className="font-medium text-xs md:text-sm px-2 md:px-4 sticky left-0 bg-background z-10">{item.feature}</TableCell>
+                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.xmGpt.basic)}</TableCell>
+                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.xmGpt.pro)}</TableCell>
+                      <TableCell className="text-center px-2 md:px-4 border-r-2 border-border">{renderCell(item.xmGpt.enterprise)}</TableCell>
+                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.copyTrading.basic)}</TableCell>
+                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.copyTrading.pro)}</TableCell>
+                      <TableCell className="text-center px-2 md:px-4 border-r-2 border-border">{renderCell(item.copyTrading.enterprise)}</TableCell>
+                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.alertToTrade.basic)}</TableCell>
+                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.alertToTrade.pro)}</TableCell>
+                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.alertToTrade.enterprise)}</TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
