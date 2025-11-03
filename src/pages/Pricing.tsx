@@ -152,19 +152,19 @@ const Pricing = () => {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="px-6 pb-6 flex flex-col sm:flex-row gap-3">
+                        <div className="px-6 pb-6 flex flex-col gap-3">
                           <Button 
-                            variant="outline" 
-                            className="flex-1 h-12 text-base"
-                            onClick={() => {/* Handle view invoices */}}
+                            className="w-full h-12 text-base bg-primary hover:bg-primary/90"
+                            onClick={() => {/* Handle update subscription */}}
                           >
-                            View Invoices
+                            Update subscription
                           </Button>
                           <Button 
-                            className="flex-1 h-12 text-base bg-primary hover:bg-primary/90"
-                            onClick={() => {/* Handle payment preferences */}}
+                            variant="outline" 
+                            className="w-full h-12 text-base"
+                            onClick={() => {/* Handle cancel subscription */}}
                           >
-                            Payment Preferences
+                            Cancel subscription
                           </Button>
                         </div>
                       </DialogContent>
