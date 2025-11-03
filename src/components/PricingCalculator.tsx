@@ -6,20 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState } from "react";
-import { Calculator, ChevronDown, Shield, Lock, CreditCard, Check, X, Trash2 } from "lucide-react";
+import { Calculator, ChevronDown, Shield, Lock, CreditCard, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface ProductConfig {
-  id: string;
-  name: string;
-  tier: string;
-  cycle: string;
-}
-
 export const PricingCalculator = () => {
-  const [productConfigs, setProductConfigs] = useState<ProductConfig[]>([
-    { id: "copy-trading", name: "Copy Trading", tier: "basic", cycle: "monthly" }
-  ]);
+  const [selectedProducts, setSelectedProducts] = useState<string[]>(["copy-trading"]);
+  const [selectedCycle, setSelectedCycle] = useState("monthly");
+  const [selectedTier, setSelectedTier] = useState("pro");
 
   const productOptions = [
     { id: "xm-gpt", name: "XM GPT" },
@@ -28,10 +21,9 @@ export const PricingCalculator = () => {
   ];
 
   const cycles = [
-    { id: "trial", name: "7 Day Free Trial", discount: 0, isFree: true },
-    { id: "monthly", name: "Monthly", discount: 0, isFree: false },
-    { id: "quarterly", name: "Quarterly", discount: 0.10, isFree: false },
-    { id: "yearly", name: "Yearly", discount: 0.25, isFree: false }
+    { id: "monthly", name: "Monthly", discount: 0 },
+    { id: "quarterly", name: "Quarterly", discount: 0.10 },
+    { id: "yearly", name: "Yearly", discount: 0.25 }
   ];
 
   const tiers = [
@@ -40,42 +32,32 @@ export const PricingCalculator = () => {
     { id: "enterprise", name: "Enterprise", basePrice: 199 }
   ];
 
-  const addProduct = (productId: string) => {
-    const product = productOptions.find(p => p.id === productId);
-    if (product && !productConfigs.find(pc => pc.id === productId)) {
-      setProductConfigs([...productConfigs, {
-        id: product.id,
-        name: product.name,
-        tier: "basic",
-        cycle: "monthly"
-      }]);
+  const toggleProduct = (productId: string) => {
+    setSelectedProducts(prev => 
+      prev.includes(productId)
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
+  const calculatePrice = () => {
+    const tier = tiers.find(t => t.id === selectedTier);
+    const cycle = cycles.find(c => c.id === selectedCycle);
+    if (!tier || !cycle || selectedProducts.length === 0) return 0;
+    
+    const pricePerProduct = tier.basePrice * (1 - cycle.discount);
+    const totalPrice = pricePerProduct * selectedProducts.length;
+    return Math.round(totalPrice);
+  };
+
+  const getCyclePeriod = () => {
+    switch(selectedCycle) {
+      case "monthly": return "month";
+      case "quarterly": return "3 months";
+      case "yearly": return "year";
+      default: return "month";
     }
   };
-
-  const removeProduct = (productId: string) => {
-    setProductConfigs(productConfigs.filter(pc => pc.id !== productId));
-  };
-
-  const updateProductConfig = (productId: string, field: 'tier' | 'cycle', value: string) => {
-    setProductConfigs(productConfigs.map(pc => 
-      pc.id === productId ? { ...pc, [field]: value } : pc
-    ));
-  };
-
-  const calculateTotalPrice = () => {
-    return productConfigs.reduce((total, config) => {
-      const cycle = cycles.find(c => c.id === config.cycle);
-      const tier = tiers.find(t => t.id === config.tier);
-      
-      if (cycle?.isFree || !tier || !cycle) return total;
-      
-      const priceForProduct = tier.basePrice * (1 - cycle.discount);
-      return total + priceForProduct;
-    }, 0);
-  };
-
-  const hasFreeTrial = productConfigs.some(pc => pc.cycle === "trial");
-  const totalPrice = Math.round(calculateTotalPrice());
 
   const productFeatures = [
     { feature: "Trading Accounts", basic: "5", pro: "20", enterprise: "Unlimited" },
@@ -106,113 +88,78 @@ export const PricingCalculator = () => {
         </div>
       </CardHeader>
       <CardContent>
-        {/* Product Configuration Section */}
-        <div className="space-y-4 mb-6">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-semibold text-foreground">Configure Your Products</label>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-foreground">Products (Select Multiple)</label>
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="h-9">
-                  <ChevronDown className="mr-2 h-4 w-4" />
-                  Add Product
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  className={cn(
+                    "h-12 w-full justify-between bg-background font-normal",
+                    selectedProducts.length === 0 && "text-muted-foreground"
+                  )}
+                >
+                  {selectedProducts.length === 0
+                    ? "Select products..."
+                    : `${selectedProducts.length} product${selectedProducts.length > 1 ? 's' : ''} selected`}
+                  <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-full p-0 bg-background" align="end">
-                <div className="p-3 space-y-2">
-                  {productOptions.map((product) => {
-                    const isAdded = productConfigs.find(pc => pc.id === product.id);
-                    return (
-                      <Button
-                        key={product.id}
-                        variant={isAdded ? "secondary" : "ghost"}
-                        size="sm"
-                        className="w-full justify-start"
-                        onClick={() => addProduct(product.id)}
-                        disabled={!!isAdded}
+              <PopoverContent className="w-full p-0 bg-background" align="start">
+                <div className="p-4 space-y-3">
+                  {productOptions.map((product) => (
+                    <div key={product.id} className="flex items-center space-x-3">
+                      <Checkbox
+                        id={`calc-${product.id}`}
+                        checked={selectedProducts.includes(product.id)}
+                        onCheckedChange={() => toggleProduct(product.id)}
+                      />
+                      <label
+                        htmlFor={`calc-${product.id}`}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1"
                       >
-                        {isAdded && <Check className="mr-2 h-4 w-4" />}
                         {product.name}
-                      </Button>
-                    );
-                  })}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </PopoverContent>
             </Popover>
           </div>
 
-          {/* Individual Product Configurations */}
-          {productConfigs.length === 0 ? (
-            <Card className="bg-muted/50 border-dashed">
-              <CardContent className="p-6 text-center">
-                <p className="text-sm text-muted-foreground">No products selected. Add a product to get started.</p>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="space-y-3">
-              {productConfigs.map((config) => (
-                <Card key={config.id} className="bg-card border-border">
-                  <CardContent className="p-4">
-                    <div className="space-y-3">
-                      {/* Product Header */}
-                      <div className="flex items-center justify-between">
-                        <h4 className="font-semibold text-foreground">{config.name}</h4>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                          onClick={() => removeProduct(config.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                      
-                      {/* Configuration Selects */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-medium text-muted-foreground">Billing Cycle</label>
-                          <Select
-                            value={config.cycle}
-                            onValueChange={(value) => updateProductConfig(config.id, 'cycle', value)}
-                          >
-                            <SelectTrigger className="h-10 bg-background text-sm">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {cycles.map((cycle) => (
-                                <SelectItem key={cycle.id} value={cycle.id}>
-                                  {cycle.name}
-                                  {!cycle.isFree && cycle.discount > 0 && ` (Save ${cycle.discount * 100}%)`}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        
-                        <div className="space-y-1.5">
-                          <label className="text-xs font-medium text-muted-foreground">Plan Tier</label>
-                          <Select
-                            value={config.tier}
-                            onValueChange={(value) => updateProductConfig(config.id, 'tier', value)}
-                          >
-                            <SelectTrigger className="h-10 bg-background text-sm">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {tiers.map((tier) => (
-                                <SelectItem key={tier.id} value={tier.id}>
-                                  {tier.name} - ${tier.basePrice}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-foreground">Billing Cycle</label>
+            <Select value={selectedCycle} onValueChange={setSelectedCycle}>
+              <SelectTrigger className="h-12 bg-background">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {cycles.map((cycle) => (
+                  <SelectItem key={cycle.id} value={cycle.id}>
+                    {cycle.name} {cycle.discount > 0 && `(Save ${cycle.discount * 100}%)`}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-foreground">Plan Tier</label>
+            <Select value={selectedTier} onValueChange={setSelectedTier}>
+              <SelectTrigger className="h-12 bg-background">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {tiers.map((tier) => (
+                  <SelectItem key={tier.id} value={tier.id}>
+                    {tier.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <div className="bg-primary/10 rounded-xl p-4 md:p-6 border border-primary/20">
@@ -220,16 +167,18 @@ export const PricingCalculator = () => {
             <div>
               <p className="text-xs md:text-sm text-muted-foreground mb-2">Your Total</p>
               <div className="flex items-baseline justify-center gap-1 md:gap-2">
-                <span className="text-3xl md:text-5xl font-bold text-foreground">
-                  {hasFreeTrial ? "FREE" : `$${totalPrice}`}
-                </span>
-                {!hasFreeTrial && totalPrice > 0 && (
-                  <span className="text-sm md:text-lg text-muted-foreground">/ month</span>
-                )}
+                <span className="text-3xl md:text-5xl font-bold text-foreground">${calculatePrice()}</span>
+                <span className="text-sm md:text-lg text-muted-foreground">/ {getCyclePeriod()}</span>
               </div>
-              {hasFreeTrial && (
-                <p className="text-xs md:text-sm text-muted-foreground mt-2">
-                  7-day trial included
+              <p className="text-xs md:text-sm text-muted-foreground mt-3 md:mt-4 px-2">
+                {selectedProducts.length > 0 
+                  ? selectedProducts.map(id => productOptions.find(p => p.id === id)?.name).join(" + ")
+                  : "No products selected"
+                } • {tiers.find(t => t.id === selectedTier)?.name} • {cycles.find(c => c.id === selectedCycle)?.name}
+              </p>
+              {selectedProducts.length > 1 && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  ${Math.round(calculatePrice() / selectedProducts.length)} per product
                 </p>
               )}
             </div>
@@ -237,9 +186,9 @@ export const PricingCalculator = () => {
             <Button 
               size="lg" 
               className="w-full max-w-md bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-bold text-base md:text-lg py-5 md:py-6"
-              disabled={productConfigs.length === 0}
+              disabled={selectedProducts.length === 0}
             >
-              {hasFreeTrial ? "Start Free Trial" : "Pay Now"}
+              Pay Now
             </Button>
 
             <div className="space-y-3 md:space-y-4 pt-2 md:pt-4">
