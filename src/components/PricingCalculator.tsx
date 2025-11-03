@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calculator, ChevronDown, Shield, Lock, CreditCard, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +13,13 @@ export const PricingCalculator = () => {
   const [selectedProducts, setSelectedProducts] = useState<string[]>(["copy-trading"]);
   const [selectedCycle, setSelectedCycle] = useState("monthly");
   const [selectedTier, setSelectedTier] = useState("pro");
+
+  // Auto-switch to Basic tier when trial is selected
+  useEffect(() => {
+    if (selectedCycle === "trial") {
+      setSelectedTier("basic");
+    }
+  }, [selectedCycle]);
 
   const productOptions = [
     { id: "xm-gpt", name: "XM GPT" },
@@ -149,13 +156,17 @@ export const PricingCalculator = () => {
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-foreground">Plan Tier</label>
-            <Select value={selectedTier} onValueChange={setSelectedTier}>
+            <Select value={selectedTier} onValueChange={setSelectedTier} disabled={selectedCycle === "trial"}>
               <SelectTrigger className="h-12 bg-background">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {tiers.map((tier) => (
-                  <SelectItem key={tier.id} value={tier.id}>
+                  <SelectItem 
+                    key={tier.id} 
+                    value={tier.id}
+                    disabled={selectedCycle === "trial" && tier.id !== "basic"}
+                  >
                     {tier.name}
                   </SelectItem>
                 ))}
