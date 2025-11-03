@@ -21,6 +21,7 @@ export const PricingCalculator = () => {
   ];
 
   const cycles = [
+    { id: "trial", name: "7 Day Free Trial", discount: 1 },
     { id: "monthly", name: "Monthly", discount: 0 },
     { id: "quarterly", name: "Quarterly", discount: 0.10 },
     { id: "yearly", name: "Yearly", discount: 0.25 }
@@ -52,6 +53,7 @@ export const PricingCalculator = () => {
 
   const getCyclePeriod = () => {
     switch(selectedCycle) {
+      case "trial": return "7 days";
       case "monthly": return "month";
       case "quarterly": return "3 months";
       case "yearly": return "year";
