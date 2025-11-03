@@ -3,14 +3,16 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Check } from "lucide-react";
+import { Check, Heart, X } from "lucide-react";
 import { useState } from "react";
 import { PricingCalculator } from "@/components/PricingCalculator";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState("monthly");
   const [selectedProduct, setSelectedProduct] = useState("copy-trading");
+  const [managePlanOpen, setManagePlanOpen] = useState(false);
 
   const getDiscount = (cycle: string) => {
     switch(cycle) {
@@ -106,9 +108,67 @@ const Pricing = () => {
                       <p className="text-lg sm:text-xl font-semibold">Pro Plan</p>
                       <p className="text-xs sm:text-sm text-muted-foreground">Next billing date: January 15, 2026</p>
                     </div>
-                    <Button variant="outline" size="lg" className="w-full sm:w-auto px-6 sm:px-8">
-                      Manage Subscription
-                    </Button>
+                    <Dialog open={managePlanOpen} onOpenChange={setManagePlanOpen}>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" size="lg" className="w-full sm:w-auto px-6 sm:px-8">
+                          Manage Subscription
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[600px] p-0 gap-0 bg-card border-border">
+                        {/* Header */}
+                        <div className="flex items-start justify-between p-6 pb-4">
+                          <div>
+                            <h2 className="text-2xl font-bold text-foreground">Manage Plan</h2>
+                            <p className="text-sm text-muted-foreground mt-1">Subscription & Billing Settings</p>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 rounded-full"
+                            onClick={() => setManagePlanOpen(false)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+
+                        {/* Current Plan Card */}
+                        <div className="px-6 pb-6">
+                          <Card className="bg-muted/50 border-border">
+                            <CardContent className="p-4 flex items-center justify-between gap-4">
+                              <div className="flex items-center gap-4">
+                                <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600 flex items-center justify-center">
+                                  <Heart className="h-6 w-6 text-white fill-white" />
+                                </div>
+                                <div>
+                                  <p className="text-lg font-bold text-foreground">You're on Pro Plan</p>
+                                  <p className="text-sm text-muted-foreground">Renews Nov 14, 2025</p>
+                                </div>
+                              </div>
+                              <Button variant="outline" className="shrink-0">
+                                Downgrade to Free
+                              </Button>
+                            </CardContent>
+                          </Card>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="px-6 pb-6 flex flex-col sm:flex-row gap-3">
+                          <Button 
+                            variant="outline" 
+                            className="flex-1 h-12 text-base"
+                            onClick={() => {/* Handle view invoices */}}
+                          >
+                            View Invoices
+                          </Button>
+                          <Button 
+                            className="flex-1 h-12 text-base bg-primary hover:bg-primary/90"
+                            onClick={() => {/* Handle payment preferences */}}
+                          >
+                            Payment Preferences
+                          </Button>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </CardContent>
               </Card>
