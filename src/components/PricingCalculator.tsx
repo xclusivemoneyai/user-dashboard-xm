@@ -228,15 +228,15 @@ export const PricingCalculator = () => {
 
         {/* Comparison Table */}
         <div className="mt-6 md:mt-8">
-          <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Compare Plan Features</h3>
+          <h3 className="text-lg md:text-xl lg:text-2xl font-bold mb-3 md:mb-4 lg:mb-6 text-center">Compare Plan Features</h3>
           <div className="border rounded-lg overflow-x-auto bg-card">
             <Table>
               <TableHeader>
                 <TableRow className="bg-primary/10 border-b-2 border-primary/20">
-                  <TableHead className="font-bold text-foreground text-sm md:text-base px-3 md:px-6 py-3 md:py-4 min-w-[160px] sticky left-0 bg-primary/10 z-10">Features</TableHead>
-                  <TableHead className="text-center font-bold text-foreground text-sm md:text-base px-3 md:px-4 py-3 md:py-4 min-w-[90px]">Basic</TableHead>
-                  <TableHead className="text-center font-bold text-foreground text-sm md:text-base px-3 md:px-4 py-3 md:py-4 min-w-[90px]">Pro</TableHead>
-                  <TableHead className="text-center font-bold text-foreground text-sm md:text-base px-3 md:px-4 py-3 md:py-4 min-w-[110px]">Enterprise</TableHead>
+                  <TableHead className="font-bold text-foreground text-xs md:text-sm lg:text-base px-2 md:px-4 lg:px-6 py-2 md:py-3 lg:py-4 min-w-[140px] md:min-w-[160px] sticky left-0 bg-primary/10 z-10">Features</TableHead>
+                  <TableHead className="text-center font-bold text-foreground text-xs md:text-sm lg:text-base px-2 md:px-3 lg:px-4 py-2 md:py-3 lg:py-4 min-w-[70px] md:min-w-[90px]">Basic</TableHead>
+                  <TableHead className="text-center font-bold text-foreground text-xs md:text-sm lg:text-base px-2 md:px-3 lg:px-4 py-2 md:py-3 lg:py-4 min-w-[70px] md:min-w-[90px]">Pro</TableHead>
+                  <TableHead className="text-center font-bold text-foreground text-xs md:text-sm lg:text-base px-2 md:px-3 lg:px-4 py-2 md:py-3 lg:py-4 min-w-[85px] md:min-w-[110px]">Enterprise</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -244,9 +244,9 @@ export const PricingCalculator = () => {
                   const renderCell = (value: boolean | string) => {
                     if (typeof value === 'boolean') {
                       return value ? (
-                        <Check className="h-4 w-4 md:h-5 md:w-5 text-success mx-auto" />
+                        <Check className="h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 text-success mx-auto" />
                       ) : (
-                        <X className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground/50 mx-auto" />
+                        <X className="h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 text-muted-foreground/50 mx-auto" />
                       );
                     }
                     return <span className="text-xs md:text-sm font-medium">{value}</span>;
@@ -256,30 +256,30 @@ export const PricingCalculator = () => {
                     <>
                       {/* Product Name Row */}
                       <TableRow key={`product-${productIndex}`} className="bg-primary/20 hover:bg-primary/20">
-                        <TableCell colSpan={4} className="font-bold text-foreground text-base md:text-lg px-3 md:px-6 py-3 md:py-4 text-center sticky left-0 bg-primary/20 z-10">
+                        <TableCell colSpan={4} className="font-bold text-foreground text-sm md:text-base lg:text-lg px-2 md:px-4 lg:px-6 py-2 md:py-3 lg:py-4 text-center sticky left-0 bg-primary/20 z-10">
                           {product.name}
                         </TableCell>
                       </TableRow>
                       {/* Tier Headers Row */}
                       <TableRow className="bg-muted/50 border-b border-border">
-                        <TableCell className="px-3 md:px-6 py-2 sticky left-0 bg-muted/50 z-10"></TableCell>
-                        <TableCell className="text-center font-semibold text-xs md:text-sm px-3 md:px-4 py-2">Basic</TableCell>
-                        <TableCell className="text-center font-semibold text-xs md:text-sm px-3 md:px-4 py-2">Pro</TableCell>
-                        <TableCell className="text-center font-semibold text-xs md:text-sm px-3 md:px-4 py-2">Enterprise</TableCell>
+                        <TableCell className="px-2 md:px-4 lg:px-6 py-1.5 md:py-2 sticky left-0 bg-muted/50 z-10"></TableCell>
+                        <TableCell className="text-center font-semibold text-xs md:text-sm px-2 md:px-3 lg:px-4 py-1.5 md:py-2">Basic</TableCell>
+                        <TableCell className="text-center font-semibold text-xs md:text-sm px-2 md:px-3 lg:px-4 py-1.5 md:py-2">Pro</TableCell>
+                        <TableCell className="text-center font-semibold text-xs md:text-sm px-2 md:px-3 lg:px-4 py-1.5 md:py-2">Enterprise</TableCell>
                       </TableRow>
                       {/* Feature Rows */}
                       {product.features.map((feature, featureIndex) => (
                         <TableRow key={`${productIndex}-${featureIndex}`} className="hover:bg-muted/30 border-b border-border/50">
-                          <TableCell className="font-medium text-xs md:text-sm px-3 md:px-6 py-2 md:py-3 text-left sticky left-0 bg-card z-10">
+                          <TableCell className="font-medium text-xs md:text-sm px-2 md:px-4 lg:px-6 py-1.5 md:py-2 lg:py-3 text-left sticky left-0 bg-card z-10">
                             {feature.feature}
                           </TableCell>
-                          <TableCell className="text-center px-3 md:px-4 py-2 md:py-3">
+                          <TableCell className="text-center px-2 md:px-3 lg:px-4 py-1.5 md:py-2 lg:py-3">
                             {renderCell(feature.basic)}
                           </TableCell>
-                          <TableCell className="text-center px-3 md:px-4 py-2 md:py-3">
+                          <TableCell className="text-center px-2 md:px-3 lg:px-4 py-1.5 md:py-2 lg:py-3">
                             {renderCell(feature.pro)}
                           </TableCell>
-                          <TableCell className="text-center px-3 md:px-4 py-2 md:py-3">
+                          <TableCell className="text-center px-2 md:px-3 lg:px-4 py-1.5 md:py-2 lg:py-3">
                             {renderCell(feature.enterprise)}
                           </TableCell>
                         </TableRow>
