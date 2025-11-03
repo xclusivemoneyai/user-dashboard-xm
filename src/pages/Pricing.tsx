@@ -162,6 +162,13 @@ const Pricing = () => {
                           <Button 
                             variant="outline" 
                             className="w-full h-12 text-base"
+                            onClick={() => {/* Handle view invoice */}}
+                          >
+                            View Invoice
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            className="w-full h-12 text-base"
                             onClick={() => {/* Handle cancel subscription */}}
                           >
                             Cancel subscription
