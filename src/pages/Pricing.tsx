@@ -116,19 +116,9 @@ const Pricing = () => {
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-[600px] p-0 gap-0 bg-card border-border">
                         {/* Header */}
-                        <div className="flex items-start justify-between p-6 pb-4">
-                          <div>
-                            <h2 className="text-2xl font-bold text-foreground">Manage Plan</h2>
-                            <p className="text-sm text-muted-foreground mt-1">Subscription & Billing Settings</p>
-                          </div>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 rounded-full"
-                            onClick={() => setManagePlanOpen(false)}
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
+                        <div className="p-6 pb-4">
+                          <h2 className="text-2xl font-bold text-foreground">Manage Plan</h2>
+                          <p className="text-sm text-muted-foreground mt-1">Subscription & Billing Settings</p>
                         </div>
 
                         {/* Current Plan Card */}
