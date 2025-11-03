@@ -114,51 +114,53 @@ const Pricing = () => {
                           Manage Subscription
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-[600px] p-0 gap-0 bg-card border-border">
+                      <DialogContent className="sm:max-w-[600px] max-w-[95vw] p-0 gap-0 bg-card border-border">
                         {/* Header */}
-                        <div className="p-6 pb-4">
-                          <h2 className="text-2xl font-bold text-foreground">Manage Plan</h2>
-                          <p className="text-sm text-muted-foreground mt-1">Subscription & Billing Settings</p>
+                        <div className="p-4 sm:p-6 pb-3 sm:pb-4">
+                          <h2 className="text-xl sm:text-2xl font-bold text-foreground">Manage Plan</h2>
+                          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 sm:mt-1">Subscription & Billing Settings</p>
                         </div>
 
                         {/* Current Plan Card */}
-                        <div className="px-6 pb-6">
+                        <div className="px-4 sm:px-6 pb-4 sm:pb-6">
                           <Card className="bg-muted/50 border-border">
-                            <CardContent className="p-4 flex items-center justify-between gap-4">
-                              <div className="flex items-center gap-4">
-                                <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600 flex items-center justify-center">
-                                  <Heart className="h-6 w-6 text-white fill-white" />
+                            <CardContent className="p-3 sm:p-4">
+                              <div className="flex items-start sm:items-center gap-3 sm:gap-4 flex-col sm:flex-row">
+                                <div className="flex items-center gap-3 flex-1 w-full">
+                                  <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600 flex items-center justify-center shrink-0">
+                                    <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-white fill-white" />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-base sm:text-lg font-bold text-foreground">You're on Pro Plan</p>
+                                    <p className="text-xs sm:text-sm text-muted-foreground">Renews Nov 14, 2025</p>
+                                  </div>
                                 </div>
-                                <div>
-                                  <p className="text-lg font-bold text-foreground">You're on Pro Plan</p>
-                                  <p className="text-sm text-muted-foreground">Renews Nov 14, 2025</p>
-                                </div>
+                                <Button variant="outline" className="shrink-0 w-full sm:w-auto text-xs sm:text-sm h-9 sm:h-10">
+                                  Downgrade to Free
+                                </Button>
                               </div>
-                              <Button variant="outline" className="shrink-0">
-                                Downgrade to Free
-                              </Button>
                             </CardContent>
                           </Card>
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="px-6 pb-6 flex flex-col gap-3">
+                        <div className="px-4 sm:px-6 pb-4 sm:pb-6 flex flex-col gap-2 sm:gap-3">
                           <Button 
-                            className="w-full h-12 text-base bg-primary hover:bg-primary/90"
+                            className="w-full h-10 sm:h-12 text-sm sm:text-base bg-primary hover:bg-primary/90"
                             onClick={() => {/* Handle update subscription */}}
                           >
                             Update subscription
                           </Button>
                           <Button 
                             variant="outline" 
-                            className="w-full h-12 text-base"
+                            className="w-full h-10 sm:h-12 text-sm sm:text-base"
                             onClick={() => {/* Handle view invoice */}}
                           >
                             View Invoice
                           </Button>
                           <Button 
                             variant="outline" 
-                            className="w-full h-12 text-base"
+                            className="w-full h-10 sm:h-12 text-sm sm:text-base"
                             onClick={() => {/* Handle cancel subscription */}}
                           >
                             Cancel subscription
