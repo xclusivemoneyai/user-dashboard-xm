@@ -14,7 +14,7 @@ export const PricingCalculator = () => {
   const [selectedCycle, setSelectedCycle] = useState("monthly");
   const [selectedTier, setSelectedTier] = useState("pro");
 
-  const products = [
+  const productOptions = [
     { id: "xm-gpt", name: "XM GPT" },
     { id: "copy-trading", name: "Copy Trading" },
     { id: "alert2trade", name: "Alert2Trade" }
@@ -59,17 +59,19 @@ export const PricingCalculator = () => {
     }
   };
 
-  const comparisonFeatures = [
-    { feature: "Trading Accounts", xmGpt: { basic: "5", pro: "20", enterprise: "Unlimited" }, copyTrading: { basic: "5", pro: "20", enterprise: "Unlimited" }, alertToTrade: { basic: "5", pro: "20", enterprise: "Unlimited" } },
-    { feature: "Real-time Alerts", xmGpt: { basic: true, pro: true, enterprise: true }, copyTrading: { basic: true, pro: true, enterprise: true }, alertToTrade: { basic: true, pro: true, enterprise: true } },
-    { feature: "AI Analysis", xmGpt: { basic: false, pro: true, enterprise: true }, copyTrading: { basic: false, pro: true, enterprise: true }, alertToTrade: { basic: false, pro: true, enterprise: true } },
-    { feature: "API Access", xmGpt: { basic: false, pro: true, enterprise: true }, copyTrading: { basic: false, pro: true, enterprise: true }, alertToTrade: { basic: false, pro: true, enterprise: true } },
-    { feature: "Custom Automation", xmGpt: { basic: false, pro: true, enterprise: true }, copyTrading: { basic: false, pro: true, enterprise: true }, alertToTrade: { basic: false, pro: true, enterprise: true } },
-    { feature: "Advanced Analytics", xmGpt: { basic: false, pro: true, enterprise: true }, copyTrading: { basic: false, pro: true, enterprise: true }, alertToTrade: { basic: false, pro: true, enterprise: true } },
-    { feature: "Priority Support", xmGpt: { basic: false, pro: true, enterprise: true }, copyTrading: { basic: false, pro: true, enterprise: true }, alertToTrade: { basic: false, pro: true, enterprise: true } },
-    { feature: "24/7 Dedicated Support", xmGpt: { basic: false, pro: false, enterprise: true }, copyTrading: { basic: false, pro: false, enterprise: true }, alertToTrade: { basic: false, pro: false, enterprise: true } },
-    { feature: "White-label Solution", xmGpt: { basic: false, pro: false, enterprise: true }, copyTrading: { basic: false, pro: false, enterprise: true }, alertToTrade: { basic: false, pro: false, enterprise: true } },
-    { feature: "Custom Integrations", xmGpt: { basic: false, pro: false, enterprise: true }, copyTrading: { basic: false, pro: false, enterprise: true }, alertToTrade: { basic: false, pro: false, enterprise: true } },
+  const productFeatures = [
+    { feature: "Trading Accounts", basic: "5", pro: "20", enterprise: "Unlimited" },
+    { feature: "Real-time Alerts", basic: true, pro: true, enterprise: true },
+    { feature: "AI Analysis", basic: false, pro: true, enterprise: true },
+    { feature: "API Access", basic: false, pro: true, enterprise: true },
+    { feature: "Custom Automation", basic: false, pro: true, enterprise: true },
+    { feature: "Advanced Analytics", basic: false, pro: true, enterprise: true },
+  ];
+
+  const products = [
+    { name: "XM GPT", features: productFeatures },
+    { name: "Copy Trading", features: productFeatures },
+    { name: "Alert2 Trade", features: productFeatures },
   ];
 
   return (
@@ -107,7 +109,7 @@ export const PricingCalculator = () => {
               </PopoverTrigger>
               <PopoverContent className="w-full p-0 bg-background" align="start">
                 <div className="p-4 space-y-3">
-                  {products.map((product) => (
+                  {productOptions.map((product) => (
                     <div key={product.id} className="flex items-center space-x-3">
                       <Checkbox
                         id={`calc-${product.id}`}
@@ -170,7 +172,7 @@ export const PricingCalculator = () => {
               </div>
               <p className="text-xs md:text-sm text-muted-foreground mt-3 md:mt-4 px-2">
                 {selectedProducts.length > 0 
-                  ? selectedProducts.map(id => products.find(p => p.id === id)?.name).join(" + ")
+                  ? selectedProducts.map(id => productOptions.find(p => p.id === id)?.name).join(" + ")
                   : "No products selected"
                 } • {tiers.find(t => t.id === selectedTier)?.name} • {cycles.find(c => c.id === selectedCycle)?.name}
               </p>
@@ -230,27 +232,15 @@ export const PricingCalculator = () => {
           <div className="border rounded-lg overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="bg-muted/50">
-                  <TableHead className="font-bold text-foreground text-xs md:text-sm px-2 md:px-4 min-w-[120px] sticky left-0 bg-muted/50 z-10">Features</TableHead>
-                  <TableHead colSpan={3} className="text-center font-bold text-foreground text-sm md:text-base px-2 md:px-4 border-l-2 border-border">XM GPT</TableHead>
-                  <TableHead colSpan={3} className="text-center font-bold text-foreground text-sm md:text-base px-2 md:px-4 border-l-2 border-border">Copy Trading</TableHead>
-                  <TableHead colSpan={3} className="text-center font-bold text-foreground text-sm md:text-base px-2 md:px-4 border-l-2 border-border">Alert to Trade</TableHead>
-                </TableRow>
-                <TableRow className="bg-muted/30">
-                  <TableHead className="sticky left-0 bg-muted/30 z-10"></TableHead>
-                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Basic</TableHead>
-                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Pro</TableHead>
-                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[90px] border-r-2 border-border">Enterprise</TableHead>
-                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Basic</TableHead>
-                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Pro</TableHead>
-                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[90px] border-r-2 border-border">Enterprise</TableHead>
-                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Basic</TableHead>
-                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[70px]">Pro</TableHead>
-                  <TableHead className="text-center font-semibold text-xs md:text-sm px-2 md:px-4 min-w-[90px]">Enterprise</TableHead>
+                <TableRow className="bg-yellow-300 dark:bg-yellow-600">
+                  <TableHead className="font-bold text-black text-sm md:text-base px-3 md:px-6 py-3 min-w-[200px]">Features</TableHead>
+                  <TableHead className="text-center font-bold text-black text-sm md:text-base px-3 md:px-6 py-3 min-w-[100px]">Basic</TableHead>
+                  <TableHead className="text-center font-bold text-black text-sm md:text-base px-3 md:px-6 py-3 min-w-[100px]">Pro</TableHead>
+                  <TableHead className="text-center font-bold text-black text-sm md:text-base px-3 md:px-6 py-3 min-w-[120px]">Enterprise</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {comparisonFeatures.map((item, index) => {
+                {products.map((product, productIndex) => {
                   const renderCell = (value: boolean | string) => {
                     if (typeof value === 'boolean') {
                       return value ? (
@@ -263,18 +253,29 @@ export const PricingCalculator = () => {
                   };
 
                   return (
-                    <TableRow key={index} className="hover:bg-muted/30">
-                      <TableCell className="font-medium text-xs md:text-sm px-2 md:px-4 sticky left-0 bg-background z-10">{item.feature}</TableCell>
-                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.xmGpt.basic)}</TableCell>
-                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.xmGpt.pro)}</TableCell>
-                      <TableCell className="text-center px-2 md:px-4 border-r-2 border-border">{renderCell(item.xmGpt.enterprise)}</TableCell>
-                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.copyTrading.basic)}</TableCell>
-                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.copyTrading.pro)}</TableCell>
-                      <TableCell className="text-center px-2 md:px-4 border-r-2 border-border">{renderCell(item.copyTrading.enterprise)}</TableCell>
-                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.alertToTrade.basic)}</TableCell>
-                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.alertToTrade.pro)}</TableCell>
-                      <TableCell className="text-center px-2 md:px-4">{renderCell(item.alertToTrade.enterprise)}</TableCell>
-                    </TableRow>
+                    <>
+                      <TableRow key={`product-${productIndex}`} className="bg-cyan-300 dark:bg-cyan-600">
+                        <TableCell colSpan={4} className="font-bold text-black text-base md:text-lg px-3 md:px-6 py-3 text-center">
+                          {product.name}
+                        </TableCell>
+                      </TableRow>
+                      {product.features.map((feature, featureIndex) => (
+                        <TableRow key={`${productIndex}-${featureIndex}`} className="hover:bg-muted/30">
+                          <TableCell className="font-medium text-xs md:text-sm px-3 md:px-6 py-2 text-right pr-8">
+                            {feature.feature}
+                          </TableCell>
+                          <TableCell className="text-center px-3 md:px-6 py-2">
+                            {renderCell(feature.basic)}
+                          </TableCell>
+                          <TableCell className="text-center px-3 md:px-6 py-2">
+                            {renderCell(feature.pro)}
+                          </TableCell>
+                          <TableCell className="text-center px-3 md:px-6 py-2">
+                            {renderCell(feature.enterprise)}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </>
                   );
                 })}
               </TableBody>
