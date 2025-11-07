@@ -1,5 +1,5 @@
 import { DashboardLayout } from "@/components/DashboardLayout";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -72,7 +72,45 @@ const Invoices = () => {
           </div>
         </div>
 
-        <Card>
+        {/* Mobile view - Cards */}
+        <div className="block md:hidden space-y-4">
+          {invoiceData.map((invoice) => (
+            <Card key={invoice.number}>
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between">
+                  <div className="space-y-1">
+                    <CardTitle className="text-sm font-medium">{invoice.number}</CardTitle>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <span>{invoice.date}</span>
+                      <span>•</span>
+                      <span>{invoice.time}</span>
+                    </div>
+                  </div>
+                  <Button variant="ghost" size="icon">
+                    <Download className="h-4 w-4" />
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Product</span>
+                  <span className="font-medium">{invoice.product}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Taxable Amount</span>
+                  <span className="font-medium">{invoice.taxable}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Total Amount</span>
+                  <span className="font-semibold">{invoice.total}</span>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Desktop view - Table */}
+        <Card className="hidden md:block">
           <CardContent className="pt-6">
             <Table>
               <TableHeader>
@@ -107,16 +145,19 @@ const Invoices = () => {
                 ))}
               </TableBody>
             </Table>
+          </CardContent>
+        </Card>
 
-            <div className="flex items-center justify-between mt-6">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <Switch id="dense" defaultChecked />
-                  <Label htmlFor="dense">Dense</Label>
-                </div>
+        {/* Controls - Responsive */}
+        <Card className="mt-4">
+          <CardContent className="py-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-2">
+                <Switch id="dense" defaultChecked />
+                <Label htmlFor="dense">Dense</Label>
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto">
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">Rows per page:</span>
                   <Select defaultValue="10">
@@ -131,15 +172,17 @@ const Invoices = () => {
                   </Select>
                 </div>
 
-                <span className="text-sm text-muted-foreground">1-6 of 6</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-muted-foreground">1-6 of 6</span>
 
-                <div className="flex gap-1">
-                  <Button variant="ghost" size="icon" disabled>
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" disabled>
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
+                  <div className="flex gap-1">
+                    <Button variant="ghost" size="icon" disabled>
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" disabled>
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
