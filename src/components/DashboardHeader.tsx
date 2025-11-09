@@ -1,13 +1,15 @@
-import { Bell, Moon, Sun, Settings, Menu } from "lucide-react";
+import { Bell, Moon, Sun, Settings, Menu, User, LayoutDashboard, Plus, Bookmark, LogOut, Monitor, ChevronDown } from "lucide-react";
 import xmLogo from "@/assets/xclusive-money-logo.svg";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { NotificationsPanel } from "./NotificationsPanel";
 import { NewAutomationModal, SettingsModal, ProfileModal } from "./ActionModals";
 import { useTheme } from "next-themes";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface DashboardHeaderProps {
   isSidebarOpen?: boolean;
@@ -16,12 +18,18 @@ interface DashboardHeaderProps {
 
 export const DashboardHeader = ({ isSidebarOpen, onSidebarToggle }: DashboardHeaderProps) => {
   const { theme, setTheme } = useTheme();
+  const navigate = useNavigate();
   const [showAutomationModal, setShowAutomationModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  const handleLogout = () => {
+    // Add logout logic here
+    console.log("Logging out...");
   };
 
   return (
@@ -83,12 +91,104 @@ export const DashboardHeader = ({ isSidebarOpen, onSidebarToggle }: DashboardHea
           >
             <Settings className="h-5 w-5" />
           </Button>
-          <button onClick={() => setShowProfileModal(true)}>
-            <Avatar className="h-8 w-8 sm:h-9 sm:w-9 cursor-pointer hover:ring-2 hover:ring-primary transition-all">
-              <AvatarImage src="" />
-              <AvatarFallback className="bg-primary text-primary-foreground">U</AvatarFallback>
-            </Avatar>
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <Avatar className="h-8 w-8 sm:h-9 sm:w-9">
+                  <AvatarImage src="" />
+                  <AvatarFallback className="bg-primary text-primary-foreground">XM</AvatarFallback>
+                </Avatar>
+                <span className="hidden sm:inline text-sm font-medium">Xclusive</span>
+                <ChevronDown className="hidden sm:inline h-4 w-4" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-80 bg-background border-border z-[100]" align="end">
+              {/* User Profile Header */}
+              <div className="flex items-center gap-3 p-4">
+                <Avatar className="h-14 w-14">
+                  <AvatarImage src="" />
+                  <AvatarFallback className="bg-primary text-primary-foreground text-lg">XM</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col">
+                  <p className="text-base font-semibold text-foreground">Xclusive Money</p>
+                  <p className="text-sm text-muted-foreground">xclusive.moneyy@gmail.com</p>
+                </div>
+              </div>
+
+              <DropdownMenuSeparator />
+
+              {/* Menu Items */}
+              <DropdownMenuItem 
+                className="flex items-center gap-3 p-3 cursor-pointer"
+                onClick={() => navigate('/user')}
+              >
+                <User className="h-5 w-5 text-muted-foreground" />
+                <span className="text-base">Account</span>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem 
+                className="flex items-center gap-3 p-3 cursor-pointer"
+                onClick={() => navigate('/')}
+              >
+                <LayoutDashboard className="h-5 w-5 text-muted-foreground" />
+                <span className="text-base">Dashboard</span>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem 
+                className="flex items-center gap-3 p-3 cursor-pointer"
+              >
+                <Plus className="h-5 w-5 text-muted-foreground" />
+                <span className="text-base">Watchlists</span>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem 
+                className="flex items-center gap-3 p-3 cursor-pointer"
+              >
+                <Bookmark className="h-5 w-5 text-muted-foreground" />
+                <span className="text-base">Bookmarks</span>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem 
+                className="flex items-center gap-3 p-3 cursor-pointer"
+                onClick={handleLogout}
+              >
+                <LogOut className="h-5 w-5 text-muted-foreground" />
+                <span className="text-base">Logout</span>
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              {/* Theme Switcher */}
+              <div className="p-3">
+                <div className="flex items-center justify-around bg-muted rounded-lg p-1">
+                  <button
+                    onClick={() => setTheme("system")}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded transition-colors ${
+                      theme === "system" ? "bg-background shadow-sm" : "hover:bg-background/50"
+                    }`}
+                  >
+                    <Monitor className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => setTheme("light")}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded transition-colors ${
+                      theme === "light" ? "bg-background shadow-sm" : "hover:bg-background/50"
+                    }`}
+                  >
+                    <Sun className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => setTheme("dark")}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded transition-colors ${
+                      theme === "dark" ? "bg-background shadow-sm" : "hover:bg-background/50"
+                    }`}
+                  >
+                    <Moon className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
