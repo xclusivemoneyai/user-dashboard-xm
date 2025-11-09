@@ -10,7 +10,7 @@ import AlertToTrade from "./pages/AlertToTrade";
 import User from "./pages/User";
 import Invoices from "./pages/Invoices";
 import Pricing from "./pages/Pricing";
-import Call from "./pages/Call";
+import Discord from "./pages/Discord";
 import WhatsApp from "./pages/WhatsApp";
 import Tutorials from "./pages/Tutorials";
 import Groups from "./pages/Groups";
@@ -38,7 +38,7 @@ const App = () => (
           <Route path="/user" element={<User />} />
           <Route path="/invoices" element={<Invoices />} />
           <Route path="/pricing" element={<Pricing />} />
-          <Route path="/call" element={<Call />} />
+          <Route path="/discord" element={<Discord />} />
           <Route path="/whatsapp" element={<WhatsApp />} />
           <Route path="/tutorials" element={<Tutorials />} />
           <Route path="/groups" element={<Groups />} />

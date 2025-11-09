@@ -1,32 +1,29 @@
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { Facebook, Instagram, Youtube } from "lucide-react";
+import { SiDiscord } from "react-icons/si";
 
-const Call = () => {
+const Discord = () => {
   return (
     <DashboardLayout>
       <div className="min-h-screen bg-background">
         <main className="ml-0 md:ml-64 mt-16 p-4 md:p-8">
         <div className="flex items-center justify-center min-h-[calc(100vh-8rem)]">
-          <div className="flex flex-col items-center text-center max-w-2xl px-4">
-            <div className="mb-6 sm:mb-8">
-              <img 
-                src="/placeholder.svg" 
-                alt="Contact Us Illustration" 
-                className="w-48 h-48 sm:w-64 sm:h-64 mx-auto"
-              />
+          <div className="flex flex-col items-center text-center max-w-2xl">
+            <div className="mb-8 bg-[#5865F2] rounded-full p-16 shadow-lg">
+              <SiDiscord className="h-32 w-32 text-white" />
             </div>
 
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-muted-foreground mb-6 sm:mb-8">
-              Call Now 08035 736000
+            <h1 className="text-4xl font-bold text-muted-foreground mb-8">
+              Join Our Discord Community
             </h1>
 
             <Button 
               size="lg" 
-              className="mb-6 sm:mb-8 px-6 sm:px-8 w-full sm:w-auto"
-              onClick={() => window.location.href = 'tel:08035736000'}
+              className="mb-8 px-8"
+              onClick={() => window.open('https://discord.gg/your-discord-invite', '_blank')}
             >
-              Call Now
+              Join Discord
             </Button>
 
             <div className="flex items-center gap-6">
@@ -63,4 +60,4 @@ const Call = () => {
   );
 };
 
-export default Call;
+export default Discord;

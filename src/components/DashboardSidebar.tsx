@@ -1,4 +1,5 @@
-import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, Phone, MessageCircle, Video, UserPlus, ChevronDown, Bot } from "lucide-react";
+import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, MessageCircle, Video, UserPlus, ChevronDown, Bot } from "lucide-react";
+import { SiDiscord } from "react-icons/si";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -131,7 +132,7 @@ export const DashboardSidebar = ({ isOpen = false, onClose }: DashboardSidebarPr
           <SidebarItem icon={<CreditCard className="h-4 w-4" />} label="Pricing" path="/pricing" active={location.pathname === "/pricing"} />
 
           <SidebarItem label="Support" isHeader />
-          <SidebarItem icon={<Phone className="h-4 w-4" />} label="Call" path="/call" active={location.pathname === "/call"} />
+          <SidebarItem icon={<SiDiscord className="h-4 w-4" />} label="Discord" path="/discord" active={location.pathname === "/discord"} />
           <SidebarItem icon={<MessageCircle className="h-4 w-4" />} label="WhatsApp" path="/whatsapp" active={location.pathname === "/whatsapp"} />
           <SidebarItem icon={<Video className="h-4 w-4" />} label="Tutorials" path="/tutorials" active={location.pathname === "/tutorials"} />
 
