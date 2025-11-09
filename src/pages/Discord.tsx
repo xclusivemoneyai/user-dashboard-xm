@@ -21,7 +21,7 @@ const Discord = () => {
             <Button 
               size="lg" 
               className="mb-8 px-8"
-              onClick={() => window.open('https://discord.gg/your-discord-invite', '_blank')}
+              onClick={() => window.open('https://discord.gg/AqsE6M7P', '_blank')}
             >
               Join Discord
             </Button>
