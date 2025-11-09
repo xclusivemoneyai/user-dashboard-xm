@@ -1,4 +1,4 @@
-import { Bell, Moon, Sun, Settings, Menu, User, LayoutDashboard, Plus, Bookmark, LogOut, Monitor, ChevronDown } from "lucide-react";
+import { Bell, Moon, Sun, Settings, Menu, User, LayoutDashboard, LogOut, Monitor, ChevronDown } from "lucide-react";
 import xmLogo from "@/assets/xclusive-money-logo.svg";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -132,20 +132,6 @@ export const DashboardHeader = ({ isSidebarOpen, onSidebarToggle }: DashboardHea
               >
                 <LayoutDashboard className="h-5 w-5 text-muted-foreground" />
                 <span className="text-base">Dashboard</span>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem 
-                className="flex items-center gap-3 p-3 cursor-pointer"
-              >
-                <Plus className="h-5 w-5 text-muted-foreground" />
-                <span className="text-base">Watchlists</span>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem 
-                className="flex items-center gap-3 p-3 cursor-pointer"
-              >
-                <Bookmark className="h-5 w-5 text-muted-foreground" />
-                <span className="text-base">Bookmarks</span>
               </DropdownMenuItem>
 
               <DropdownMenuItem 
