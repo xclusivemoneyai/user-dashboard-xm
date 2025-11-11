@@ -10,6 +10,7 @@ import { NewAutomationModal, SettingsModal, ProfileModal } from "./ActionModals"
 import { useTheme } from "next-themes";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface DashboardHeaderProps {
   isSidebarOpen?: boolean;
@@ -28,8 +29,8 @@ export const DashboardHeader = ({ isSidebarOpen, onSidebarToggle }: DashboardHea
   };
 
   const handleLogout = () => {
-    // Add logout logic here
-    console.log("Logging out...");
+    toast.success("Logged out successfully");
+    navigate("/sign-in");
   };
 
   return (
@@ -135,11 +136,11 @@ export const DashboardHeader = ({ isSidebarOpen, onSidebarToggle }: DashboardHea
               </DropdownMenuItem>
 
               <DropdownMenuItem 
-                className="flex items-center gap-3 p-3 cursor-pointer"
+                className="flex items-center gap-3 p-3 cursor-pointer bg-primary/10 hover:bg-primary/20"
                 onClick={handleLogout}
               >
-                <LogOut className="h-5 w-5 text-muted-foreground" />
-                <span className="text-base">Logout</span>
+                <LogOut className="h-5 w-5 text-primary" />
+                <span className="text-base font-medium text-primary">Logout</span>
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
