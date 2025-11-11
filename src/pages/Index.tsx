@@ -232,21 +232,60 @@ const Index = () => {
 
           {/* Portfolio Performance */}
           <Card className="p-4 sm:p-6 mb-6 md:mb-8">
-            <div className="flex flex-col gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
               <h2 className="text-lg sm:text-xl font-bold">Portfolio Performance</h2>
-              <div className="flex flex-wrap gap-1.5">
-                {periods.map((period) => (
-                  <Button
-                    key={period}
-                    variant={selectedPeriod === period ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedPeriod(period)}
-                    className="text-xs px-3 py-1.5 h-auto min-w-[44px]"
-                  >
-                    {period}
-                  </Button>
-                ))}
+              <div className="relative w-full sm:w-auto sm:min-w-[240px] lg:min-w-[300px]">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search stocks..." 
+                  className="pl-9 h-9 text-sm"
+                />
               </div>
+            </div>
+            
+            {/* Filters */}
+            <div className="flex items-center gap-2 mb-6 flex-wrap">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Filter className="h-4 w-4" />
+                <span>Filters:</span>
+              </div>
+              <Select defaultValue="all-accounts">
+                <SelectTrigger className="w-[140px] sm:w-[160px] h-9 text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all-accounts">All Accounts</SelectItem>
+                  <SelectItem value="zerodha">Zerodha</SelectItem>
+                  <SelectItem value="dhan">Dhan</SelectItem>
+                  <SelectItem value="angel-one">Angel One</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              <Select defaultValue="all-stocks">
+                <SelectTrigger className="w-[120px] sm:w-[140px] h-9 text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all-stocks">All Stocks</SelectItem>
+                  <SelectItem value="equity">Equity</SelectItem>
+                  <SelectItem value="commodity">Commodity</SelectItem>
+                  <SelectItem value="currency">Currency</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex flex-wrap gap-1.5 mb-6">
+              {periods.map((period) => (
+                <Button
+                  key={period}
+                  variant={selectedPeriod === period ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedPeriod(period)}
+                  className="text-xs px-3 py-1.5 h-auto min-w-[44px]"
+                >
+                  {period}
+                </Button>
+              ))}
             </div>
             
             <div className="mb-4 sm:mb-6">
