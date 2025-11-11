@@ -261,17 +261,13 @@ const Index = () => {
                 </SelectContent>
               </Select>
               
-              <Select defaultValue="all-stocks">
-                <SelectTrigger className="w-[120px] sm:w-[140px] h-9 text-sm">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all-stocks">All Stocks</SelectItem>
-                  <SelectItem value="equity">Equity</SelectItem>
-                  <SelectItem value="commodity">Commodity</SelectItem>
-                  <SelectItem value="currency">Currency</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="relative flex-1 min-w-[160px] max-w-[300px]">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  placeholder="Search stocks..." 
+                  className="pl-9 h-9 text-sm"
+                />
+              </div>
             </div>
 
             <div className="flex flex-wrap gap-1.5 mb-6">
