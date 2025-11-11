@@ -17,6 +17,13 @@ import Groups from "./pages/Groups";
 import CopyTrading from "./pages/CopyTrading";
 import Marketplace from "./pages/Marketplace";
 import XmGpt from "./pages/XmGpt";
+import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
+import OtpVerification from "./pages/OtpVerification";
+import AccountSuccess from "./pages/AccountSuccess";
+import ReferralCode from "./pages/ReferralCode";
+import ForgotPassword from "./pages/ForgotPassword";
+import LoginWithOtp from "./pages/LoginWithOtp";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +36,13 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/otp-verification" element={<OtpVerification />} />
+          <Route path="/account-success" element={<AccountSuccess />} />
+          <Route path="/referral" element={<ReferralCode />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/login-with-otp" element={<LoginWithOtp />} />
           <Route path="/account-config" element={<AccountConfig />} />
           <Route path="/copy-trading" element={<CopyTrading />} />
           <Route path="/alert-to-trade" element={<AlertToTrade />} />
