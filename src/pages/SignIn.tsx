@@ -36,7 +36,7 @@ export default function SignIn() {
       <div className="w-full max-w-md space-y-6">
         <div className="text-center space-y-2">
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground">
-            Sign in to Quantbot
+            Sign in to Xclusive Money
           </h1>
           <p className="text-muted-foreground">
             New user?{" "}
