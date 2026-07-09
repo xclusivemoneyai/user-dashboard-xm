@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import AccountConfig from "./pages/AccountConfig";
+import PortfolioOptimiser from "./pages/PortfolioOptimiser";
 import CreateAlerts from "./pages/CreateAlerts";
 import AlertToTrade from "./pages/AlertToTrade";
 import User from "./pages/User";
