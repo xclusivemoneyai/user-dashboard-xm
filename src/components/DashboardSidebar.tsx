@@ -1,4 +1,4 @@
-import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, MessageCircle, Video, UserPlus, ChevronDown, Bot } from "lucide-react";
+import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, MessageCircle, Video, UserPlus, ChevronDown, Bot, PieChart } from "lucide-react";
 import { SiDiscord } from "react-icons/si";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -85,6 +85,7 @@ export const DashboardSidebar = ({ isOpen = false, onClose }: DashboardSidebarPr
         <SidebarItem icon={<LayoutDashboard className="h-4 w-4" />} label="Summary" path="/" active={location.pathname === "/"} />
         <SidebarItem icon={<Bot className="h-4 w-4" />} label="XM GPT" path="/xm-gpt" active={location.pathname === "/xm-gpt"} />
         <SidebarItem icon={<TrendingUp className="h-4 w-4" />} label="Account Config" path="/account-config" active={location.pathname === "/account-config"} />
+        <SidebarItem icon={<PieChart className="h-4 w-4" />} label="Portfolio Optimiser" path="/portfolio-optimiser" active={location.pathname === "/portfolio-optimiser"} />
         <SidebarItem icon={<Users className="h-4 w-4" />} label="Copy Trading" path="/copy-trading" active={location.pathname === "/copy-trading"} />
         
         {/* Alert to Trade Collapsible */}

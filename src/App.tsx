@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import AccountConfig from "./pages/AccountConfig";
+import PortfolioOptimiser from "./pages/PortfolioOptimiser";
 import CreateAlerts from "./pages/CreateAlerts";
 import AlertToTrade from "./pages/AlertToTrade";
 import User from "./pages/User";
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/login-with-otp" element={<LoginWithOtp />} />
           <Route path="/account-config" element={<AccountConfig />} />
+          <Route path="/portfolio-optimiser" element={<PortfolioOptimiser />} />
           <Route path="/copy-trading" element={<CopyTrading />} />
           <Route path="/alert-to-trade" element={<AlertToTrade />} />
           <Route path="/create-alerts" element={<CreateAlerts />} />
