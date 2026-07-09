@@ -45,6 +45,7 @@ const App = () => (
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/login-with-otp" element={<LoginWithOtp />} />
           <Route path="/account-config" element={<AccountConfig />} />
+          <Route path="/portfolio-optimiser" element={<PortfolioOptimiser />} />
           <Route path="/copy-trading" element={<CopyTrading />} />
           <Route path="/alert-to-trade" element={<AlertToTrade />} />
           <Route path="/create-alerts" element={<CreateAlerts />} />
