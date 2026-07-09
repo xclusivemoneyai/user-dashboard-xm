@@ -1,4 +1,4 @@
-import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, MessageCircle, Video, UserPlus, ChevronDown, Bot } from "lucide-react";
+import { LayoutDashboard, TrendingUp, Users, Bell, BarChart3, Users2, Store, User, FileText, CreditCard, MessageCircle, Video, UserPlus, ChevronDown, Bot, PieChart } from "lucide-react";
 import { SiDiscord } from "react-icons/si";
 import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
