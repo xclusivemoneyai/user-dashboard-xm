@@ -85,6 +85,7 @@ export const DashboardSidebar = ({ isOpen = false, onClose }: DashboardSidebarPr
         <SidebarItem icon={<LayoutDashboard className="h-4 w-4" />} label="Summary" path="/" active={location.pathname === "/"} />
         <SidebarItem icon={<Bot className="h-4 w-4" />} label="XM GPT" path="/xm-gpt" active={location.pathname === "/xm-gpt"} />
         <SidebarItem icon={<TrendingUp className="h-4 w-4" />} label="Account Config" path="/account-config" active={location.pathname === "/account-config"} />
+        <SidebarItem icon={<PieChart className="h-4 w-4" />} label="Portfolio Optimiser" path="/portfolio-optimiser" active={location.pathname === "/portfolio-optimiser"} />
         <SidebarItem icon={<Users className="h-4 w-4" />} label="Copy Trading" path="/copy-trading" active={location.pathname === "/copy-trading"} />
         
         {/* Alert to Trade Collapsible */}
