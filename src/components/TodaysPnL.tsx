@@ -106,9 +106,53 @@ export const TodaysPnL = () => {
         </div>
         <div>
           <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Date Range</label>
-          <div className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm flex items-center">
-            2026-07-09 ~ 2026-07-09
-          </div>
+          <Popover open={open} onOpenChange={(o) => { setOpen(o); if (o) setPendingRange(range); }}>
+            <PopoverTrigger asChild>
+              <button className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm flex items-center text-left hover:bg-accent/50">
+                {range?.from ? format(range.from, "yyyy-MM-dd") : "—"}
+                {" ~ "}
+                {range?.to ? format(range.to, "yyyy-MM-dd") : (range?.from ? format(range.from, "yyyy-MM-dd") : "—")}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent align="end" className="w-auto p-0" sideOffset={8}>
+              <div className="flex items-center gap-2 p-3 border-b">
+                <div className="flex-1 h-9 rounded-md border border-input bg-background px-3 text-sm flex items-center">
+                  {pendingRange?.from ? format(pendingRange.from, "MMMM d, yyyy") : "Start date"}
+                </div>
+                <span className="text-muted-foreground">→</span>
+                <div className="flex-1 h-9 rounded-md border border-input bg-background px-3 text-sm flex items-center">
+                  {pendingRange?.to ? format(pendingRange.to, "MMMM d, yyyy") : (pendingRange?.from ? format(pendingRange.from, "MMMM d, yyyy") : "End date")}
+                </div>
+                <Button variant="outline" size="icon" className="h-9 w-9 shrink-0">
+                  <Clock className="h-4 w-4" />
+                </Button>
+              </div>
+              <Calendar
+                mode="range"
+                numberOfMonths={2}
+                selected={pendingRange}
+                onSelect={setPendingRange}
+                defaultMonth={pendingRange?.from ?? new Date(2026, 6, 1)}
+                className="p-3 pointer-events-auto"
+              />
+              <div className="flex items-center justify-end gap-2 p-3 border-t">
+                <Button variant="outline" size="sm" onClick={() => setOpen(false)}>Cancel</Button>
+                <Button
+                  size="sm"
+                  disabled={!pendingRange?.from}
+                  onClick={() => {
+                    const applied = pendingRange?.from && !pendingRange.to
+                      ? { from: pendingRange.from, to: pendingRange.from }
+                      : pendingRange;
+                    setRange(applied);
+                    setOpen(false);
+                  }}
+                >
+                  Apply
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
 
