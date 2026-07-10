@@ -48,6 +48,10 @@ export const TodaysPnL = () => {
   const [broker, setBroker] = useState("All brokers");
   const [pnl, setPnl] = useState("Combined");
   const [segment, setSegment] = useState("All");
+  const initialRange: DateRange = { from: new Date(2026, 6, 9), to: new Date(2026, 6, 9) };
+  const [range, setRange] = useState<DateRange | undefined>(initialRange);
+  const [pendingRange, setPendingRange] = useState<DateRange | undefined>(initialRange);
+  const [open, setOpen] = useState(false);
 
   const cells = buildGrid();
   const weekdays = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
