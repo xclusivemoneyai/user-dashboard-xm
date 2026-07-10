@@ -3,7 +3,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { RefreshCw, Check } from "lucide-react";
+import { RefreshCw, Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { TodaysPnL } from "@/components/TodaysPnL";
 
 interface Holding {
   symbol: string;
