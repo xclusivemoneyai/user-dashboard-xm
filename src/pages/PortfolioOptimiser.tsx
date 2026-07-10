@@ -168,6 +168,9 @@ const PortfolioOptimiser = () => {
               </Table>
             </Card>
           </div>
+
+          {/* Today's P&L */}
+          <TodaysPnL />
         </div>
       </main>
     </DashboardLayout>
