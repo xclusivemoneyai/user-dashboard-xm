@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { RefreshCw, Check } from "lucide-react";
+import { TodaysPnL } from "@/components/TodaysPnL";
 
 interface Holding {
   symbol: string;
@@ -167,6 +168,9 @@ const PortfolioOptimiser = () => {
               </Table>
             </Card>
           </div>
+
+          {/* Today's P&L */}
+          <TodaysPnL />
         </div>
       </main>
     </DashboardLayout>
