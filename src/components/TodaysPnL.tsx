@@ -21,9 +21,9 @@ const recorded: Record<number, number> = {
 
 const fmtK = (n: number) => {
   const abs = Math.abs(n);
-  const sign = n < 0 ? "−" : "";
-  if (abs >= 1000) return `${sign}₹${(abs / 1000).toFixed(1)}k`;
-  return `${sign}₹${abs}`;
+  const sign = n < 0 ? "−" : "+";
+  if (abs >= 1000) return `${sign}${(abs / 1000).toFixed(1)}k`;
+  return `${sign}${abs}`;
 };
 
 const buildGrid = () => {
