@@ -7,17 +7,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { DateRange } from "react-day-picker";
 import { format } from "date-fns";
-
-interface DayEntry {
-  day: number;
-  amount: number; // in rupees, sign matters
-}
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const brokers = ["All brokers", "Zerodha", "Dhan", "Upstox"];
 const pnlTypes = ["Combined", "Holdings", "Positions"];
 const segments = ["All", "Equity", "F&O", "Commodity"];
 
-// Sample July 2026 recorded days (Wed 8 red, Thu 9 & Fri 10 green)
 const recorded: Record<number, number> = {
   8: -45400,
   9: 26400,
@@ -31,11 +26,8 @@ const fmtK = (n: number) => {
   return `${sign}₹${abs}`;
 };
 
-// July 2026: Wed = July 1
-// Grid starting Monday: first row has empty Mon/Tue, then 1 (Wed), 2 (Thu)...
 const buildGrid = () => {
-  // July 1 2026 is Wednesday -> index 2 in Mon-Sun
-  const startOffset = 2;
+  const startOffset = 2; // July 1 2026 = Wed
   const daysInMonth = 31;
   const cells: (number | null)[] = [];
   for (let i = 0; i < startOffset; i++) cells.push(null);
@@ -45,6 +37,7 @@ const buildGrid = () => {
 };
 
 export const TodaysPnL = () => {
+  const isMobile = useIsMobile();
   const [broker, setBroker] = useState("All brokers");
   const [pnl, setPnl] = useState("Combined");
   const [segment, setSegment] = useState("All");
@@ -54,32 +47,32 @@ export const TodaysPnL = () => {
   const [open, setOpen] = useState(false);
 
   const cells = buildGrid();
-  const weekdays = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+  const weekdays = ["M", "T", "W", "T", "F", "S", "S"];
+  const weekdaysFull = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
   const periodTotal = 26372;
   const holdings = 16648;
   const positions = 9724;
 
   return (
-    <Card className="p-6">
+    <Card className="p-4 md:p-6">
       <div className="mb-4">
-        <h2 className="text-xl font-bold">
-          Today's P&L <span className="text-muted-foreground font-normal text-base">— holdings vs positions</span>
+        <h2 className="text-lg md:text-xl font-bold">
+          Today's P&L <span className="text-muted-foreground font-normal text-sm md:text-base block md:inline">— holdings vs positions</span>
         </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          Holdings use each broker's day-change; positions use the day's booked/MTM P&L. Dhan holdings expose no
-          day-change, so they're excluded from today's number.
+        <p className="text-xs md:text-sm text-muted-foreground mt-1">
+          Holdings use each broker's day-change; positions use the day's booked/MTM P&L.
         </p>
       </div>
 
       {/* Filters */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
         <div>
           <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Broker</label>
           <select
             value={broker}
             onChange={(e) => setBroker(e.target.value)}
-            className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
+            className="mt-1 w-full h-9 md:h-10 rounded-md border border-input bg-background px-2 md:px-3 text-xs md:text-sm"
           >
             {brokers.map((b) => <option key={b}>{b}</option>)}
           </select>
@@ -89,7 +82,7 @@ export const TodaysPnL = () => {
           <select
             value={pnl}
             onChange={(e) => setPnl(e.target.value)}
-            className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
+            className="mt-1 w-full h-9 md:h-10 rounded-md border border-input bg-background px-2 md:px-3 text-xs md:text-sm"
           >
             {pnlTypes.map((b) => <option key={b}>{b}</option>)}
           </select>
@@ -99,7 +92,7 @@ export const TodaysPnL = () => {
           <select
             value={segment}
             onChange={(e) => setSegment(e.target.value)}
-            className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
+            className="mt-1 w-full h-9 md:h-10 rounded-md border border-input bg-background px-2 md:px-3 text-xs md:text-sm"
           >
             {segments.map((b) => <option key={b}>{b}</option>)}
           </select>
@@ -108,20 +101,22 @@ export const TodaysPnL = () => {
           <label className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Date Range</label>
           <Popover open={open} onOpenChange={(o) => { setOpen(o); if (o) setPendingRange(range); }}>
             <PopoverTrigger asChild>
-              <button className="mt-1 w-full h-10 rounded-md border border-input bg-background px-3 text-sm flex items-center text-left hover:bg-accent/50">
-                {range?.from ? format(range.from, "yyyy-MM-dd") : "—"}
-                {" ~ "}
-                {range?.to ? format(range.to, "yyyy-MM-dd") : (range?.from ? format(range.from, "yyyy-MM-dd") : "—")}
+              <button className="mt-1 w-full h-9 md:h-10 rounded-md border border-input bg-background px-2 md:px-3 text-xs md:text-sm flex items-center text-left hover:bg-accent/50 truncate">
+                <span className="truncate">
+                  {range?.from ? format(range.from, "MMM d") : "—"}
+                  {" ~ "}
+                  {range?.to ? format(range.to, "MMM d") : (range?.from ? format(range.from, "MMM d") : "—")}
+                </span>
               </button>
             </PopoverTrigger>
-            <PopoverContent align="end" className="w-auto p-0" sideOffset={8}>
+            <PopoverContent align="end" className="w-auto p-0 max-w-[calc(100vw-2rem)]" sideOffset={8}>
               <div className="flex items-center gap-2 p-3 border-b">
-                <div className="flex-1 h-9 rounded-md border border-input bg-background px-3 text-sm flex items-center">
-                  {pendingRange?.from ? format(pendingRange.from, "MMMM d, yyyy") : "Start date"}
+                <div className="flex-1 h-9 rounded-md border border-input bg-background px-2 md:px-3 text-xs md:text-sm flex items-center min-w-0 truncate">
+                  {pendingRange?.from ? format(pendingRange.from, "MMM d, yyyy") : "Start"}
                 </div>
-                <span className="text-muted-foreground">→</span>
-                <div className="flex-1 h-9 rounded-md border border-input bg-background px-3 text-sm flex items-center">
-                  {pendingRange?.to ? format(pendingRange.to, "MMMM d, yyyy") : (pendingRange?.from ? format(pendingRange.from, "MMMM d, yyyy") : "End date")}
+                <span className="text-muted-foreground shrink-0">→</span>
+                <div className="flex-1 h-9 rounded-md border border-input bg-background px-2 md:px-3 text-xs md:text-sm flex items-center min-w-0 truncate">
+                  {pendingRange?.to ? format(pendingRange.to, "MMM d, yyyy") : (pendingRange?.from ? format(pendingRange.from, "MMM d, yyyy") : "End")}
                 </div>
                 <Button variant="outline" size="icon" className="h-9 w-9 shrink-0">
                   <Clock className="h-4 w-4" />
@@ -129,7 +124,7 @@ export const TodaysPnL = () => {
               </div>
               <Calendar
                 mode="range"
-                numberOfMonths={2}
+                numberOfMonths={isMobile ? 1 : 2}
                 selected={pendingRange}
                 onSelect={setPendingRange}
                 defaultMonth={pendingRange?.from ?? new Date(2026, 6, 1)}
@@ -157,40 +152,41 @@ export const TodaysPnL = () => {
       </div>
 
       {/* Summary tiles */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="rounded-lg border border-border p-5 bg-muted/20">
-          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Period Total</p>
-          <p className="text-3xl font-bold text-green-500 mt-2">+₹{periodTotal.toLocaleString("en-IN")}</p>
-          <p className="text-xs text-muted-foreground mt-1">1 day</p>
+      <div className="grid grid-cols-3 gap-2 md:gap-4 mb-4 md:mb-6">
+        <div className="rounded-lg border border-border p-3 md:p-5 bg-muted/20">
+          <p className="text-[9px] md:text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Period</p>
+          <p className="text-base md:text-3xl font-bold text-green-500 mt-1 md:mt-2 truncate">+₹{(periodTotal / 1000).toFixed(1)}k</p>
+          <p className="text-[10px] md:text-xs text-muted-foreground mt-0.5 md:mt-1">1 day</p>
         </div>
-        <div className="rounded-lg border border-border p-5 bg-muted/20">
-          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Holdings</p>
-          <p className="text-3xl font-bold text-green-500 mt-2">+₹{holdings.toLocaleString("en-IN")}</p>
-          <p className="text-xs text-muted-foreground mt-1">day change</p>
+        <div className="rounded-lg border border-border p-3 md:p-5 bg-muted/20">
+          <p className="text-[9px] md:text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Holdings</p>
+          <p className="text-base md:text-3xl font-bold text-green-500 mt-1 md:mt-2 truncate">+₹{(holdings / 1000).toFixed(1)}k</p>
+          <p className="text-[10px] md:text-xs text-muted-foreground mt-0.5 md:mt-1">day chg</p>
         </div>
-        <div className="rounded-lg border border-border p-5 bg-muted/20">
-          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Positions</p>
-          <p className="text-3xl font-bold text-green-500 mt-2">+₹{positions.toLocaleString("en-IN")}</p>
-          <p className="text-xs text-muted-foreground mt-1">booked / MTM</p>
+        <div className="rounded-lg border border-border p-3 md:p-5 bg-muted/20">
+          <p className="text-[9px] md:text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Positions</p>
+          <p className="text-base md:text-3xl font-bold text-green-500 mt-1 md:mt-2 truncate">+₹{(positions / 1000).toFixed(1)}k</p>
+          <p className="text-[10px] md:text-xs text-muted-foreground mt-0.5 md:mt-1">MTM</p>
         </div>
       </div>
 
       {/* Calendar */}
-      <div className="flex items-center gap-3 mb-3">
-        <Button variant="outline" size="icon" className="h-8 w-8">
+      <div className="flex items-center gap-2 md:gap-3 mb-3">
+        <Button variant="outline" size="icon" className="h-7 w-7 md:h-8 md:w-8">
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <p className="font-semibold">July 2026</p>
-        <Button variant="outline" size="icon" className="h-8 w-8">
+        <p className="font-semibold text-sm md:text-base">July 2026</p>
+        <Button variant="outline" size="icon" className="h-7 w-7 md:h-8 md:w-8">
           <ChevronRight className="h-4 w-4" />
         </Button>
-        <span className="text-sm text-muted-foreground ml-2">3 days recorded</span>
+        <span className="text-xs md:text-sm text-muted-foreground ml-auto md:ml-2">3 days</span>
       </div>
 
-      <div className="grid grid-cols-7 gap-2">
-        {weekdays.map((w) => (
-          <div key={w} className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider px-2 py-1">
-            {w}
+      <div className="grid grid-cols-7 gap-1 md:gap-2">
+        {weekdaysFull.map((w, i) => (
+          <div key={w} className="text-[9px] md:text-[10px] font-semibold text-muted-foreground uppercase tracking-wider text-center md:text-left px-1 md:px-2 py-1">
+            <span className="md:hidden">{weekdays[i]}</span>
+            <span className="hidden md:inline">{w}</span>
           </div>
         ))}
         {cells.map((d, i) => {
@@ -202,15 +198,15 @@ export const TodaysPnL = () => {
             <div
               key={i}
               className={cn(
-                "relative h-20 rounded-md border p-2 text-sm",
+                "relative aspect-square md:aspect-auto md:h-20 rounded-md border p-1 md:p-2 text-xs md:text-sm flex flex-col",
                 amt === undefined && "border-border bg-muted/10 text-muted-foreground",
                 positive && "border-green-600/40 bg-green-600/20 text-green-400",
                 negative && "border-red-600/40 bg-red-600/20 text-red-400"
               )}
             >
-              <span className={cn(amt !== undefined ? "font-medium text-foreground" : "")}>{d}</span>
+              <span className={cn("text-xs md:text-sm", amt !== undefined ? "font-medium text-foreground" : "")}>{d}</span>
               {amt !== undefined && (
-                <span className={cn("absolute bottom-2 right-2 text-xs font-semibold", positive ? "text-green-400" : "text-red-400")}>
+                <span className={cn("mt-auto text-[9px] md:text-xs font-semibold leading-tight", positive ? "text-green-400" : "text-red-400")}>
                   {fmtK(amt)}
                 </span>
               )}
