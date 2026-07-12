@@ -198,15 +198,15 @@ export const TodaysPnL = () => {
             <div
               key={i}
               className={cn(
-                "relative aspect-square md:aspect-auto md:h-20 rounded-md border p-1 md:p-2 text-xs md:text-sm flex flex-col",
+                "relative h-14 md:h-20 rounded-md border p-1 md:p-2 flex flex-col overflow-hidden min-w-0",
                 amt === undefined && "border-border bg-muted/10 text-muted-foreground",
-                positive && "border-green-600/40 bg-green-600/20 text-green-400",
-                negative && "border-red-600/40 bg-red-600/20 text-red-400"
+                positive && "border-green-600/40 bg-green-600/20",
+                negative && "border-red-600/40 bg-red-600/20"
               )}
             >
-              <span className={cn("text-xs md:text-sm", amt !== undefined ? "font-medium text-foreground" : "")}>{d}</span>
+              <span className={cn("text-[10px] md:text-sm leading-none", amt !== undefined ? "font-semibold text-foreground" : "")}>{d}</span>
               {amt !== undefined && (
-                <span className={cn("mt-auto text-[9px] md:text-xs font-semibold leading-tight", positive ? "text-green-400" : "text-red-400")}>
+                <span className={cn("mt-auto text-[9px] md:text-xs font-semibold leading-none truncate", positive ? "text-green-500" : "text-red-500")}>
                   {fmtK(amt)}
                 </span>
               )}
