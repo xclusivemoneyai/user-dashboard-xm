@@ -32,6 +32,14 @@ const holdings: Holding[] = [
 
 const fmt = (n: number) => `₹${Math.abs(n).toLocaleString("en-IN")}`;
 const signed = (n: number) => `${n >= 0 ? "+" : "−"}₹${Math.abs(n).toLocaleString("en-IN")}`;
+const fmtCompact = (n: number) => {
+  const abs = Math.abs(n);
+  if (abs >= 10000000) return `₹${(abs / 10000000).toFixed(2)}Cr`;
+  if (abs >= 100000) return `₹${(abs / 100000).toFixed(2)}L`;
+  if (abs >= 1000) return `₹${(abs / 1000).toFixed(1)}k`;
+  return `₹${abs}`;
+};
+const signedCompact = (n: number) => `${n >= 0 ? "+" : "−"}${fmtCompact(n)}`;
 
 const PortfolioOptimiser = () => {
   const invested = 3192937;
@@ -41,49 +49,91 @@ const PortfolioOptimiser = () => {
   return (
     <DashboardLayout>
       <main className="md:ml-64 pt-16 min-h-screen bg-background">
-        <div className="p-6 space-y-6">
+        <div className="p-4 md:p-6 space-y-4 md:space-y-6">
           {/* Header */}
-          <div className="flex items-start justify-between">
-            <div>
-              <h1 className="text-2xl font-bold">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h1 className="text-xl md:text-2xl font-bold">
                 Portfolio <span className="text-muted-foreground font-normal">— all accounts</span>
               </h1>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-xs md:text-sm text-muted-foreground mt-1">
                 Open positions & delivery holdings across the source and every destination. Read-only.
               </p>
             </div>
-            <Button variant="outline" size="sm">
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Refresh
+            <Button variant="outline" size="sm" className="shrink-0">
+              <RefreshCw className="h-4 w-4 md:mr-2" />
+              <span className="hidden md:inline">Refresh</span>
             </Button>
           </div>
 
           {/* Summary cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="p-5">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Invested</p>
-              <p className="text-2xl font-bold mt-2">{fmt(invested)}</p>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            <Card className="p-4 md:p-5">
+              <p className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wider">Invested</p>
+              <p className="text-lg md:text-2xl font-bold mt-1 md:mt-2 truncate">{fmtCompact(invested)}</p>
             </Card>
-            <Card className="p-5">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Current Value</p>
-              <p className="text-2xl font-bold mt-2">{fmt(currentValue)}</p>
+            <Card className="p-4 md:p-5">
+              <p className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wider">Current Value</p>
+              <p className="text-lg md:text-2xl font-bold mt-1 md:mt-2 truncate">{fmtCompact(currentValue)}</p>
             </Card>
-            <Card className="p-5">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Total P&L</p>
-              <p className="text-2xl font-bold mt-2 text-green-500">{signed(totalPnl)}</p>
-              <p className="text-xs text-muted-foreground mt-1">13 symbols</p>
+            <Card className="p-4 md:p-5">
+              <p className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wider">Total P&L</p>
+              <p className="text-lg md:text-2xl font-bold mt-1 md:mt-2 text-green-500 truncate">{signedCompact(totalPnl)}</p>
+              <p className="text-[10px] md:text-xs text-muted-foreground mt-1">13 symbols</p>
             </Card>
-            <Card className="p-5">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Accounts</p>
-              <p className="text-2xl font-bold mt-2">1 / 1</p>
-              <p className="text-xs text-muted-foreground mt-1">connected</p>
+            <Card className="p-4 md:p-5">
+              <p className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wider">Accounts</p>
+              <p className="text-lg md:text-2xl font-bold mt-1 md:mt-2">1 / 1</p>
+              <p className="text-[10px] md:text-xs text-muted-foreground mt-1">connected</p>
             </Card>
           </div>
 
           {/* By account */}
           <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">By Account</p>
-            <Card className="overflow-x-auto">
+            <p className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wider mb-2 md:mb-3">By Account</p>
+
+            {/* Mobile card */}
+            <Card className="p-4 md:hidden">
+              <div className="flex items-center justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="font-medium truncate text-sm">Amit Kumar Yadav</p>
+                  <p className="text-xs text-muted-foreground">source</p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Badge variant="outline" className="border-amber-500/50 text-amber-500 text-[10px]">ZERODHA</Badge>
+                  <Check className="h-4 w-4 text-green-500" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3 mt-3 pt-3 border-t border-border">
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Balance</p>
+                  <p className="text-sm font-medium">{fmtCompact(4741945)}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Invested</p>
+                  <p className="text-sm font-medium">{fmtCompact(invested)}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Value</p>
+                  <p className="text-sm font-medium">{fmtCompact(currentValue)}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider">P&L</p>
+                  <p className="text-sm font-medium text-green-500">{signedCompact(totalPnl)}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Positions</p>
+                  <p className="text-sm font-medium">1</p>
+                </div>
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Holdings</p>
+                  <p className="text-sm font-medium">12</p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Desktop table */}
+            <Card className="overflow-x-auto hidden md:block">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -105,9 +155,9 @@ const PortfolioOptimiser = () => {
                       <Badge variant="outline" className="border-amber-500/50 text-amber-500">ZERODHA</Badge>
                     </TableCell>
                     <TableCell className="text-right">{fmt(4741945)}</TableCell>
-                    <TableCell className="text-right">{fmt(3192937)}</TableCell>
-                    <TableCell className="text-right">{fmt(3582871)}</TableCell>
-                    <TableCell className="text-right text-green-500">{signed(390328)}</TableCell>
+                    <TableCell className="text-right">{fmt(invested)}</TableCell>
+                    <TableCell className="text-right">{fmt(currentValue)}</TableCell>
+                    <TableCell className="text-right text-green-500">{signed(totalPnl)}</TableCell>
                     <TableCell className="text-right">1</TableCell>
                     <TableCell className="text-right">12</TableCell>
                     <TableCell className="text-center">
@@ -121,8 +171,45 @@ const PortfolioOptimiser = () => {
 
           {/* Combined by symbol */}
           <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">Combined By Symbol</p>
-            <Card className="overflow-x-auto">
+            <p className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wider mb-2 md:mb-3">Combined By Symbol</p>
+
+            {/* Mobile cards */}
+            <div className="space-y-2 md:hidden">
+              {holdings.map((h) => {
+                const positive = h.pnl >= 0;
+                return (
+                  <Card key={h.symbol} className="p-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <p className="font-semibold text-sm truncate">{h.symbol}</p>
+                        <p className="text-[10px] text-muted-foreground">{h.exch} · {h.qty.toLocaleString("en-IN")} qty · {h.daysHeld}</p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className={`text-sm font-semibold ${positive ? "text-green-500" : "text-red-500"}`}>
+                          {signedCompact(h.pnl)}
+                        </p>
+                        <span className={`inline-block text-[10px] font-medium px-1.5 py-0.5 rounded ${positive ? "text-green-500 bg-green-500/10" : "text-red-500 bg-red-500/10"}`}>
+                          {positive ? "+" : ""}{h.profitPct}%
+                        </span>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-border">
+                      <div>
+                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Invested</p>
+                        <p className="text-xs font-medium">{fmtCompact(h.invested)}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Value</p>
+                        <p className="text-xs font-medium">{fmtCompact(h.value)}</p>
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+
+            {/* Desktop table */}
+            <Card className="overflow-x-auto hidden md:block">
               <Table>
                 <TableHeader>
                   <TableRow>
