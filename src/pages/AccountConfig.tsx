@@ -142,9 +142,6 @@ const AccountConfig = () => {
   const successCount = accounts.filter(a => a.autoLoginStatus === "success").length;
   const failedCount = accounts.filter(a => a.autoLoginStatus === "error").length;
 
-  const filteredBrokers = brokers.filter(broker =>
-    broker.name.toLowerCase().includes(brokerSearch.toLowerCase())
-  );
 
   const copyToClipboard = (text: string, type: string) => {
     navigator.clipboard.writeText(text);
