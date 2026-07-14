@@ -250,88 +250,67 @@ const AccountConfig = () => {
               <h2 className="text-lg sm:text-xl font-bold mb-4">Add/Edit Account Details</h2>
               <p className="text-sm text-muted-foreground mb-6">Select your broker to configure account credentials.</p>
               
-              {/* Broker Selection */}
-              <div className="mb-6">
-                {/* Mobile Search Bar */}
-                <div className="md:hidden mb-4">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      placeholder="Search broker..."
-                      value={brokerSearch}
-                      onChange={(e) => setBrokerSearch(e.target.value)}
-                      className="pl-9 h-10"
-                    />
-                  </div>
-                </div>
-
-                {/* Desktop Search Bar */}
-                <div className="hidden md:block mb-4">
-                  <div className="relative max-w-xs">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      placeholder="Search broker..."
-                      value={brokerSearch}
-                      onChange={(e) => setBrokerSearch(e.target.value)}
-                      className="pl-9 h-9"
-                    />
-                  </div>
-                </div>
-
-                {/* Mobile Horizontal Carousel */}
-                <div className="md:hidden overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
-                  <div className="flex gap-3 min-w-max">
-                    {filteredBrokers.map((broker) => (
-                      <button
-                        key={broker.id}
-                        onClick={() => {
-                          setSelectedBroker(broker.id);
-                          setBrokerSearch("");
-                        }}
-                        className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all flex-shrink-0 w-[100px] ${
-                          selectedBroker === broker.id
-                            ? "border-primary bg-primary/5"
-                            : "border-border hover:border-primary/50"
-                        }`}
-                      >
-                        <div className={`h-12 w-12 rounded-full ${broker.color} flex items-center justify-center text-white font-bold text-sm`}>
-                          {broker.name.substring(0, 2).toUpperCase()}
-                        </div>
-                        <span className="text-xs font-medium text-center line-clamp-2">{broker.name}</span>
-                      </button>
-                    ))}
-                  </div>
-                  {filteredBrokers.length === 0 && (
-                    <p className="text-sm text-muted-foreground text-center py-4">No brokers found</p>
-                  )}
-                </div>
-
-                {/* Desktop Grid */}
-                <div className="hidden md:grid grid-cols-4 lg:grid-cols-7 xl:grid-cols-10 gap-4">
-                  {filteredBrokers.map((broker) => (
+              {/* Broker Selection Dropdown */}
+              <div className="mb-6 max-w-md">
+                <label className="text-xs sm:text-sm font-medium mb-2 block">Broker</label>
+                <Popover open={brokerOpen} onOpenChange={setBrokerOpen}>
+                  <PopoverTrigger asChild>
                     <button
-                      key={broker.id}
-                      onClick={() => {
-                        setSelectedBroker(broker.id);
-                        setBrokerSearch("");
-                      }}
-                      className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-all ${
-                        selectedBroker === broker.id
-                          ? "border-primary bg-primary/5"
-                          : "border-border hover:border-primary/50"
-                      }`}
+                      type="button"
+                      role="combobox"
+                      aria-expanded={brokerOpen}
+                      className="flex w-full items-center justify-between gap-2 h-10 rounded-md border border-input bg-background px-3 text-sm hover:bg-muted/40 transition-colors"
                     >
-                      <div className={`h-12 w-12 rounded-full ${broker.color} flex items-center justify-center text-white font-bold text-sm`}>
-                        {broker.name.substring(0, 2).toUpperCase()}
-                      </div>
-                      <span className="text-xs font-medium text-center line-clamp-1">{broker.name}</span>
+                      {selectedBroker ? (
+                        (() => {
+                          const b = brokers.find((x) => x.id === selectedBroker);
+                          if (!b) return <span className="text-muted-foreground">Select broker...</span>;
+                          return (
+                            <span className="flex items-center gap-2 min-w-0">
+                              <span className={`h-6 w-6 rounded-full ${b.color} flex items-center justify-center text-white font-semibold text-[10px] shrink-0`}>
+                                {b.name.substring(0, 2).toUpperCase()}
+                              </span>
+                              <span className="truncate font-medium">{b.name}</span>
+                            </span>
+                          );
+                        })()
+                      ) : (
+                        <span className="text-muted-foreground">Select broker...</span>
+                      )}
+                      <ChevronsUpDown className="h-4 w-4 opacity-50 shrink-0" />
                     </button>
-                  ))}
-                  {filteredBrokers.length === 0 && (
-                    <p className="text-sm text-muted-foreground col-span-full text-center py-4">No brokers found</p>
-                  )}
-                </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
+                    <Command>
+                      <CommandInput placeholder="Search broker..." value={brokerSearch} onValueChange={setBrokerSearch} />
+                      <CommandList>
+                        <CommandEmpty>No brokers found</CommandEmpty>
+                        <CommandGroup>
+                          {brokers.map((broker) => (
+                            <CommandItem
+                              key={broker.id}
+                              value={broker.name}
+                              onSelect={() => {
+                                setSelectedBroker(broker.id);
+                                setBrokerSearch("");
+                                setBrokerOpen(false);
+                              }}
+                              className="flex items-center gap-2"
+                            >
+                              <span className={`h-6 w-6 rounded-full ${broker.color} flex items-center justify-center text-white font-semibold text-[10px] shrink-0`}>
+                                {broker.name.substring(0, 2).toUpperCase()}
+                              </span>
+                              <span className="flex-1 truncate">{broker.name}</span>
+                              <Check className={cn("h-4 w-4", selectedBroker === broker.id ? "opacity-100" : "opacity-0")} />
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
+
 
               {/* Form Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
