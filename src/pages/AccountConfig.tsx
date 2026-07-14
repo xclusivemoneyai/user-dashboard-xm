@@ -524,7 +524,7 @@ const AccountConfig = () => {
             {/* Mobile Card List */}
             <div className="md:hidden divide-y divide-border">
               {filteredAccounts.map((account) => (
-                <div key={account.id} className="p-3 space-y-3">
+                <div key={account.id} className="p-3 space-y-2.5">
                   <div className="flex items-start gap-2">
                     <Checkbox className="mt-1" />
                     <Avatar className={`h-9 w-9 ${account.avatarColor} shrink-0`}>
@@ -537,12 +537,16 @@ const AccountConfig = () => {
                       <p className="text-xs text-muted-foreground truncate">{account.clientId}</p>
                       <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{account.lastLoginTime}</p>
                     </div>
-                    <Badge
-                      variant={account.autoLoginStatus === "success" ? "outline" : "destructive"}
-                      className={`text-[10px] leading-tight max-w-[110px] h-auto py-1 px-1.5 shrink-0 ${account.autoLoginStatus === "success" ? "bg-success/10 text-success border-success/20" : ""}`}
-                    >
-                      <span className="line-clamp-2">{account.autoLogin}</span>
-                    </Badge>
+                  </div>
+
+                  <div
+                    className={`w-full rounded-md px-2.5 py-1.5 text-xs leading-snug ${
+                      account.autoLoginStatus === "success"
+                        ? "bg-success/10 text-success border border-success/20"
+                        : "bg-destructive text-destructive-foreground"
+                    }`}
+                  >
+                    {account.autoLogin}
                   </div>
 
                   <div className="flex items-center gap-1.5">
