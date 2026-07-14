@@ -521,8 +521,81 @@ const AccountConfig = () => {
               </DropdownMenu>
             </div>
 
-            {/* Table */}
-            <div className="overflow-x-auto">
+            {/* Mobile Card List */}
+            <div className="md:hidden divide-y divide-border">
+              {filteredAccounts.map((account) => (
+                <div key={account.id} className="p-3 space-y-3">
+                  <div className="flex items-start gap-2">
+                    <Checkbox className="mt-1" />
+                    <Avatar className={`h-9 w-9 ${account.avatarColor} shrink-0`}>
+                      <AvatarFallback className="text-white font-semibold text-xs">
+                        {account.name.substring(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm truncate">{account.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{account.clientId}</p>
+                      <p className="text-[11px] text-muted-foreground mt-0.5 truncate">{account.lastLoginTime}</p>
+                    </div>
+                    <Badge
+                      variant={account.autoLoginStatus === "success" ? "outline" : "destructive"}
+                      className={`text-[10px] leading-tight max-w-[110px] h-auto py-1 px-1.5 shrink-0 ${account.autoLoginStatus === "success" ? "bg-success/10 text-success border-success/20" : ""}`}
+                    >
+                      <span className="line-clamp-2">{account.autoLogin}</span>
+                    </Badge>
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 h-8 text-xs bg-success/10 text-success border-success/20 hover:bg-success/20"
+                    >
+                      <RefreshCw className="h-3 w-3 mr-1" />
+                      Reconnect
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 h-8 text-xs bg-success/10 text-success border-success/20 hover:bg-success/20"
+                      onClick={() => copyToClipboard("https://developer-url.com", "URL")}
+                    >
+                      <Copy className="h-3 w-3 mr-1" />
+                      URL
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 h-8 text-xs bg-success/10 text-success border-success/20 hover:bg-success/20"
+                      onClick={() => copyToClipboard("192.168.1.1", "IP")}
+                    >
+                      <Copy className="h-3 w-3 mr-1" />
+                      IP
+                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>
+                          <Edit className="h-4 w-4 mr-2" />
+                          Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive">
+                          <Trash2 className="h-4 w-4 mr-2" />
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Table (desktop) */}
+            <div className="hidden md:block overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow className="hover:bg-transparent">
@@ -561,7 +634,7 @@ const AccountConfig = () => {
                         <span className="text-sm">{account.balance}</span>
                       </TableCell>
                       <TableCell className="py-2">
-                        <Badge 
+                        <Badge
                           variant={account.autoLoginStatus === "success" ? "outline" : "destructive"}
                           className={`text-[11px] leading-tight max-w-[200px] h-auto py-1 px-2 ${account.autoLoginStatus === "success" ? "bg-success/10 text-success border-success/20" : ""}`}
                         >
@@ -572,8 +645,8 @@ const AccountConfig = () => {
                         <span className="text-xs whitespace-nowrap">{account.lastLoginTime}</span>
                       </TableCell>
                       <TableCell className="py-2 hidden xl:table-cell">
-                        <Button 
-                          variant="outline" 
+                        <Button
+                          variant="outline"
                           size="sm"
                           className="h-8 text-xs bg-success/10 text-success border-success/20 hover:bg-success/20"
                           onClick={() => copyToClipboard("https://developer-url.com", "URL")}
@@ -583,8 +656,8 @@ const AccountConfig = () => {
                         </Button>
                       </TableCell>
                       <TableCell className="py-2 hidden xl:table-cell">
-                        <Button 
-                          variant="outline" 
+                        <Button
+                          variant="outline"
                           size="sm"
                           className="h-8 text-xs bg-success/10 text-success border-success/20 hover:bg-success/20"
                           onClick={() => copyToClipboard("192.168.1.1", "IP")}
@@ -595,10 +668,10 @@ const AccountConfig = () => {
                       </TableCell>
                       <TableCell className="py-2">
                         <div className="flex items-center gap-1">
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
-                            className="h-8 text-xs bg-success/10 text-success border-success/20 hover:bg-success/20 hidden sm:inline-flex"
+                            className="h-8 text-xs bg-success/10 text-success border-success/20 hover:bg-success/20"
                           >
                             <RefreshCw className="h-3 w-3 mr-1" />
                             Reconnect
@@ -610,10 +683,6 @@ const AccountConfig = () => {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem className="sm:hidden">
-                                <RefreshCw className="h-4 w-4 mr-2" />
-                                Reconnect
-                              </DropdownMenuItem>
                               <DropdownMenuItem className="xl:hidden">
                                 <Copy className="h-4 w-4 mr-2" />
                                 Copy URL
