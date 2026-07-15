@@ -36,6 +36,7 @@ const AccountConfig = () => {
   const [selectedBroker, setSelectedBroker] = useState("");
   const [brokerSearch, setBrokerSearch] = useState("");
   const [brokerOpen, setBrokerOpen] = useState(false);
+  const [expandedError, setExpandedError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     username: "",
     clientId: "",
