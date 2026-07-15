@@ -177,6 +177,11 @@ const PortfolioOptimiser = () => {
             <div className="space-y-3 md:hidden">
               {holdings.map((h) => {
                 const positive = h.pnl >= 0;
+                const avg = h.invested / h.qty;
+                const ltp = h.value / h.qty;
+                // Mock day change % — deterministic small variation
+                const ltpChangePct = ((h.profitPct % 3) - 1.2);
+                const ltpPositive = ltpChangePct >= 0;
                 return (
                   <div
                     key={h.symbol}
@@ -186,8 +191,9 @@ const PortfolioOptimiser = () => {
                       <div className="min-w-0">
                         <p className="font-bold text-base text-slate-900 truncate tracking-tight">{h.symbol}</p>
                         <p className="text-xs text-slate-500 mt-0.5">
-                          {h.exch} · {h.qty.toLocaleString("en-IN")} qty · {h.daysHeld}
+                          Qty {h.qty.toLocaleString("en-IN")} · Avg {avg.toFixed(2)}
                         </p>
+                        <p className="text-[11px] text-slate-400 mt-0.5">{h.exch} · {h.daysHeld}</p>
                       </div>
                       <div className="text-right shrink-0">
                         <p className={`text-base font-bold ${positive ? "text-emerald-600" : "text-rose-600"}`}>
@@ -208,8 +214,13 @@ const PortfolioOptimiser = () => {
                         <p className="text-sm font-semibold text-slate-900 mt-0.5">{fmtCompact(h.invested)}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Value</p>
-                        <p className="text-sm font-semibold text-slate-900 mt-0.5">{fmtCompact(h.value)}</p>
+                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">LTP</p>
+                        <p className="text-sm font-semibold text-slate-900 mt-0.5">
+                          {ltp.toFixed(2)}{" "}
+                          <span className={`text-[11px] font-medium ${ltpPositive ? "text-emerald-600" : "text-rose-600"}`}>
+                            ({ltpPositive ? "+" : ""}{ltpChangePct.toFixed(2)}%)
+                          </span>
+                        </p>
                       </div>
                     </div>
                   </div>
