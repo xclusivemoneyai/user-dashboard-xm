@@ -482,34 +482,32 @@ const AccountConfig = () => {
             </div>
 
             {/* Search and Filter */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 p-3 border-b border-border">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
-                <Select defaultValue="all">
-                  <SelectTrigger className="w-full sm:w-[160px] h-9">
-                    <SelectValue placeholder="Broker" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Brokers</SelectItem>
-                    <SelectItem value="dhan">Dhan</SelectItem>
-                    <SelectItem value="zerodha">Zerodha</SelectItem>
-                    <SelectItem value="finavsia">Finavsia</SelectItem>
-                  </SelectContent>
-                </Select>
-                
-                <div className="relative w-full sm:w-auto">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9 w-full sm:w-56 h-9"
-                  />
-                </div>
+            <div className="flex items-center gap-2 p-3 border-b border-border">
+              <Select defaultValue="all">
+                <SelectTrigger className="w-[110px] sm:w-[140px] h-9 shrink-0">
+                  <SelectValue placeholder="Broker" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Brokers</SelectItem>
+                  <SelectItem value="dhan">Dhan</SelectItem>
+                  <SelectItem value="zerodha">Zerodha</SelectItem>
+                  <SelectItem value="finavsia">Finavsia</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <div className="relative flex-1 min-w-0 max-w-[220px]">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-9 h-9"
+                />
               </div>
-              
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-9 w-9">
+                  <Button variant="ghost" size="icon" className="h-9 w-9 ml-auto shrink-0">
                     <MoreVertical className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
