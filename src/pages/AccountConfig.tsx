@@ -650,12 +650,28 @@ const AccountConfig = () => {
                         <span className="text-sm">{account.balance}</span>
                       </TableCell>
                       <TableCell className="py-2">
-                        <Badge
-                          variant={account.autoLoginStatus === "success" ? "outline" : "destructive"}
-                          className={`text-[11px] leading-tight max-w-[200px] h-auto py-1 px-2 ${account.autoLoginStatus === "success" ? "bg-success/10 text-success border-success/20" : ""}`}
-                        >
-                          <span className="line-clamp-2">{account.autoLogin}</span>
-                        </Badge>
+                        {account.autoLoginStatus === "success" ? (
+                          <Badge className="text-[11px] py-1 px-2 bg-success/10 text-success border-success/20 hover:bg-success/10">
+                            Successfully Connected
+                          </Badge>
+                        ) : (
+                          <div className="space-y-1">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setExpandedError(expandedError === account.id ? null : account.id)
+                              }
+                              className="inline-flex items-center rounded-md text-[11px] py-1 px-2 bg-destructive/10 text-destructive border border-destructive/20 hover:bg-destructive/15 transition-colors"
+                            >
+                              Not Connected
+                            </button>
+                            {expandedError === account.id && (
+                              <div className="max-w-[240px] rounded-md px-2 py-1 text-[11px] leading-snug bg-destructive text-destructive-foreground">
+                                {account.autoLogin}
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </TableCell>
                       <TableCell className="py-2 hidden md:table-cell">
                         <span className="text-xs whitespace-nowrap">{account.lastLoginTime}</span>
