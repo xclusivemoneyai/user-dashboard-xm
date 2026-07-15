@@ -173,37 +173,46 @@ const PortfolioOptimiser = () => {
           <div>
             <p className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-wider mb-2 md:mb-3">Combined By Symbol</p>
 
-            {/* Mobile cards */}
-            <div className="space-y-2 md:hidden">
+            {/* Mobile cards — white theme */}
+            <div className="space-y-3 md:hidden">
               {holdings.map((h) => {
                 const positive = h.pnl >= 0;
                 return (
-                  <Card key={h.symbol} className="p-3">
-                    <div className="flex items-start justify-between gap-2">
+                  <div
+                    key={h.symbol}
+                    className="rounded-xl bg-white border border-slate-200 shadow-sm p-4"
+                  >
+                    <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <p className="font-semibold text-sm truncate">{h.symbol}</p>
-                        <p className="text-[10px] text-muted-foreground">{h.exch} · {h.qty.toLocaleString("en-IN")} qty · {h.daysHeld}</p>
+                        <p className="font-bold text-base text-slate-900 truncate tracking-tight">{h.symbol}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          {h.exch} · {h.qty.toLocaleString("en-IN")} qty · {h.daysHeld}
+                        </p>
                       </div>
                       <div className="text-right shrink-0">
-                        <p className={`text-sm font-semibold ${positive ? "text-green-500" : "text-red-500"}`}>
+                        <p className={`text-base font-bold ${positive ? "text-emerald-600" : "text-rose-600"}`}>
                           {signedCompact(h.pnl)}
                         </p>
-                        <span className={`inline-block text-[10px] font-medium px-1.5 py-0.5 rounded ${positive ? "text-green-500 bg-green-500/10" : "text-red-500 bg-red-500/10"}`}>
+                        <span
+                          className={`inline-block mt-1 text-[11px] font-semibold px-2 py-0.5 rounded-md ${
+                            positive ? "text-emerald-700 bg-emerald-50" : "text-rose-700 bg-rose-50"
+                          }`}
+                        >
                           {positive ? "+" : ""}{h.profitPct}%
                         </span>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-border">
+                    <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-100">
                       <div>
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Invested</p>
-                        <p className="text-xs font-medium">{fmtCompact(h.invested)}</p>
+                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Invested</p>
+                        <p className="text-sm font-semibold text-slate-900 mt-0.5">{fmtCompact(h.invested)}</p>
                       </div>
                       <div>
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Value</p>
-                        <p className="text-xs font-medium">{fmtCompact(h.value)}</p>
+                        <p className="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Value</p>
+                        <p className="text-sm font-semibold text-slate-900 mt-0.5">{fmtCompact(h.value)}</p>
                       </div>
                     </div>
-                  </Card>
+                  </div>
                 );
               })}
             </div>
