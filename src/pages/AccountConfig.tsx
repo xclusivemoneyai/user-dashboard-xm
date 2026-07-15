@@ -36,6 +36,7 @@ const AccountConfig = () => {
   const [selectedBroker, setSelectedBroker] = useState("");
   const [brokerSearch, setBrokerSearch] = useState("");
   const [brokerOpen, setBrokerOpen] = useState(false);
+  const [expandedError, setExpandedError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     username: "",
     clientId: "",
@@ -155,7 +156,7 @@ const AccountConfig = () => {
     <DashboardLayout>
       <div className="min-h-screen bg-background">
         <main className="ml-0 md:ml-64 pt-16">
-        <div className="p-4 md:p-8">
+        <div className="px-4 md:px-8 pt-2 md:pt-4 pb-4 md:pb-8">
           {/* Page Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 md:mb-6 bg-gradient-to-r from-primary/10 via-primary/5 to-background rounded-lg p-4 sm:p-6 border border-primary/20">
             <div>
@@ -481,34 +482,32 @@ const AccountConfig = () => {
             </div>
 
             {/* Search and Filter */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 p-3 border-b border-border">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto">
-                <Select defaultValue="all">
-                  <SelectTrigger className="w-full sm:w-[160px] h-9">
-                    <SelectValue placeholder="Broker" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Brokers</SelectItem>
-                    <SelectItem value="dhan">Dhan</SelectItem>
-                    <SelectItem value="zerodha">Zerodha</SelectItem>
-                    <SelectItem value="finavsia">Finavsia</SelectItem>
-                  </SelectContent>
-                </Select>
-                
-                <div className="relative w-full sm:w-auto">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9 w-full sm:w-56 h-9"
-                  />
-                </div>
+            <div className="flex items-center gap-2 p-3 border-b border-border">
+              <Select defaultValue="all">
+                <SelectTrigger className="w-[110px] sm:w-[140px] h-9 shrink-0">
+                  <SelectValue placeholder="Broker" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Brokers</SelectItem>
+                  <SelectItem value="dhan">Dhan</SelectItem>
+                  <SelectItem value="zerodha">Zerodha</SelectItem>
+                  <SelectItem value="finavsia">Finavsia</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <div className="relative flex-1 min-w-0 max-w-[220px]">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-9 h-9"
+                />
               </div>
-              
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-9 w-9">
+                  <Button variant="ghost" size="icon" className="h-9 w-9 ml-auto shrink-0">
                     <MoreVertical className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -539,15 +538,28 @@ const AccountConfig = () => {
                     </div>
                   </div>
 
-                  <div
-                    className={`w-full rounded-md px-2.5 py-1.5 text-xs leading-snug ${
-                      account.autoLoginStatus === "success"
-                        ? "bg-success/10 text-success border border-success/20"
-                        : "bg-destructive text-destructive-foreground"
-                    }`}
-                  >
-                    {account.autoLogin}
-                  </div>
+                  {account.autoLoginStatus === "success" ? (
+                    <div className="w-full rounded-md px-2.5 py-1.5 text-xs bg-success/10 text-success border border-success/20">
+                      Successfully Connected
+                    </div>
+                  ) : (
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setExpandedError(expandedError === account.id ? null : account.id)
+                        }
+                        className="w-full rounded-md px-2.5 py-1.5 text-xs bg-destructive/10 text-destructive border border-destructive/20 text-left hover:bg-destructive/15 transition-colors"
+                      >
+                        Not Connected
+                      </button>
+                      {expandedError === account.id && (
+                        <div className="mt-1.5 w-full rounded-md px-2.5 py-1.5 text-xs leading-snug bg-destructive text-destructive-foreground">
+                          {account.autoLogin}
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   <div className="flex items-center gap-1.5">
                     <Button
@@ -638,12 +650,28 @@ const AccountConfig = () => {
                         <span className="text-sm">{account.balance}</span>
                       </TableCell>
                       <TableCell className="py-2">
-                        <Badge
-                          variant={account.autoLoginStatus === "success" ? "outline" : "destructive"}
-                          className={`text-[11px] leading-tight max-w-[200px] h-auto py-1 px-2 ${account.autoLoginStatus === "success" ? "bg-success/10 text-success border-success/20" : ""}`}
-                        >
-                          <span className="line-clamp-2">{account.autoLogin}</span>
-                        </Badge>
+                        {account.autoLoginStatus === "success" ? (
+                          <Badge className="text-[11px] py-1 px-2 bg-success/10 text-success border-success/20 hover:bg-success/10">
+                            Successfully Connected
+                          </Badge>
+                        ) : (
+                          <div className="space-y-1">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setExpandedError(expandedError === account.id ? null : account.id)
+                              }
+                              className="inline-flex items-center rounded-md text-[11px] py-1 px-2 bg-destructive/10 text-destructive border border-destructive/20 hover:bg-destructive/15 transition-colors"
+                            >
+                              Not Connected
+                            </button>
+                            {expandedError === account.id && (
+                              <div className="max-w-[240px] rounded-md px-2 py-1 text-[11px] leading-snug bg-destructive text-destructive-foreground">
+                                {account.autoLogin}
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </TableCell>
                       <TableCell className="py-2 hidden md:table-cell">
                         <span className="text-xs whitespace-nowrap">{account.lastLoginTime}</span>
@@ -738,14 +766,6 @@ const AccountConfig = () => {
                   1-{filteredAccounts.length} of {filteredAccounts.length}
                 </span>
                 
-                <div className="flex items-center gap-1">
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
               </div>
             </div>
           </div>
