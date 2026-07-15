@@ -156,7 +156,7 @@ const AccountConfig = () => {
     <DashboardLayout>
       <div className="min-h-screen bg-background">
         <main className="ml-0 md:ml-64 pt-16">
-        <div className="p-4 md:p-8">
+        <div className="px-4 md:px-8 pt-2 md:pt-4 pb-4 md:pb-8">
           {/* Page Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 md:mb-6 bg-gradient-to-r from-primary/10 via-primary/5 to-background rounded-lg p-4 sm:p-6 border border-primary/20">
             <div>
