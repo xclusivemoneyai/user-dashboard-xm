@@ -538,15 +538,28 @@ const AccountConfig = () => {
                     </div>
                   </div>
 
-                  <div
-                    className={`w-full rounded-md px-2.5 py-1.5 text-xs leading-snug ${
-                      account.autoLoginStatus === "success"
-                        ? "bg-success/10 text-success border border-success/20"
-                        : "bg-destructive text-destructive-foreground"
-                    }`}
-                  >
-                    {account.autoLogin}
-                  </div>
+                  {account.autoLoginStatus === "success" ? (
+                    <div className="w-full rounded-md px-2.5 py-1.5 text-xs bg-success/10 text-success border border-success/20">
+                      Successfully Connected
+                    </div>
+                  ) : (
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setExpandedError(expandedError === account.id ? null : account.id)
+                        }
+                        className="w-full rounded-md px-2.5 py-1.5 text-xs bg-destructive/10 text-destructive border border-destructive/20 text-left hover:bg-destructive/15 transition-colors"
+                      >
+                        Not Connected
+                      </button>
+                      {expandedError === account.id && (
+                        <div className="mt-1.5 w-full rounded-md px-2.5 py-1.5 text-xs leading-snug bg-destructive text-destructive-foreground">
+                          {account.autoLogin}
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   <div className="flex items-center gap-1.5">
                     <Button
