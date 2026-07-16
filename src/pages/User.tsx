@@ -7,7 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CreditCard, KeyRound, Shield, Lock } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Camera } from "lucide-react";
 
 const User = () => {
   const [formData, setFormData] = useState({
