@@ -147,7 +147,8 @@ const User = () => {
                       <Input
                         id="phone"
                         value={formData.phone}
-                        onChange={(e) => handleInputChange("phone", e.target.value)}
+                        disabled
+                        className="bg-muted/50 cursor-not-allowed"
                       />
                     </div>
 
