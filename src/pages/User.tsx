@@ -7,7 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CreditCard, KeyRound, Shield, Lock } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Camera } from "lucide-react";
 
 const User = () => {
   const [formData, setFormData] = useState({
@@ -27,6 +28,18 @@ const User = () => {
     newPassword: "",
     confirmPassword: ""
   });
+
+  const [avatarUrl, setAvatarUrl] = useState<string>("/placeholder.svg");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarClick = () => fileInputRef.current?.click();
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setAvatarUrl(url);
+    }
+  };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -70,10 +83,30 @@ const User = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
               <Card className="lg:col-span-1">
                 <CardContent className="pt-6 flex flex-col items-center">
-                  <Avatar className="h-32 w-32 sm:h-48 sm:w-48 md:h-64 md:w-64 mb-4">
-                    <AvatarImage src="/placeholder.svg" />
-                    <AvatarFallback className="text-2xl sm:text-3xl md:text-4xl">AY</AvatarFallback>
-                  </Avatar>
+                  <button
+                    type="button"
+                    onClick={handleAvatarClick}
+                    className="group relative mb-4 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    aria-label="Upload profile picture"
+                  >
+                    <Avatar className="h-32 w-32 sm:h-48 sm:w-48 md:h-64 md:w-64">
+                      <AvatarImage src={avatarUrl} />
+                      <AvatarFallback className="text-2xl sm:text-3xl md:text-4xl">AY</AvatarFallback>
+                    </Avatar>
+                    <span className="absolute inset-0 flex flex-col items-center justify-center rounded-full bg-black/45 opacity-0 group-hover:opacity-100 transition-opacity text-white">
+                      <Camera className="h-6 w-6 sm:h-8 sm:w-8 mb-1" />
+                      <span className="text-xs sm:text-sm font-medium">
+                        {avatarUrl && avatarUrl !== "/placeholder.svg" ? "Change photo" : "Upload photo"}
+                      </span>
+                    </span>
+                  </button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleAvatarChange}
+                  />
                   <p className="text-base sm:text-lg font-medium text-muted-foreground">amityadaviitd</p>
                 </CardContent>
               </Card>
